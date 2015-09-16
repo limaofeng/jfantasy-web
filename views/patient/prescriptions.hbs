@@ -1,0 +1,34 @@
+<div style="margin: 30px;">
+    <div style="margin-bottom: 10px;">
+        <span>医生建议：</span>
+        <span>{{prescription.doctorAdvice}}</span>
+    </div>
+    <table class="table table-hover mrg5B text-center">
+        <thead>
+        <tr>
+            <th style="background: #DDDDDD">药品名称</th>
+            <th style="background: #DDDDDD">计量</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#if prescription.prescriptionItems}}
+            {{#prescription.prescriptionItems}}
+                <tr>
+                    <td>
+                        <span class="view-field">{{medicineName}}</span>
+                    </td>
+                    <td>
+                        <span class="view-field">{{weight}}</span>
+                    </td>
+                </tr>
+            {{/prescription.prescriptionItems}}
+        {{else}}
+            <tr>
+                <td colspan="3" style="text-align: center;">
+                    <span class="view-field">暂无数据</span>
+                </td>
+            </tr>
+        {{/if}}
+        </tbody>
+    </table>
+</div>

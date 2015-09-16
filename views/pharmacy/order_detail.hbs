@@ -1,0 +1,233 @@
+<script>
+    $(function(){
+
+    });
+</script>
+<div class="pad10L pad10R">
+    <div class="example-box">
+        <div class="tabs">
+            <ul>
+                <li>
+                    <a title="基本信息" href="#normal-tabs-1">
+                        基本信息
+                    </a>
+                </li>
+                <li>
+                    <a title="配送信息" href="#normal-tabs-2">
+                        配送信息
+                    </a>
+                </li>
+                <li>
+                    <a title="配药明细" href="#normal-tabs-3">
+                        配药明细
+                    </a>
+                </li>
+            </ul>
+            <a href="javascript:;" class="btn small hover-black float-right back-page" title="" style="margin-top: -30px;margin-right: 30px">
+                <i class="glyph-icon icon-reply"></i>
+            </a>
+            <div id="normal-tabs-1">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    编号：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input type="text" readonly="true" value="{{order.sn}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    订单状态：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input type="text"  readonly="true" value="{{dict order.status '{}'}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    支付状态：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input type="text"  readonly="true" value="{{dict order.paymentStatus '{}'}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    来源：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input type="text"  readonly="true" value="{{dict order.type '{}'}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    订单金额：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input type="text"  readonly="true" value="{{order.totalAmount}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    支付状态：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input type="text"  readonly="true" value="{{dict order.paymentStatus '{}'}}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+
+                    </div>
+                </div>
+            </div>
+            <div id="normal-tabs-2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    是否配送：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input type="text" readonly="true" value="{{order.deliveryFlag}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    自取校验码：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input type="text" readonly="true" value="{{order.resultCode}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    收货人姓名：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input type="text" readonly="true" value="{{order.shipName}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    收货地址：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input type="text" readonly="true" value="{{order.shipAddress}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    收获邮编：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input type="text" readonly="true" value="{{order.shipZipCode}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    收货电话：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input type="text" readonly="true" value="{{order.shipPhone}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    收货手机：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input type="text" readonly="true" value="{{order.shipMobile}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    买家附言：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input type="text" readonly="true" value="{{order.memo}}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row" style="text-align: center;">
+            <div>
+                <div style="float: left;">
+                    <a href="javascript:void(0);" class="btn medium primary-bg radius-all-4 switch menu-view back-page " title="返回">
+                        <span class="glyph-icon icon-separator">
+                              <i class="glyph-icon icon-reply"></i>
+                        </span>
+                         <span class="button-content">
+                             返回
+                         </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

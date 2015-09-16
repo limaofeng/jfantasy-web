@@ -1,0 +1,138 @@
+<div class="example-box" style="padding-left:10px;padding-right:10px;">
+    <div class="example-code">
+        <div class="content-box box-toggle button-toggle">
+            <h3 class="content-box-header primary-bg">
+                <span class="float-left">支付详细信息</span>
+                <a href="javascript:void(0)" class="float-right icon-separator btn toggle-button" title="Toggle Box">
+                    <i class="glyph-icon icon-toggle icon-chevron-up"></i>
+                </a>
+            </h3>
+            <div class="content-box-wrapper">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    支付编号：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    {{payment.sn}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    支付配置名称：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    {{payment.paymentConfigName}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    支付金额：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    {{payment.totalAmount}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    支付状态：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    {{dict payment.paymentStatus "{'ready':'准备','timeout':'超时','invalid':'作废','success':'成功','failure':'失败'}"}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    备注：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                <textarea style="width: 885px;height: 150px;" disabled="true">{{payment.memo}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div style="float: left;">
+                                <a href="javascript:void(0);" class="btn medium primary-bg radius-all-4 switch menu-view back-page "  title="返回" >
+                                    <span class="button-content">
+                                         <i class="glyph-icon icon-reply"></i>
+                                        返回
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    支付类型：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-right">
+                                    {{dict payment.paymentType "{'online':'在线支付','offline':'线下支付'}"}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    付款人：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-right">
+                                    {{payment.payer}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    支付手续费：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-right">
+                                    {{payment.paymentFee}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    支付时间：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-right">
+                                    {{payment.createTime}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

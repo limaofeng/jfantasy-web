@@ -1,0 +1,166 @@
+<script>
+    $(function(){
+
+    });
+</script>
+<div class="pad10L pad10R">
+    <div class="example-box">
+        <div class="tabs">
+            <ul>
+                <li>
+                    <a title="基本信息" href="#normal-tabs-1">
+                        基本信息
+                    </a>
+                </li>
+                <li>
+                    <a title="帐号信息" href="#normal-tabs-2">
+                        帐号信息
+                    </a>
+                </li>
+            </ul>
+            <a href="javascript:;" class="btn small hover-black float-right back-page" title="" style="margin-top: -30px;margin-right: 30px">
+                <i class="glyph-icon icon-reply"></i>
+            </a>
+            <div id="normal-tabs-1">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    药房名称：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input type="text" readonly="true" value="{{pharmacy.name}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    药房联系人：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input type="text"  readonly="true" value="{{pharmacy.contact}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    药房地址：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input type="text"  readonly="true" value="{{pharmacy.area.displayName}}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    药房类别：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input type="text"  readonly="true" value="{{dict pharmacy.type '{self:"自建",join:"加盟"}'}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    联系方式：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input type="text"  readonly="true" value="{{pharmacy.phone}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    详细地址：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input type="text"  readonly="true" value="{{pharmacy.address}}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="normal-tabs-2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    用户登录名：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input type="text" readonly="true" {{#user.username}}disabled="true"{{/user.username}} value="{{user.username}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    登录密码：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input type="password" readonly="true" value="{{user.password}}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-row">
+                            <div class="form-label col-md-3">
+                                <label for="">
+                                    昵称：
+                                </label>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="append-left">
+                                    <input readonly="true" value="{{user.nickName}}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row" style="text-align: center;">
+            <div>
+                <div style="float: left;">
+                    <a href="javascript:void(0);" class="btn medium primary-bg radius-all-4 switch menu-view back-page " title="返回">
+                        <span class="glyph-icon icon-separator">
+                              <i class="glyph-icon icon-reply"></i>
+                        </span>
+                         <span class="button-content">
+                             返回
+                         </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

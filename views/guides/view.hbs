@@ -1,0 +1,133 @@
+<script>
+    $(function(){
+        var areaStore = {{{string clinic.areaStore}}};
+        if(typeof areaStore=='string') areaStore = JSON.parse(areaStore);
+        if(areaStore.path && areaStore.layer){
+            if(areaStore.layer==2){
+                areaStore.path.split(',').each(function(i,d){
+                    if(i>1) return;
+                    $.get('/areas/search?EQS_id='+d,function(data){
+                        if(i==0){
+                            $('.province').val(data[0].name);
+                        }else if(i==1){
+                            $('.city').val(data[0].name);
+                        }
+                    });
+                });
+                $('.town').val(areaStore.name);
+            }
+        }
+    });
+</script>
+<div class="pad10L pad10R">
+    <div class="example-box">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-row">
+                    <div class="form-label col-md-3">
+                        <label for="">
+                            诊所名称：
+                        </label>
+                    </div>
+                    <div class="form-input col-md-9">
+                        <div class="append-left">
+                            <input type="text" name="name" value="{{clinic.name}}" disabled="true"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-label col-md-3">
+                        <label for="">
+                            百度地图坐标：
+                        </label>
+                    </div>
+                    <div class="form-input col-md-9">
+                        <div class="append-left">
+                            <input type="text" name="coordinates" value="{{clinic.coordinates}}" disabled="true"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-label col-md-3">
+                        <label for="">
+                            诊所地址：
+                        </label>
+                    </div>
+                    <div class="form-input col-md-9">
+                        <div class="append-left">
+                            <input value="" class="province" readonly="true"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row townView">
+                    <div class="form-label col-md-3">
+                        <label for="">
+                            地区：
+                        </label>
+                    </div>
+                    <div class="form-input col-md-9">
+                        <div class="append-left">
+                            <input value="" class="town" readonly="true"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-row">
+                    <div class="form-label col-md-3">
+                        <label for="">
+                            联系方式：
+                        </label>
+                    </div>
+                    <div class="form-input col-md-9">
+                        <div class="append-left">
+                            <input type="text" name="contact" value="{{clinic.contact}}" disabled="true"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-label col-md-3">
+                        <label for="">
+                            诊所类别：
+                        </label>
+                    </div>
+                    <div class="form-input col-md-9">
+                        <div class="append-left">
+                            <select class="chosen-select" disabled="true">
+                                <option value="proprietary" {{#equals clinic.type 'proprietary'}}selected="true" {{/equals}}>自营</option>
+                                <option value="join" {{#equals clinic.type 'join'}}selected="true" {{/equals}}>加盟</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-label col-md-3">
+                        <label for="">
+                            市区：
+                        </label>
+                    </div>
+                    <div class="form-input col-md-9">
+                        <div class="append-left">
+                            <input class="city" readonly="true"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row" style="text-align: center;">
+            <div>
+                <div style="float: left;">
+                    <a href="javascript:void(0);" class="btn medium primary-bg radius-all-4 switch menu-view back-page " title="返回">
+                        <span class="glyph-icon icon-separator">
+                              <i class="glyph-icon icon-reply"></i>
+                        </span>
+                         <span class="button-content">
+                             返回
+                         </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

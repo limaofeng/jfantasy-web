@@ -1,0 +1,10 @@
+/* line 3, style.scss */
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+/* line 8, style.scss */
+a {
+  color: #00B7FF;
+}

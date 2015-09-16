@@ -1,0 +1,60 @@
+{{#extend wrapper}}
+    {{#content "pageContentWrapper"}}
+        <div id="page-title">
+            <h3>
+                {{{block "pageTitle"}}}
+            </h3>
+            <div id="breadcrumb-right" style="display:none;">
+                <div id="sidebar-search">
+                    <input type="text" placeholder="Search..." class="autocomplete-input input tooltip-button"
+                           data-placement="bottom" title="Type &apos;jav&apos; to see the available tags..." id=""
+                           name=""/>
+                    <i class="glyph-icon icon-search"></i>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        function a(a) {
+                            return a.split(/,\s*/)
+                        }
+
+                        function b(b) {
+                            return a(b).pop()
+                        }
+
+                        var c = ["ActionScript", "AppleScript", "Asp", "BASIC", "C", "C++", "Clojure", "COBOL", "ColdFusion", "Erlang", "Fortran", "Groovy", "Haskell", "Java", "JavaScript", "Lisp", "Perl", "PHP", "Python", "Ruby", "Scala", "Scheme"];
+                        $("#sidebar-search input").bind("keydown", function (a) {
+                            a.keyCode === $.ui.keyCode.TAB && $(this).data("ui-autocomplete").menu.active && a.preventDefault()
+                        }).autocomplete({
+                            minLength: 0, source: function (a, d) {
+                                d($.ui.autocomplete.filter(c, b(a.term)))
+                            }, focus: function () {
+                                return !1
+                            }, select: function (b, c) {
+                                var d = a(this.value);
+                                return d.pop(), d.push(c.item.value), d.push(""), this.value = d.join(", "), !1
+                            }, messages: {
+                                noResults: "", results: function () {
+                                }
+                            }
+                        });
+                    });
+                </script>
+                <div class="float-right">
+                    <a href="javascript:;" class="btn medium bg-white tooltip-button black-modal-60 mrg5R"
+                       data-placement="bottom" title="关于本软件">
+                <span class="button-content">
+                    <i class="glyph-icon icon-question"></i>
+                </span>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+        <!-- #page-title -->
+        <div id="page-content" style="padding-bottom: 0px;margin-bottom: -15px;">
+            <div class="row">
+                {{{block "pageContent"}}}
+            </div>
+        </div>
+    {{/content}}
+{{/extend}}
