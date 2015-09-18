@@ -138,7 +138,9 @@
                         <div class="form-row online">
                             <div class="form-label col-md-3">
                                 <label class="sellerEmail">
-                                    支付宝账号：
+                                    {{#each payproducts}}
+                                        {{#compare id '==' ../payconfig.paymentProductId}}{{shroffAccountName}}:{{/compare}}
+                                    {{/each}}
                                 </label>
                             </div>
                             <div class="form-input col-md-9">

@@ -13,10 +13,12 @@
         $('[name=paymentProductId]').select3({value:'id',text:'name'},function(data){
             $('.bargainorIdName').html(data.bargainorIdName+':');
             $('.bargainorKeyName').html(data.bargainorKeyName+':');
-            if(data.id.startsWith('alipay')){
-                $('.sellerEmail').css('visibility','visible');
+            console.log(!!data.shroffAccountName);
+            if(!!data.shroffAccountName){
+                $('.shroffAccountName').html(data.shroffAccountName).css('visibility','visible');
+                $('.shroffAccount').css('visibility','visible').find('input').val('');
             }else{
-                $('.sellerEmail').css('visibility','hidden').find('input').val('');
+                $('.shroffAccount,.shroffAccountName').css('visibility','hidden').find('input').val('');
             }
         }).load({{{payproducts}}});
         $("#saveForm").ajaxForm(function () {
@@ -143,12 +145,10 @@
                         </div>
                         <div class="form-row online">
                             <div class="form-label col-md-3">
-                                <label class="sellerEmail">
-                                    支付宝账号：
-                                </label>
+                                <label class="shroffAccountName"></label>
                             </div>
                             <div class="form-input col-md-9">
-                                <div class="append-right sellerEmail">
+                                <div class="append-right shroffAccount">
                                     <input type="text" name="sellerEmail">
                                 </div>
                             </div>
