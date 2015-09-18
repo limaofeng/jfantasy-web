@@ -40,6 +40,60 @@ router.post('/menus/save', function (req, res, next) {
         });
     }
 });
+//用户列表查询
+router.get('/users', function (req, res, next) {
+    http.get('/security/users', function (_res) {
+        _res.on('complete', function (data) {
+            res.render('security/users', {pager: data});
+        });
+    });
+});
+//用户添加
+router.get('/users/add', function (req, res, next) {
+    http.get('/security/users', function (_res) {
+        _res.on('complete', function (data) {
+            res.render('security/users_add');
+        });
+    });
+});
 
+
+router.post('/users/search', function (req, res, next) {
+    http.get('/security/users', function (_res) {
+        _res.on('complete', function (data) {
+            res.json(data);
+        });
+    });
+});
+
+router.post('/users/save', function (req, res, next) {
+     http.post('/security/users', req.body, function (_res) {
+            _res.on('complete', function (data) {
+                console.log(data)
+                res.json(data);
+            });
+        });
+});
+
+/**
+ * 编辑
+ */
+router.get('/users/edit', function (req, res, next) {
+    http.get('/security/users/'+req.query.category,  function (_res) {
+        _res.on('complete', function (data) {
+            res.render('security/users_edit', {category: data});
+        });
+    });
+});
+/**
+ * 删除
+ */
+router.post('/users/delete', function (req, res, next) {
+    http.delete('/security/users/'+req.body.ids, function (_res) {
+        _res.on('complete', function (data) {
+            res.json(data);
+        });
+    });
+});
 
 module.exports = router;
