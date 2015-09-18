@@ -41,5 +41,47 @@ router.post('/menus/save', function (req, res, next) {
     }
 });
 
+router.get('/roles', function (req, res, next) {
+    http.get('/security/roles', function (_res) {
+        _res.on('complete', function (data) {
+            res.render('security/roles',{pager:data});
+        });
+    });
+});
 
+router.get('/roles/add',function(req, res, next){
+    res.render('security/roles_add');
+});
+router.get('/roles/:code/edit',function(req, res, next){
+    http.get('/security/roles/'+req.params.code, function (_res) {
+        _res.on('complete', function (data) {
+            res.render('security/roles_edit',{role:data});
+        });
+    });
+});
+
+router.post('/roles/save', function (req, res, next) {
+    http.post('/security/roles',req.body, function (_res) {
+        _res.on('complete', function (data) {
+            res.json(data);
+        });
+    });
+});
+
+router.post('/roles/search', function (req, res, next) {
+    http.get('/security/roles',req.params, function (_res) {
+        _res.on('complete', function (data) {
+            res.json(data);
+        });
+    });
+});
+
+router.post('/roles/delete', function (req, res, next) {
+    console.log(req.body.codes)
+    http.delete('/security/roles',req.body.codes, function (_res) {
+        _res.on('complete', function (data) {
+            res.json(data);
+        });
+    });
+});
 module.exports = router;
