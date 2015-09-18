@@ -40,11 +40,65 @@ router.post('/menus/save', function (req, res, next) {
         });
     }
 });
+//�û��б��ѯ
+router.get('/users', function (req, res, next) {
+    http.get('/security/users', function (_res) {
+        _res.on('complete', function (data) {
+            res.render('security/users', {pager: data});
+        });
+    });
+});
+//�û����
+router.get('/users/add', function (req, res, next) {
+    http.get('/security/users', function (_res) {
+        _res.on('complete', function (data) {
+            res.render('security/users_add');
+        });
+    });
+});
 
 router.get('/roles', function (req, res, next) {
     http.get('/security/roles', function (_res) {
         _res.on('complete', function (data) {
             res.render('security/roles',{pager:data});
+        });
+    });
+});
+
+router.post('/users/search', function (req, res, next) {
+    http.get('/security/users', function (_res) {
+        _res.on('complete', function (data) {
+            res.json(data);
+        });
+    });
+});
+
+router.post('/users/save', function (req, res, next) {
+     http.post('/security/users', req.body, function (_res) {
+            _res.on('complete', function (data) {
+                console.log(data)
+                res.json(data);
+            });
+        });
+});
+
+/**
+ * �༭
+ */
+router.get('/users/edit', function (req, res, next) {
+    http.get('/security/users/'+req.query.category,  function (_res) {
+        _res.on('complete', function (data) {
+            res.render('security/users_edit', {category: data});
+        });
+    });
+});
+/**
+ * ɾ��
+ */
+router.post('/users/delete', function (req, res, next) {
+    http.delete('/security/users/'+req.body.ids, function (_res) {
+        _res.on('complete', function (data) {
+            res.json(data);
         });
     });
 });
