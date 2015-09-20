@@ -132,10 +132,8 @@ $(function(){
     <div class="infobox warning-bg mrg10B">
         <p><i class="glyph-icon icon-exclamation mrg10R"></i>编码新增后不能修改,请谨慎填写。</p>
     </div>
-    <@s.form namespace="/security/role" action="save" cssClass="form-bordered saveForm" method="post">
-    <#--
+    <form namespace="/security/role" action="save" cssClass="form-bordered saveForm" method="post">
     <input type="hidden" class="view-field" name="parent.code" mapping="parentCode"/>
-    -->
         <div class="form-row">
             <div class="form-label col-md-2">
                 <label for="">
@@ -205,7 +203,7 @@ $(function(){
                 </a>
             </div>
         </div>
-    </@s.form>
+    </form>
 </div>
     {{/content}}
 {{/extend}}

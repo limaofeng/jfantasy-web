@@ -84,13 +84,14 @@
                             <div class="form-row">
                                 <div class="form-label col-md-2">
                                     <label for="">
-                                        角色组
+                                        角色
                                     </label>
                                 </div>
                                 <div class="form-input col-md-10">
                                     <div class="append-left  form-checkbox-radio">
-                                        {{!<@s.checkboxlist name="roles.code" list="@com.fantasy.security.service.RoleService@list()" listKey="code" listValue="name" cssClass="custom-checkbox" value="SYSTEM"/>-}}
-                                       <checkbox></checkbox>
+                                        {{#roles}}
+                                            <label><input type="checkbox" name="roles.code" value="{{code}}" class="custom-checkbox" style="line-height:10px "/>{{name}}</label>
+                                        {{/roles}}
                                    </div>
                                </div>
                            </div>
@@ -102,10 +103,11 @@
                                </div>
                                <div class="form-input col-md-10">
                                    <div class="append-left">
-                                       {{!<@s.select cssClass="chosen-select" name="website.id" list="@com.fantasy.system.service.WebsiteService@websiteList()" listKey="id" listValue="name" />-}}
-                                        <select class="chosen-select" name="website.id">
-                                            <option></option>
-                                        </select>
+                                           <select class="chosen-select" name="website.id">
+                                               {{#websites}}
+                                               <option value="{{key}}">{{name}}</option>
+                                               {{/websites}}
+                                           </select>
                                     </div>
                                 </div>
                             </div>
@@ -126,26 +128,25 @@
                                 </div>
                             </div>
                         </div>
-                </div>
-
-
-                <div class="col-md-6 form-vertical">
-                    <div class="form-row">
-                        <div class="form-label col-md-2"></div>
-                        <div class="form-input col-md-10" id="imageUploader"></div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-label col-md-2">
-                            <label for="">
-                                备注
-                            </label>
+                        <div class="col-md-6">
+                            <div class="col-md-6 form-vertical">
+                                <div class="form-row">
+                                    <div class="form-label col-md-2"></div>
+                                    <div class="form-input col-md-10" id="imageUploader"></div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-label col-md-2">
+                                        <label for="">
+                                            备注
+                                        </label>
+                                    </div>
+                                    <div class="form-input col-md-10">
+                                        <textarea name="details.description" class="small-textarea" style="height: 90px;"></textarea>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-input col-md-10">
-                            <textarea name="details.description" class="small-textarea" style="height: 90px;"></textarea>
-                        </div>
-                    </div>
                 </div>
-
             </form>
     </div>
 </div>

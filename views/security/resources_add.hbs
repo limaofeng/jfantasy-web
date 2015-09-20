@@ -16,13 +16,13 @@
     <div class="example-code">
         <div class="content-box box-toggle button-toggle">
             <h3 class="content-box-header primary-bg">
-                <span class="float-left">添加标题</span>
+                <span class="float-left">添加资源</span>
                 <a href="javascript:void(0)" class="float-right icon-separator btn toggle-button" title="Toggle Box">
                     <i class="glyph-icon icon-toggle icon-chevron-up"></i>
                 </a>
             </h3>
             <div class="content-box-wrapper">
-                <form id="saveForm"  action="/security/roles/save" method="post" class="center-margin">
+                <form id="saveForm"  action="/security/resources/save" method="post" class="center-margin">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-row">
@@ -40,13 +40,14 @@
                             <div class="form-row">
                                 <div class="form-label col-md-3">
                                     <label for="">
-                                        是否启用
+                                        类型
                                     </label>
                                 </div>
                                 <div class="form-checkbox-radio col-md-9">
                                     <div class="append-left">
-                                        <label><input type="radio" style="width:20px;" name="enabled" value="true" style="width:20px;" checked="checked"/>启用</label>
-                                        <label><input type="radio" style="width:20px;"name="enabled" value="false" style=" width:20px;"/>禁用</label>
+                                        <select name="type">
+                                            <option value="url" checked="checked">url</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -82,23 +83,27 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="form-row">
                                 <div class="form-label col-md-3">
                                     <label for="">
-                                        编码
+                                        值
                                     </label>
                                 </div>
                                 <div class="form-input col-md-9">
                                     <div class="append-right">
-                                        <input type="text" name="code"/>
+                                        <input type="text" name="value"/>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </form>
+
             </div>
+
         </div>
     </div>
 </div>
