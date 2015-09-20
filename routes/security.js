@@ -35,11 +35,22 @@ router.post('/menus/save', function (req, res, next) {
         });
     }
 });
-//用户列表查询
+
+
+//hl---------------------------------------------------------------------
 router.get('/users', function (req, res, next) {
     http.get('/security/users', function (_res) {
         _res.on('complete', function (data) {
             res.render('security/users', {pager: data});
+        });
+    });
+});
+
+//用户查询
+router.post('/users/search', function (req, res, next) {
+    http.get('/security/users', function (_res) {
+        _res.on('complete', function (data) {
+            res.json(data);
         });
     });
 });
@@ -67,35 +78,34 @@ router.get('/users/add', function (req, res, next) {
 
 });
 //用户修改
-router.get('/users/edit', function (req, res, next) {
-    http.get('/security/roles', function (_res) {
-        _res.on('complete', function (data) {
-            res.render('security/users_edit', {roles: data.pageItems});
-        });
-    });
-    http.get('/security/roles', function (_res) {
-        _res.on('complete', function (data) {
-        });
+router.get('/users/:id/edit', function (req, res, next) {
+    async.parallel({
+        roles: function (callback) {
+            http.get('/security/roles', function (_res) {
+                _res.on('complete', function (data) {
+                    callback(null, data.pageItems);
+                });
+            });
+        },
+        websites: function (callback) {
+            http.get('/system/websites', function (_res) {
+                _res.on('complete', function (data) {
+                    callback(null, data);
+                });
+            });
+        },
+        //查询品牌数据
+        user: function (callback) {
+            http.get('/security/users/'+req.params.id, function (_res) {
+                _res.on('complete', function (data) {
+                    callback(null, data);
+                });
+            });
+        }
+    }, function (err, results) {
+        res.render('security/users_edit', results);
     });
 });
-//角色列表
-router.get('/roles', function (req, res, next) {
-    http.get('/security/roles', function (_res) {
-        _res.on('complete', function (data) {
-            res.render('security/roles', {pager: data});
-        });
-    });
-});
-//角色查询
-router.post('/users/search', function (req, res, next) {
-    http.get('/security/users', function (_res) {
-        _res.on('complete', function (data) {
-            res.json(data);
-        });
-    });
-});
-
-
 //用户保存
 router.post('/users/save', function (req, res, next) {
     http.post('/security/users', req.body, function (_res) {
@@ -115,17 +125,25 @@ router.post('/users/:id/delete', function (req, res, next) {
     });
 });
 
-
+//hl-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+//角色列表
+router.get('/roles', function (req, res, next) {
+    http.get('/security/roles', function (_res) {
+        _res.on('complete', function (data) {
+            res.render('security/roles', {pager: data});
+        });
+    });
+});
 //角色添加跳转页面
 router.get('/roles/add', function (req, res, next) {
     res.render('security/roles_add');
 });
+
 //角色编辑
 router.get('/roles/:code/edit', function (req, res, next) {
     http.get('/security/roles/' + req.params.code, function (_res) {
         _res.on('complete', function (data) {
-            res.render('security/roles_edit', {role: data});
-            console.log(data);
+            res.render('security/roles_edit',{role: data});
         });
     });
 });
@@ -155,15 +173,16 @@ router.post('/roles/search', function (req, res, next) {
 });
 //角色删除
 router.post('/roles/delete', function (req, res, next) {
-    console.log(req.body.codes)
-    http.delete('/security/roles', req.body.codes, function (_res) {
+    var codes = req.body.codes;
+    codes = codes instanceof Array ? codes : [codes];
+    http.delete('/security/roles',codes, function (_res) {
         _res.on('complete', function (data) {
             res.json(data);
         });
     });
 });
-
-//资源相关
+//hl--------------------------------------------------------------------------------------------/
+//资源相关列表
 router.get('/resources', function (req, res, next) {
     http.get('/security/resources', function (_res) {
         _res.on('complete', function (data) {
@@ -176,15 +195,25 @@ router.get('/resources', function (req, res, next) {
 router.get('/resources/add', function (req, res, next) {
     res.render('security/resources_add');
 });
-//保存
+//资源保存
 router.post('/resources/save', function (req, res, next) {
-    http.post('/security/resources', req.body, function (_res) {
-        _res.on('complete', function (data) {
-            res.json(data);
+    if(!!req.body.id) {
+        http.post('/security/resources', req.body.id,req.body, function (_res) {
+            _res.on('complete', function (data) {
+                res.json(data);
+            });
         });
-    });
+    }else{
+        http.post('/security/resources', req.body, function (_res) {
+            _res.on('complete', function (data) {
+                res.json(data);
+            });
+        });
+    }
 });
-//查询
+
+
+//资源查询
 router.post('/resources/search', function (req, res, next) {
     http.get('/security/resources', function (_res) {
         _res.on('complete', function (data) {
@@ -192,12 +221,23 @@ router.post('/resources/search', function (req, res, next) {
         });
     });
 });
-//编辑
+//资源编辑
 router.get('/resources/:id/edit', function (req, res, next) {
-    http.get('/security/resources/' + req.params.code, function (_res) {
+    http.get('/security/resources/' + req.params.id, function (_res) {
         _res.on('complete', function (data) {
             res.render('security/resources_edit', {resource: data});
         });
     });
 });
+//删除
+router.post('/resources/delete', function (req, res, next) {
+    var ids = req.body.ids;
+    ids = ids instanceof Array ? ids : [ids];
+    http.delete('/security/resources',ids, function (_res) {
+        _res.on('complete', function (data) {
+            res.json(data);
+        });
+    });
+});
+//-------------------------------------------------------------------------------------------------------------------
 module.exports = router;

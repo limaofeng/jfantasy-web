@@ -75,6 +75,7 @@ app.use('/', function (req, res, next) {
 app.use('/', require('./routes/index'));
 app.use('/users', require('./routes/users'));
 app.use('/security', require('./routes/security'));
+app.use('/mall', require('./routes/mall'));
 app.use('/system', require('./routes/system'));
 // 会员
 app.use('/members', require('./routes/members'));

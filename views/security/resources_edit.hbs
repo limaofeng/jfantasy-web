@@ -23,6 +23,7 @@
             </h3>
             <div class="content-box-wrapper">
                 <form id="saveForm"  action="/security/resources/save" method="post" class="center-margin">
+                    <input type="hidden" name="id"  value="{{resource.id}}"/>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-row">
@@ -33,7 +34,7 @@
                                 </div>
                                 <div class="form-input col-md-9">
                                     <div class="append-left">
-                                        <input  type="text" name="name" id="name"/>
+                                        <input  type="text" name="name" id="name" value="{{resource.name}}"/>
                                     </div>
                                 </div>
                             </div>
@@ -59,9 +60,8 @@
                                 </div>
                                 <div class="form-input col-md-9">
                                     <div class="append-left">
-                                        <textarea name="description" style="width: 890px; height: 118px;"/>
+                                        <textarea name="description" style="width: 890px; height: 118px;">{{resource.description}}</textarea>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="form-row">
@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="form-input col-md-9">
                                     <div class="append-right">
-                                        <input type="text" name="value"/>
+                                        <input type="text" name="value" value="{{resource.value}}"/>
                                     </div>
                                 </div>
                             </div>

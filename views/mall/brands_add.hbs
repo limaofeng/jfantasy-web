@@ -1,0 +1,154 @@
+<script type="text/javascript">
+    $(function () {
+        window.categoryFilter = function (data) {
+            if (!data.children) {
+                delete data.children;
+            }
+            if (!data.parentId) {
+                data.open = true;
+            }
+            data.isParent = true;
+            return data;
+        };
+        window.categorys ={{{string categorys}}}
+
+                categorys.each(function () {
+                    categoryFilter(this);
+                });
+        window.categoryTree = $('#categoryTree').zTree({
+            data: {
+                key: {
+                    name: "name"
+                },
+                simpleData: {
+                    enable: true,
+                    idKey: "id",
+                    pIdKey: "parentId"
+                }
+            }, edit: {
+                enable: false,
+                showAddBtn: false,
+                showRemoveBtn: false,
+                showRenameBtn: false
+            },
+            check: {
+                enable: true
+            },
+            callback: {
+                onClick: function (e, treeId, treeNode) {
+                    return false;
+                }
+            }}, categorys);
+        var imageUploader = $('#imageUploader').upload({data:{'dir':'brand_logo'},theme:'image',size:'160x160'});
+        $("#saveForm").ajaxForm({
+            beforeSerialize : function(zhis, options){
+                var _data = {};
+                categoryTree.getCheckedNodes(true).each(function(_i){
+                    _data['goodsCategories['+_i+'].id'] = this.id;
+                });
+                var _images = imageUploader.getData();
+                if(_images.length > 0){
+                    _data['logoImage'] = _images[0].fileManagerId + ':' + _images[0].absolutePath;
+                }
+                options.data = _data;
+            },
+            success: function (data) {
+                $('#pager').pager().reload();
+                top.$.msgbox({
+                    msg: "保存成功",
+                    type: "success"
+                });
+                $page$.backpage();
+            }
+        });
+    });
+</script>
+<div class="pad10L pad10R">
+    <div class="infobox warning-bg mrg10B">
+        <p><i class="glyph-icon icon-exclamation mrg10R"></i>To view the available grid system options &amp; configurations you can visit the <a title="Fides Admin Grid System documentation" target="_blank" href="grid.html">Fides Admin Grid System documentation</a> page.</p>
+    </div>
+    <div class="example-box">
+        <form id="saveForm" action="/mall/brands/save" method="post" cssClass="center-margin">
+            <div class="col-md-6 pad10T">
+                <div class="form-row">
+                    <div class="form-label col-md-2">
+                        <label for="">
+                            名称
+                        </label>
+                    </div>
+                    <div class="form-input col-md-10">
+                        <div class="append-left">
+                            <input type="text"  name="name" id="name"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-label col-md-2">
+                        <label for="">
+                            英文名
+                        </label>
+                    </div>
+                    <div class="form-input col-md-10">
+                        <div class="append-left">
+                            <input type="text" name="engname" id="engname"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-label col-md-2">
+                        <label for="">
+                            链接
+                        </label>
+                    </div>
+                    <div class="form-input col-md-10">
+                        <div class="append-left">
+                            <input type="text" name="url" id="url"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <div class="form-row form-vertical">
+                    <div class="form-label col-md-2">品牌分类</div>
+                    <div class="form-input col-md-10"><ul id="categoryTree" class="ztree" style="min-height:73px;"></ul></div>
+                </div>
+                <div class="divider"></div>
+            </div>
+            <div class="col-md-6 form-vertical">
+                <div class="form-row">
+                    <div class="form-label col-md-2"></div>
+                    <div class="form-input col-md-10" id="imageUploader"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-label col-md-2">
+                        <label for="">
+                            描述
+                        </label>
+                    </div>
+                    <div class="form-input col-md-10">
+                        <textarea name="introduction" id="introduction" class="small-textarea" style="height: 90px;"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-input col-md-10 col-md-offset-2">
+                    <a href="javascript:void(0);" class="btn medium primary-bg radius-all-4" onclick="$('#saveForm').submit();return false;" title="保存">
+                <span class="glyph-icon icon-separator">
+                     <i class="glyph-icon icon-save"></i>
+                </span>
+                 <span class="button-content">
+                     保存
+                 </span>
+                    </a>
+                    <a href="javascript:void(0);" class="btn medium primary-bg radius-all-4 switch back-page" title="返回">
+                <span class="glyph-icon icon-separator">
+                      <i class="glyph-icon icon-reply"></i>
+                </span>
+                 <span class="button-content">
+                    返回
+                 </span>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
