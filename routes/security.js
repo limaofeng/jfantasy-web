@@ -134,6 +134,7 @@ router.post('/roles/save', function (req, res, next) {
     if(!!req.body.code) {
         http.put('/security/roles/'+req.body.code, req.body, function (_res) {
             _res.on('complete', function (data) {
+                console.log(data)
                 res.json(data);
             });
         });

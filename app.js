@@ -38,13 +38,19 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use(session({secret: '1234567890QWERTY'}));
+app.use(session({
+    secret: '1234567890QWERTY',
+    name: 'sessionid',   //这里的name值得是cookie的name，默认cookie的name是：connect.sid
+    cookie: {maxAge: 80000},  //设置maxAge是80000ms，即80s后session和相应的cookie失效过期
+    resave: false,
+    saveUninitialized: true
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', function (req, res, next) {
     res.locals.session = req.session;
     req.session.user = {nickName: "系统管理员"};
-    res.locals.wrapper = req.header('X-Requested-With') == 'XMLHttpRequest' ? 'empty' :'base';
+    res.locals.wrapper = req.header('X-Requested-With') == 'XMLHttpRequest' ? 'empty' : 'base';
     if (!req.session.treeMenus) {
         http.get('/system/websites/haolue/menus', function (_res) {
             _res.on('complete', function (data) {
