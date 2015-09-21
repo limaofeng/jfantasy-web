@@ -100,7 +100,7 @@
                     <div class="append-left">
                         <select class="chosen-select" name="website.id">
                             {{#websites}}
-                                <option value="{{key}}">{{name}}</option>
+                                <option value="{{key}}" {{#compare key '==' role.code}} checked="checked"{{/compare}}>{{name}}</option>
                             {{/websites}}
                         </select>
                     </div>

@@ -87,7 +87,7 @@ $(function(){
         </th>
         <th class="sort" orderBy="name">名称</th>
         <th class="sort" orderBy="code">编码</th>
-        <th class="sort">类型</th>
+        <th class="sort">是否启用</th>
         <th class="text-center">操作</th>
     </tr>
     </thead>
@@ -96,7 +96,7 @@ $(function(){
         <td><input class="id custom-checkbox" type="checkbox" value="{code}"/></td>
         <td class="font-bold">{name}</td>
         <td>{code}</td>
-        <td>{type:configTypeName()}</td>
+        <td>{enabled:dict({'true':'启用','false':'禁用'})}</td>
         <td class="pad0T pad0B text-center">
             <div class="dropdown actions">
                 <a href="javascript:;" title="" class="btn medium bg-blue" data-toggle="dropdown">
