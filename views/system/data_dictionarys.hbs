@@ -1,10 +1,11 @@
-<@override name="pageTitle">
-    <@s.text name="system.dictionary.title"/>
-    <small>
-        <@s.text name="system.dictionary.description"/>
-    </small>
-</@override>
-<@override name="head">
+{{#extend "wrapper"}}
+    {{#content "pageTitle"}}
+        数据字典
+        <small>
+            数据字典
+        </small>
+    {{/content}}
+    {{#content "head"}}
 <script type="text/javascript">
 
     $(function(){
@@ -31,7 +32,7 @@
             }
             return data;
         };
-        window.types = <@s.property value="@com.fantasy.framework.util.jackson.JSON@serialize(types)" escapeHtml="false"/>;
+        window.types = {{{string types}}};//<@s.property value="@com.fantasy.framework.util.jackson.JSON@serialize(types)" escapeHtml="false"/>;
         types.each(function(){
             typeFilter(this);
         });
@@ -207,7 +208,7 @@
             }]
         });
         //列表初始化
-        var pager=<@s.property value="@com.fantasy.framework.util.jackson.JSON@serialize(pager)" escapeHtml="false"/>;
+        var pager={{{string pager}}};
         var $grid = $('#view').dataGrid($('#searchFormPanel'),$('#batchDiv'));
         $grid.data('grid').view().on('add',function(data){
             var _$actions = $('.actions',this.target);
@@ -225,7 +226,7 @@
             invoke();
             return false;
         });
-        var deleteMethod = $('.batchDelete').batchExecute($("#allChecked"),$grid.data('grid').pager(),'key','<h4 class="infobox-title">删除确认</h4><p>确认删除数据字典项[<b>{name}</b>]？</p>',function(){
+        var deleteMethod = $('.batchDelete').batchExecute($("#allChecked"), $grid.data('grid').pager(), 'id', '是否确认删除[{name}]数据字典？', function () {
             $.msgbox({
                 msg : "删除成功!",
                 type : "success"
@@ -268,26 +269,26 @@
         $('#ddtDetails').show().siblings().hide();
     });
 </script>
-</@override>
-<@override name="pageContent">
+    {{/content}}
+    {{#content "pageContent"}}
     <div class="col-md-3 pad0L">
         <div class="content-box pad5A mrg0B pad0B" id="layout_left">
-            <a title="<@s.text name="system.dictionary.button.category.add"/>" class="btn medium primary-bg ddType-add" href="javascript:;">
+            <a title="添加" class="btn medium primary-bg ddType-add" href="javascript:;">
                 <span class="button-content">
                     <i class="glyph-icon icon-plus float-left"></i>
-                    <@s.text name="system.dictionary.button.category.add"/>
+                    添加
                 </span>
             </a>
-            <a title="<@s.text name="system.dictionary.button.category.edit"/>" class="btn medium primary-bg ddType-update" href="javascript:;">
+            <a title="编辑" class="btn medium primary-bg ddType-update" href="javascript:;">
                 <span class="button-content">
                     <i class="glyph-icon icon-edit float-left"></i>
-                    <@s.text name="system.dictionary.button.category.edit"/>
+                    编辑
                 </span>
             </a>
-            <a title="<@s.text name="system.dictionary.button.category.delete"/>" class="btn medium primary-bg ddType-remove" href="<@s.url namespace="/system/ddt" action="delete"/>">
+            <a title="删除" class="btn medium primary-bg ddType-remove" href="/system/ddt/delete">
                 <span class="button-content">
                     <i class="glyph-icon icon-remove float-left"></i>
-                    <@s.text name="system.dictionary.button.category.delete"/>
+                    删除
                 </span>
             </a>
 
@@ -308,14 +309,14 @@
             </div>
             <div class="template mrg5A" name="edit">
                 <div class="infobox warning-bg mrg10B">
-                    <p><i class="glyph-icon icon-exclamation mrg10R"></i> <@s.text name="system.dictionary.add.prompt"/></p>
+                    <p><i class="glyph-icon icon-exclamation mrg10R"></i> prompt</p>
                 </div>
-                <@s.form namespace="/system/ddt" action="save" cssClass="form-bordered saveForm" method="post">
+                <form  action="/system/ddt/save" cssClass="form-bordered saveForm" method="post">
                     <input type="hidden" class="view-field" name="parent.code" mapping="parentCode"/>
                     <div class="form-row">
                         <div class="form-label col-md-2">
                             <label for="">
-                                <@s.text name="system.dictionary.children.code"/>
+                                编码
                             </label>
                         </div>
                         <div class="form-input col-md-10">
@@ -325,7 +326,7 @@
                     <div class="form-row">
                         <div class="form-label col-md-2">
                             <label for="">
-                                <@s.text name="system.dictionary.children.name"/>
+                                名称
                             </label>
                         </div>
                         <div class="form-input col-md-10">
@@ -335,7 +336,7 @@
                     <div class="form-row pad0B">
                         <div class="form-label col-md-2">
                             <label for="">
-                                <@s.text name="system.dictionary.children.description"/>
+                                描述
                             </label>
                         </div>
                         <div class="form-input col-md-10">
@@ -344,30 +345,30 @@
                     </div>
                     <div class="form-row">
                         <div class="form-input col-md-10 col-md-offset-2">
-                            <a title=" <@s.text name="system.dictionary.children.button.save"/>" class="btn medium primary-bg radius-all-4 ddt-save" href="javascript:;">
+                            <a title="保存分类" class="btn medium primary-bg radius-all-4 ddt-save" href="javascript:;">
                                 <span class="button-content">
                                     <i class="glyph-icon icon-save float-left"></i>
-                                    <label> <@s.text name="system.dictionary.children.button.save"/></label>
+                                    <label>保存分类</label>
                                 </span>
                             </a>
-                            <a title=" <@s.text name="system.dictionary.children.button.prompt"/>" class="btn medium bg-gray radius-all-4 hover-white switch" template="default" href="javascript:;">
+                            <a title="查看操作说明" class="btn medium bg-gray radius-all-4 hover-white switch" template="default" href="javascript:;">
                                 <span class="button-content">
                                     <i class="glyph-icon icon-exclamation font-gray-dark float-left"></i>
-                                    <@s.text name="system.dictionary.children.button.prompt"/>
+                                    查看操作说明
                                 </span>
                             </a>
                         </div>
                     </div>
-                </@s.form>
+                </form>
             </div>
         </div>
         <div id="ddlist">
             <div class="button-panel pad5A" id="searchFormPanel">
-                <@s.form id="searchForm" namespace="/system/dd" action="search" method="post">
-                <a title=" <@s.text name="system.dictionary.button.add"/>" class="btn medium primary-bg dd-add" href="javascript:;">
+                <form id="searchForm" namespace="/system/dd" action="search" method="post">
+                <a title="添加" class="btn medium primary-bg dd-add" href="javascript:;">
                     <span class="button-content">
                         <i class="glyph-icon icon-plus float-left"></i>
-                        <@s.text name="system.dictionary.button.add"/>
+                        添加
                     </span>
                 </a>
                 <input name="EQS_type" type="hidden"/>
@@ -377,28 +378,28 @@
                     <input type="text" name="LIKES_name_OR_code" title="" data-placement="bottom" class="input tooltip-button ac_input" placeholder="Search..." autocomplete="off" style="display: inline-block; width: 200px;">
                     <i class="glyph-icon icon-search"></i>
                 </div>
-                </@s.form>
+                </form>
             </div>
             <div id="batchDiv">
-                <a title=" <@s.text name="system.dictionary.button.batchdelete"/>" class="btn small primary-bg batchDelete" href="<@s.url namespace="/system/dd" action="delete"/>">
+                <a title="批量删除" class="btn small primary-bg batchDelete" href="/system/dd/delete">
                     <span class="button-content">
                         <i class="glyph-icon  icon-trash  float-left"></i>
-                        <@s.text name="system.dictionary.button.batchdelete"/>
+                        批量删除
                     </span>
                 </a>
             </div>
-            <#--
-            <span id="config_check_info"></span>-->
+            {{!-
+            <span id="config_check_info"></span>-}}
             <table id="view" class="custom-table table table-hover mrg5B text-center">
                 <thead>
                 <tr>
                     <th class="pad15L" style="width:20px;">
-                        <input id="allChecked" class="custom-checkbox bg-white" checkAll=".ddKey" type="checkbox" <#--checktip="{message:'您选中了{num}条记录',tip:'#config_check_info'}"--> />
+                        <input id="allChecked" class="custom-checkbox bg-white" checkAll=".ddKey" type="checkbox" />
                     </th>
-                    <th class="sort" orderBy="code"> <@s.text name="system.dictionary.list.code"/></th>
-                    <th class="sort" orderBy="name"> <@s.text name="system.dictionary.list.name"/></th>
-                    <th class="sort" orderBy="type"> <@s.text name="system.dictionary.list.type"/></th>
-                    <th class="center actions"> <@s.text name="system.dictionary.list.actions"/></th>
+                    <th class="sort" orderBy="code">编码</th>
+                    <th class="sort" orderBy="name">名称</th>
+                    <th class="sort" orderBy="type"> 类型</th>
+                    <th class="center actions"> 操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -452,16 +453,16 @@
         <div id="ddDetails">
             <div class="template mrg5A" name="default">
                 <div class="infobox warning-bg mrg10B">
-                    <p><i class="glyph-icon icon-exclamation mrg10R"></i><@s.text name="system.dictionary.add.prompt"/></p>
+                    <p><i class="glyph-icon icon-exclamation mrg10R"></i>prompt</p>
                 </div>
-                <@s.form namespace="/system/dd" action="save" cssClass="form-bordered saveForm" method="post">
-                <#--
+                <form namespace="/system/dd" action="save" cssClass="form-bordered saveForm" method="post">
+                {{!-
                 <input type="hidden" class="view-field" name="parent.code" mapping="parentCode"/>
-                -->
+                -}}
                     <div class="form-row">
                         <div class="form-label col-md-2">
                             <label for="">
-                                <@s.text name="system.dictionary.config.category"/>
+                                分类
                             </label>
                         </div>
                         <div class="form-input col-md-10">
@@ -472,7 +473,7 @@
                     <div class="form-row">
                         <div class="form-label col-md-2">
                             <label for="">
-                                <@s.text name="system.dictionary.config.code"/>
+                                编码
                             </label>
                         </div>
                         <div class="form-input col-md-10">
@@ -482,7 +483,7 @@
                     <div class="form-row">
                         <div class="form-label col-md-2">
                             <label for="">
-                                <@s.text name="system.dictionary.config.name"/>
+                                名称
                             </label>
                         </div>
                         <div class="form-input col-md-10">
@@ -492,7 +493,7 @@
                     <div class="form-row pad0B">
                         <div class="form-label col-md-2">
                             <label for="">
-                                <@s.text name="system.dictionary.config.description"/>
+                                描述
                             </label>
                         </div>
                         <div class="form-input col-md-10">
@@ -501,31 +502,31 @@
                     </div>
                     <div class="form-row">
                         <div class="form-input col-md-10 col-md-offset-2">
-                            <a title=" <@s.text name="system.dictionary.config.button.return"/>" class="btn medium primary-bg radius-all-4 to-list" href="javascript:;">
+                            <a title="返回" class="btn medium primary-bg radius-all-4 to-list" href="javascript:;">
                                     <span class="button-content">
                                         <i class="glyph-icon icon-reply float-left"></i>
-                                        <@s.text name="system.dictionary.config.button.return"/>
+                                        返回
                                     </span>
                             </a>
-                            <a title=" <@s.text name="system.dictionary.config.button.save"/>" class="btn medium primary-bg radius-all-4 dd-save" href="javascript:;">
+                            <a title="保存" class="btn medium primary-bg radius-all-4 dd-save" href="javascript:;">
                                     <span class="button-content">
                                         <i class="glyph-icon icon-save float-left"></i>
-                                        <label> <@s.text name="system.dictionary.config.button.save"/></label>
+                                        <label> 保存</label>
                                     </span>
                             </a>
-                            <a title=" <@s.text name="system.dictionary.config.button.prompt"/>" class="btn medium bg-gray radius-all-4 hover-white opt-doc" href="javascript:;">
+                            <a title="查看操作说明" class="btn medium bg-gray radius-all-4 hover-white opt-doc" href="javascript:;">
                                     <span class="button-content">
                                         <i class="glyph-icon icon-exclamation font-gray-dark float-left"></i>
-                                        <@s.text name="system.dictionary.config.button.prompt"/>
+                                        查看操作说明
                                     </span>
                             </a>
                         </div>
                     </div>
-                </@s.form>
+                </form>
             </div>
         </div>
         </div>
 
     </div>
-</@override>
-<@extends name="../wrapper.ftl"/>
+    {{/content}}
+{{/extend}}
