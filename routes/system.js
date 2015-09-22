@@ -121,10 +121,8 @@ router.get('/payments/:id', function (req, res, next) {
 //    });
 //});
 router.get('/data_dictionarys', function (req, res, next) {
-    http.get('/system/ddts', function (_res) {
-        _res.on('complete', function (data) {
-            res.render('system/data_dictionarys', {types: data});
-        });
+    http.get('/system/ddts', function (error,_res,data) {
+        res.render('system/data_dictionarys', {types: data.pageItems});
     });
 });
 module.exports = router;
