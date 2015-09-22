@@ -96,4 +96,35 @@ router.get('/payments/:id', function (req, res, next) {
     });
 });
 
+//数据字典
+//router.get('/data_dictionarys', function (req, res, next) {
+//    async.parallel({
+//        //查询分类数据
+//        types: function (callback) {
+//            http.get('/system/ddts', function (_res) {
+//                _res.on('complete', function (data) {
+//                    callback(null, data);
+//                });
+//            });
+//        },
+//        //列表页数据
+//        pager: function (callback) {
+//            http.get('/system/dds', function (_res) {
+//                _res.on('complete', function (data) {
+//                    callback(null, data);
+//                });
+//            });
+//        }
+//    }, function (err, results) {
+//        res.render('system/data_dictionarys', results);
+//        console.log(results);
+//    });
+//});
+router.get('/data_dictionarys', function (req, res, next) {
+    http.get('/system/ddts', function (_res) {
+        _res.on('complete', function (data) {
+            res.render('system/data_dictionarys', {types: data});
+        });
+    });
+});
 module.exports = router;
