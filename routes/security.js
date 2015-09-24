@@ -166,10 +166,8 @@ router.post('/roles/save', function (req, res, next) {
 });
 //角色查询
 router.post('/roles/search', function (req, res, next) {
-    http.get('/security/roles', req.params, function (_res) {
-        _res.on('complete', function (data) {
-            res.json(data);
-        });
+    http.get('/security/roles', req.body, function (error,_res,data) {
+        res.json(data);
     });
 });
 //角色删除

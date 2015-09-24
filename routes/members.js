@@ -5,10 +5,8 @@ var router = express.Router();
 var async = require('async');
 
 router.get('/', function (req, res, next) {
-    http.get('/members', function (_res) {
-        _res.on('complete', function (data) {
-            res.render('member/members', {pager: data});
-        });
+    http.get('/members', function (error, _res, data) {
+        res.render('member/members', {pager: data});
     });
 });
 
