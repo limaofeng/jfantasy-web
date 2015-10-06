@@ -132,5 +132,29 @@ router.get('/dds/search', function (req, res, next) {
         res.json(data);
     });
 });
+//数据字典
+router.get('/data_dictionarys', function (req, res, next) {
+    http.get('/system/ddts', function (error,_res,data) {
+        res.render('system/data_dictionarys', {types: data.pageItems});
+    });
+});
+
+router.post('/dd/search', function (req, res, next) {
+    http.get('/system/dds',req.body, function (error,_res,data) {
+        res.json(data);
+    });
+});
+
+router.post('/dd/save',function(req,res,next){
+    if(!!req.body.code){
+        http.post('/system/ddts/'+req.body.type+'/dds',req.body,function(error,_res,data){
+               res.json(data);
+        });
+    }else{
+        http.post('/system/ddts/'+req.body.type+'/dds', req.body, function (error,_res,data) {
+            res.json(data);
+        });
+    }
+});
 
 module.exports = router;
