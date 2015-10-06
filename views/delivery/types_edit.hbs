@@ -1,0 +1,77 @@
+<style type="text/css">
+    .paymentForm input {
+        width: 200px;
+    }
+    .paymentForm select {
+        width: 215px;
+    }
+</style>
+<script type="text/javascript">
+    $(function () {
+        $("#saveForm").ajaxForm(function () {
+            $('#pager').pager().reload();
+            $.msgbox({
+                msg: "保存成功",
+                icon: "success"
+            });
+            $page$.backpage();
+        });
+    });
+</script>
+<form id="saveForm" action="/delivery/types/save" method="post">
+    <table class="formTable mb3 paymentForm">
+        <caption>配送方式添加<a href="#" class="back-page" style="float:right;padding-right:50px;">返回</a></caption>
+        <tbody>
+        <input type="hidden" value="{{type.id}}" name="id"/>
+        <tr>
+            <td class="formItem_title w100">配送方式名称:</td>
+            <td class="formItem_content"><input type="text" name="name" value="{{type.name}}"></td>
+            <td class="formItem_content"></td>
+            <td class="formItem_content"></td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">物流公司:</td>
+            <td class="formItem_content">
+                <select name="corp">
+                    {{#corps}}
+                        <option value="{{id}}">{{name}}</option>
+                    {{/corps}}
+                </select>
+            </td>
+            <td class="formItem_title w100">配送类型:</td>
+            <td class="formItem_content">
+                <input type="radio" name="method" value="deliveryAgainstPayment" {{#compare type.method 'deliveryAgainstPayment'}}checked="checked"{{/compare}}/>先付款后发货
+                <input type="radio" name="method" value="cashOnDelivery" {{#compare type.method 'deliveryAgainstPayment'}}checked="checked"{{/compare}}/>货到付款
+            </td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">首重量(克):</td>
+            <td class="formItem_content"><input type="text" name="firstWeight" value="{{type.firstWeight}}"></td>
+            <td class="formItem_title ">首重价格(元):</td>
+            <td class="formItem_content"><input type="text" name="firstWeightPrice" value="{{type.firstWeightPrice}}"></td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">续重量(克):</td>
+            <td class="formItem_content"><input type="text" name="continueWeight" value="{{type.continueWeight}}"></td>
+            <td class="formItem_title ">续重价格(元):</td>
+            <td class="formItem_content"><input type="text" name="continueWeightPrice" value="{{type.continueWeightPrice}}"></td>
+        </tr>
+        <tr>
+            <td class="formItem_title ">描述:</td>
+            <td class="formItem_content" colspan="3">
+                <textarea name="description" style="width:98%; height: 118px;">{{description}}</textarea>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="formTable mb3">
+        <tbody>
+        <tr>
+            <td class="formItem_title w100"></td>
+            <td class="formItem_content">
+                <a class="ui_button" href="javascript:void(0);" onclick="$('#saveForm').submit();return false;">保存</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>

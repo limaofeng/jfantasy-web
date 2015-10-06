@@ -38,4 +38,38 @@ router.get('/corps/search', function (req, res, next) {
     });
 });
 
+//配送方式
+router.get('/types', function (req, res, next) {
+    http.get({path: '/delivery/types', headers: {'X-Page-Fields': true,'X-Expend-Fields':'corp'}}, function (error, _res, data) {
+        res.render('delivery/types', {pager: data});
+    });
+});
+router.get('/types/search', function (req, res, next) {
+    http.get({path: '/delivery/types', headers: {'X-Page-Fields': true,'X-Expend-Fields':'corp'}}, function (error, _res, data) {
+        res.json(data);
+    });
+});
+router.get('/types/add', function (req, res, next) {
+    http.get('/delivery/corps?limit=0,20', function (error, _res, data) {
+        res.render('delivery/types_add',{corps:data});
+    });
+});
+router.get('/types/:id/edit', function (req, res, next) {
+    http.get('/delivery/types/'+req.params.id, function (error, _res, data) {
+        res.render('delivery/types_edit', {type: data});
+        console.log(data);
+    });
+});
+router.post('/types/save', function (req, res, next) {
+    if(!!req.body.id){
+        http.put('/delivery/types/'+req.body.id,req.body, function (error, _res, data) {
+            res.json(data);
+        });
+    }else{
+        http.post('/delivery/types/',req.body, function (error, _res, data) {
+            res.json(data);
+        });
+    }
+});
+
 module.exports = router;

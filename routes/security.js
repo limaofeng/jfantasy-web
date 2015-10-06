@@ -101,12 +101,15 @@ router.get('/users/:id/edit', function (req, res, next) {
 });
 //用户保存
 router.post('/users/save', function (req, res, next) {
-    http.post('/security/users', req.body, function (_res) {
-        _res.on('complete', function (data) {
-            console.log(data)
+    if(!!req.body.id){
+        http.put('/security/users/'+req.body.id, req.body, function (error,_res,data) {
             res.json(data);
         });
-    });
+    }else{
+        http.post('/security/users', req.body, function (error,_res,data) {
+            res.json(data);
+        });
+    }
 });
 //用户删除
 router.post('/users/:id/delete', function (req, res, next) {
