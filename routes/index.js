@@ -1,17 +1,13 @@
 var express = require('express');
 var http = require('./../lib/http-utils-defult');
-//var http = require('./../lib/http-utils')({
-//    hostname: '192.168.0.106',
-//    port: 8080,
-//    headers: {
-//        'Authorization': 'Basic YWRtaW46MTIzNDU2'
-//    }
-//});
 var router = express.Router();
 
-/* GET home page. */
 router.get('/', function (req, res, next) {
     res.render('index');
+});
+
+router.get('/tabs', function (req, res, next) {
+    res.render('tabs');
 });
 
 router.get('/dashboard',function(req, res, next){

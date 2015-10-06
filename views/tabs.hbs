@@ -1,0 +1,174 @@
+{{#extend "_base"}}
+    {{#content "head"}}
+    {{/content}}
+    {{#content "container"}}
+        <table class="formTable mb3">
+            <tbody>
+            <tr>
+                <td class="opt-title">
+                    <span>查看游艇信息</span>
+                    <ul class="Tabtable" tabs="{selectedClass:'Tabcurr',event:'click'}">
+                        <li><a href="#" tab="#basic">基本信息</a></li>
+                        <li><a href="#" tab="#goodsParameterDiv">规格参数</a></li>
+                        <li><a href="#" tab="#goodsImage">商品图片</a></li>
+                        <li><a href="#" tab="#plan">平面图</a></li>
+                        <li><a href="#" tab="#panorama">全景图</a></li>
+                        <li><a href="#" tab="#video">视频</a></li>
+                        <li><a href="#" tab="#bthlog">操作日志</a></li>
+                    </ul>
+                    <a href="###" class="back-page" style="float:right;padding-right:50px;">返回产品列表>></a>
+
+                    <div style="clear:both;BORDER-BOTTOM:1PX SOLID #6483A4;"></div>
+                    <table id="basic" class="formTable mb3">
+                        <tbody>
+                        <tr>
+                            <td class="formItem_title w100">名称</td>
+                            <td class="formItem_content">
+                                <@s.textfield name="name" cssClass="w150" value="%{goods.name}"/>
+                            </td>
+                            <td class="formItem_title w100">原产地：</td>
+                            <td class="formItem_content">
+                                <@s.select name="countries"
+                                list="@com.fantasy.system.service.ConfigService@list('countries')" listKey="code"
+                                listValue="name" cssStyle="width: 200px;"/>
+                            </td>
+                            <td class="formItem_content" rowspan="4">
+                                <div id="uploaderConver"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="formItem_title w100">指导价格：</td>
+                            <td class="formItem_content"><@s.textfield name="marketPrice" cssClass="w150"
+                                value="%{goods.marketPrice}"/>万元
+                            </td>
+                            <td class="formItem_title w100">产品类别：</td>
+                            <td class="formItem_content">
+                                <@s.select name="gdtype" value="%{goods.gdtype}"
+                                list="@com.fantasy.system.service.ConfigService@list('gdtype')" listKey="code"
+                                listValue="name" cssStyle="width: 200px;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="formItem_title w100">销售特色语：</td>
+                            <td class="formItem_content">
+                                <@s.property value="@com.fantasy.system.util.SettingUtil@toHtml(goods.saleslanguage)"
+                                escapeHtml="false"/>
+                            </td>
+                            <td class="formItem_title w100">是否主推：</td>
+                            <td class="formItem_content">
+                                <@s.radio list=r"#{true:'是',false:'否'}" value="%{goods.recommended}" name="recommended"
+                                cssStyle="width:20px;"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="formItem_title w100">艇长：</td>
+                            <td class="formItem_content" colspan="4">
+                                <@s.textfield name="yachtlength" cssClass="w200" value="%{goods.yachtlength}"/>英尺
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="formItem_title w100">基本概况：</td>
+                            <td class="formItem_content" colspan="4"><@s.textarea name="introduction" cssClass="w500"
+                                value="%{goods.introduction}"/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div id="goodsParameterDiv">
+                        <table class="formTable mb3">
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                        <table id="goodsParameter" class="formTable mb3 listTable">
+                            <caption>商品自定义参数</caption>
+                            <thead>
+                            <tr>
+                                <th style="width:30px;"><input id="allChecked" type="checkbox" checkAll=".select_box">
+                                </th>
+                                <th class="sort" orderBy="name">名称</th>
+                                <th>规格</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="template" name="default">
+                                <td><input type="checkbox" class="select_box" value="{id}"/><input
+                                        name="customGoodsParameterValues[#index].id" mapping="id" class="view-field"
+                                        type="hidden"/></td>
+                                <td>{name}<input name="customGoodsParameterValues[#index].name" mapping="name"
+                                                 class="view-field" type="hidden"/></td>
+                                <td>{value}<input name="customGoodsParameterValues[#index].value" mapping="value"
+                                                  class="view-field" type="hidden"/></td>
+                                <td><a class="up">上移</a> | <a class="down">下移</a> | <a class="remove">删除</a></td>
+                            </tr>
+                            <tr class="empty">
+                                <td class="norecord" colspan="4">还没有自定义参数,点击<a href="###" class="goodsParameterFormNew"
+                                                                               style="font-weight:bold;">添加商品参数</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table id="goodsParameterForm" class="formTable mb3" style="display:none;">
+                            <caption>商品参数详细信息</caption>
+                            <tbody>
+                            <tr>
+                                <td class="formItem_title w100">参数名称</td>
+                                <td class="formItem_content"><input name="name" type="text" class="ui_input_text w250"/>
+                                </td>
+                                <td class="formItem_title w100">参数规格</td>
+                                <td class="formItem_content"><input name="value" type="text"
+                                                                    class="ui_input_text w250"/></td>
+                            </tr>
+                            <tr>
+                                <td class="formItem_title w100"></td>
+                                <td class="formItem_content" colspan="3">
+                                    <a href="#" id="goodsParameterFormNew" class="ui_button goodsParameterFormNew">添加新的商品参数</a>
+                                    <a href="#" id="goodsParameterFormEdit" class="ui_button">编辑</a>
+                                    <a href="#" id="goodsParameterFormSave" class="ui_button">保存商品参数</a>
+                                    <a href="#" id="goodsParameterFormReset" class="ui_button">重置</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="goodsImage" style="padding-top:4px;">
+                        <div id="goodsImageUploader"></div>
+                    </div>
+                    <div id="plan" style="padding-top:4px;">
+                        <div id="planeImageUploader"></div>
+                    </div>
+                    <div id="panorama" style="padding-top:4px;">
+                        <div id="panoramaImageUploader"></div>
+                    </div>
+                    <div id="video">
+                        <div id="videoUploader"></div>
+                    </div>
+                    <table class="formTable mb3 listTable" id="bthlog">
+                        <caption>日志列表</caption>
+                        <thead>
+                        <tr>
+                            <th style="width: 30px;"><input checkAll=".checkBox_userId" id="checkBox" type="checkbox"
+                                                            checktip="{message:'您选中了{num}条记录',tip:'#user_check_info'}"/>
+                            </th>
+                            <th class="sort w250" orderBy="sn">日期</th>
+                            <th class="sort" orderBy="name">操作人</th>
+                            <th class="sort" orderBy="description">描述</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="4">
+                                <div id="pager" class="paging digg"></div>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    {{/content}}
+{{/extend}}
