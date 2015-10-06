@@ -39,9 +39,11 @@ jQuery.fn.extend({
             '   </div>' +
             '</div>' +
             '</div>' +
-            '<div class="grid_pager fg-toolbar ui-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix">' +
+            '<div class="grid_pager">' +
+                /*
             '<div class="grid_info pad10L ui-toolbar">显示 <label class="start-number">1</label>到<label class="end-number">1</label> 共<label class="total-number">1</label>条</div>' +
-            '<div id="pager" class="paging grid_paginate ui-toolbar"></div>' +
+            */
+            '<div id="pager" class="paging"></div>' +
             '</div>' +
             '</div>';
 

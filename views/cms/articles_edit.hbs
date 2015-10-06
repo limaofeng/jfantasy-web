@@ -1,0 +1,74 @@
+<script type="text/javascript">
+    $(function () {
+        var imageUploader = $('#imageUploader').upload({data:{'dir':'brand_logo'},theme:'image',size:'160x160'});
+        $("#saveForm").ajaxForm({
+            beforeSerialize : function(zhis, options){
+                var _data = {};
+                var _images = imageUploader.getData();
+                if(_images.length > 0){
+                    _data['coverImage'] = _images[0].fileManagerId + ':' + _images[0].absolutePath;
+                }
+                options.data = _data;
+            },
+            success: function (data) {
+                $('#pager').pager().reload();
+                top.$.msgbox({
+                    msg: "保存成功",
+                    type: "success"
+                });
+                $page$.backpage();
+            }
+        });
+    });
+</script>
+<form id="saveForm" action="/cms/article/article_save" method="post">
+    <table class="formTable mb3">
+        <caption>编辑文章<a href="#" class="back-page">返回</a></caption>
+        <tbody>
+        <input type="hidden" name="category.code" value="{{article.category.code}}"/>
+        <input type="hidden" name="version.number" value="Article_v1"/>
+        <tr>
+            <td class="formItem_title w100">文章标题:</td>
+            <td class="formItem_content"><input type="text" name="title" id="title" value="{{article.title}}"/></td>
+            <td class="formItem_content" rowspan="3" id="imageUploader"></td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">摘要:</td>
+            <td  class="formItem_content"><input type="text" name="summary" id="summary" value="{{article.summary}}"/></td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">关键词:</td>
+            <td  class="formItem_content"><input type="text" name="keywords" id="keywords" value="{{article.keywords}}"/></td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">正文:</td>
+            <td colspan="2" class="formItem_content"><textarea class="KindEditor" name="content" style="width:900px;height:360px;"></textarea>{{art.content}}</td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">是否发布:</td>
+            <td colspan="2" class="formItem_content">
+                <input type="radio"  name="issue" value="true" {{#compare article.issue true}} checked="checked"{{/compare}}/>是
+                <input type="radio"  name="issue" value="false" {{#compare article.issue false}} checked="checked"{{/compare}}>否
+            </td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">发布时间:</td>
+            <td colspan="2" class="formItem_content"><input type="text"  name="releaseDate" class="Wdate" date="{dateFmt:'yyyy-MM-dd'}" value="{{art.releaseDate}}"/></td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">作者:</td>
+            <td colspan="2" class="formItem_content"><input type="text"  name="author" value="{{article.author}}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="formTable mb3">
+        <tbody>
+        <tr>
+            <td class="formItem_title w100"></td>
+            <td class="formItem_content">
+                <a class="ui_button" href="javascript:void(0);" onclick="$('#saveForm').submit();return false;">保存</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>

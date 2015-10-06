@@ -1,0 +1,1 @@
+//Fantasy.util.Interface();

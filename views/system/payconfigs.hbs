@@ -1,14 +1,9 @@
-{{#extend "wrapper"}}
-    {{#content "pageTitle"}}
-        支付方式配置
-        <small>
-            功能说明
-        </small>
-    {{/content}}
+{{#extend "_base"}}
     {{#content "head"}}
         <script type="text/javascript">
             $(function () {
                 //当浏览器窗口发生变化时,自动调整布局的js代码
+                /*
                 var _$gridPanel = $('.grid-panel');
                 var _resize = function () {
                     _$gridPanel.css('minHeight', $(window).height() - (_$gridPanel.offset().top + 15));
@@ -30,9 +25,8 @@
                         type: 'input',
                         matchType: ['EQ', 'LIKE', 'GT']
                     }]
-                });
+                });*/
                 //列表初始化
-                var pager = {{{pager}}};
                 var $grid = $('#view').dataGrid($('#searchFormPanel'), $('.batch'));
                 $grid.data('grid').view().on('add', function (data) {
                     this.target.find('.delete').click(function (e) {
@@ -40,7 +34,7 @@
                         return stopDefault(e);
                     });
                 });
-                $grid.setJSON(pager);
+                $grid.setJSON({{{string pager}}});
                 var deleteMethod = $('.batchDelete').batchExecute($("#allChecked"), $grid.data('grid').pager(), 'id', '是否确认删除[{name}]支付方式？', function () {
                     $.msgbox({
                         msg: "删除成功",
@@ -50,91 +44,81 @@
             });
         </script>
     {{/content}}
-    {{#content "pageContent"}}
+    {{#content "container"}}
         <div id="searchFormPanel" class="button-panel pad5A">
             <form id="searchForm" action="/system/payconfigs/search" method="post">
-                <a title="添加" class="btn medium primary-bg dd-add" href="/system/payconfigs/add" target="after:closest('#page-content')">
-                    <span class="button-content">
-                        <i class="glyph-icon icon-plus float:left"></i>
-                        添加
-                    </span>
-                </a>
-                <div class="propertyFilter">
-                </div>
-                <div class="form-search">
-                    <input type="text" name="LIKES_name" title="" data-placement="bottom" class="input tooltip-button ac_input" placeholder="Search..." autocomplete="off"  style="display: inline-block; width: 200px;">
-                    <i class="glyph-icon icon-search"></i>
-                </div>
+                <table class="formTable mb3">
+                    <caption>用户查询条件</caption>
+                    <tbody>
+                    <tr>
+                        <td class="formItem_title w100">名称:</td>
+                        <td class="formItem_content"><input type="text" name="LIKES_name" class="w100" /></td>
+                        <td class="formItem_title w100">付款类型:</td>
+                        <td class="formItem_content">
+                            <select name="EQE_paymentConfigType" style="width: 135px;">
+                                <option>--全部--</option>
+                                <option value="online">在线支付</option>
+                                <option value="offline">线下支付</option>
+                            </select>
+                        </td>
+                        <td class="formItem_title w100">支付手续费类型:</td>
+                        <td class="formItem_content">
+                            <select name="EQE_paymentFeeType" style="width: 135px;">
+                                <option>--全部--</option>
+                                <option value="fixed">固定费用</option>
+                                <option value="scale">按比例收费</option>
+                            </select>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </form>
+            <a class="ui_button" onclick="$('#searchForm').submit()">查询</a>
+            <a class="ui_button add" href="/system/payconfigs/add" target="after:closest('#container')">添加</a>
+            <a class="ui_button batchDelete" href="/system/payconfig/delete">删除</a>
         </div>
         <div class="batch">
-            <a title="批量删除" class="btn small primary-bg batchDelete" href="/system/payconfig/delete">
-        <span class="button-content">
-            <i class="glyph-icon icon-trash float-left"></i>
+            <a title="批量删除" class="ui_button batchDelete" style="height: 20px" href="/system/payconfig/delete">
             批量删除
-        </span>
             </a>
         </div>
         <div class="grid-panel">
-            <table id="view" class="table table-hover mrg5B text-center">
+            <table id="view" class="formTable mb3 listTable">
+               <caption>查询结果列表</caption>
                 <thead>
                 <tr>
-                    <th class="pad15L" style="width:20px;">
-                        <input id="allChecked" class="custom-checkbox bg-white" checkAll=".id"  type="checkbox" {{!--checktip="{message:'您选中了{num}条记录',tip:'#config_check_info'}"--}} />
-                    </th>
-                    <th>支付方式名称</th>
+                    <th style="width:30px;"><input id="allChecked" checkall=".id" type="checkbox"/></th>
+                    <th style="width:250px;">支付方式名称</th>
                     <th>支付类型</th>
                     <th>支付手续费类型</th>
                     <th>支付费用</th>
-                    <th class="text-center">操作</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="template" name="default">
-                    <td><input class="id custom-checkbox" type="checkbox" value="{id}"/></td>
-                    <td class="font-bold">{name}</td>
+                <tr align="center" class="template" name="default" >
+                    <td><input class="id" type="checkbox" value="{id}"/></td>
+                    <td>
+                        <a style="float:left;padding-left: 20px;" class="view" href="/system/payconfigs/view?id={id}">{name}</a>
+                    </td>
                     <td>{paymentConfigType:dict({'offline':'线下支付','online':'在线支付'})}</td>
                     <td>{paymentFeeType:dict({'fixed':'固定费用','scale':'按比例收费'})}</td>
                     <td>{paymentFee:number('0.00')}</td>
-                    <td class="pad0T pad0B text-center">
-                        <div class="dropdown actions">
-                            <a href="javascript:;" title="" class="btn medium bg-blue" data-toggle="dropdown">
-                        <span class="button-content">
-                            <i class="glyph-icon font-size-11 icon-cog"></i>
-                            <i class="glyph-icon font-size-11 icon-chevron-down"></i>
-                        </span>
-                            </a>
-                            <ul class="dropdown-menu float-right">
-                                <li>
-                                    <a href="/system/payconfigs/view?id={id}" class="view" title="" target="after:closest('#page-content')">
-                                        <i class="glyph-icon icon-external-link-sign mrg5R"></i>
-                                        详情
-                                    </a>
-                                </li>
-                                <li>
-                                    <a title="编辑" class="edit" href="/system/payconfigs/edit/{id}" target="after:closest('#page-content')">
-                                        <i class="glyph-icon icon-edit mrg5R"></i>
-                                        编辑
-                                    </a>
-                                </li>
-                                <li>
-                                    <a target="_blank" href="/system/payconfigs/{id}/test?amount=0.01">
-                                        <i class="glyph-icon icon-edit mrg5R"></i>
-                                        测试
-                                    </a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="/system/payconfigs/delete?id={id}" class="font-red delete" title="删除">
-                                        <i class="glyph-icon icon-remove mrg5R"></i>
-                                        删除
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                    <td>
+                        <a class="delete" href="/system/payconfigs/delete?id={id}">删除</a>/
+                        <a class="edit" href="/system/payconfigs/edit/{id}" target="after:closest('#container')">编辑</a>/
+                        <a target="_blank" href="/system/payconfigs/{id}/test?amount=0.01">测试支付</a>
                     </td>
                 </tr>
+                <tr class="empty"><td class="norecord" colspan="6">暂无数据</td></tr>
                 </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <div id="pager" class="paging digg"></div>
+                    </td>
+                </tr>
+                </tfoot>
             </table>
         </div>
         <div class="divider mrg0T"></div>

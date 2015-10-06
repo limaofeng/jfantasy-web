@@ -1,0 +1,29 @@
+.welcome{
+	width:700px;
+	margin:40px auto;
+	border:1px solid #879fb9;
+	padding:30px;
+	overflow:hidden;
+}
+.tit{
+	text-align:center;
+	font-size:18px;
+	font-weight:bold;
+	line-height:200%;
+	color:#52759b;
+}
+.desc{
+	text-align:center;
+	font-size:14px;
+	line-height:200%;
+}
+.version{
+	text-align:center;
+	font-size:12px;
+	line-height:200%;
+}
+.copyright{
+	text-align:center;
+	font-size:12px;
+	line-height:200%;
+}

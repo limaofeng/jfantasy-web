@@ -90,29 +90,8 @@ $(function () {
         });
     };
     var get$ = function (expr, z, $context) {//支持jquery表达式
-        //console.log($(expr, $context));
-        return (/[)]$/.test(expr) ? eval('(z.' + expr + ')') : $(expr, $context));/*.filter(function(){
-            var ajaxLoadDiv = $(this).closest('.ajax-load-div');
-            return !(ajaxLoadDiv.length != 0 && ajaxLoadDiv[0] != $context[0]);
-        });*/
+        return (/[)]$/.test(expr) ? eval('(z.' + expr + ')') : $(expr, $context));
     };
-    /*
-     initializes.push((function() {
-     SyntaxHighlighter.config.clipboardSwf = request.getContextPath() + '/static/js/common/syntax/clipboard.swf';
-     var execute = false;
-     return function() {
-     if (execute) {
-     return execute = true;
-     }
-     $(".source", this).each(function() {
-     if ($(this).data('_source'))
-     return;
-     $(this).data('_source', true);
-     $(this).after($('<div class="code"><pre class="brush:' + ($(this).is("script") ? 'js' : 'xml') + ';">' + $(this).html().replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</pre></div>'));
-     });
-     SyntaxHighlighter.all();
-     };
-     })());*/
     initializes.push(function () {
         $('.number', this).each(function (index, zhis) {
             if ($(zhis).data('_number')){
@@ -623,82 +602,6 @@ $(function () {
             t.hide();
         });
     });
-    //---------------------------------------------------------------------------------------------显示隐藏切换
-    /*
-    var groups = {};
-    initializes.push(function () {
-        $('[target]', this).each(function () {
-            if ($(this).data('target'))return;
-            $(this).data('target', true);
-            var groupname = $(this).attr('group');
-            var t = $(this);
-            if ($(this).is('option')) {
-                groupname = 'select-' + $(this).parent().attr('name');
-                t = t.parent();
-                if (t.data('Target-chenge'))
-                    return;
-            }
-            (function (t, w, g) {
-                //t 触发源
-                var titles = t.attr('title') ? t.attr('title').split('|') : [];
-                t.attr('title', t.html());
-                //w 目标元素
-                if (w == '_blank' || w == '_self' || w == '_parent' || w == '_top') {
-                    return;
-                }
-                if (!/[)]$/.test(w) && $('iframe[name=' + w + ']').length > 0) {
-                    return;
-                }
-                //支持jquery表达式
-                w = /[)]$/.test(w) ? eval('(t.' + w + ')') : $(w);
-                //显示隐藏
-                var _F = function (hidden) {
-                    (hidden ? t.removeClass : t.addClass).apply(t, ['checked']);
-                    (hidden ? w.slideUp : w.slideDown).apply(w, [500, function () {
-                        //启用、禁用表单
-                        if (w.find('[target]').length == 0) {
-                            w.find('input,select,textarea').attr('disabled', w.is(':hidden'));
-                        }
-                        //切换显示
-                        if (titles && titles.length == 2) {
-                            t.html(titles[w.is(':hidden') ? 0 : 1]);
-                        }
-                    }]);
-                };
-                //分组
-                var group = null;
-                if (g) {
-                    group = groups[g] ? groups[g] : groups[g] = [];
-                    group.push(function (soh) {
-                        _F.apply(this, [soh]);
-                    });
-                }
-                if (t.is('select')) {//select 处理
-                    t.bind('change', function () {
-                        $(this).children().each(function () {
-                            $($(this).attr('target')).hide();
-                        });
-                        $(t.children('[value=' + $(this).val() + ']').attr('target')).show();
-                    });
-                    t.data('Target-chenge', true);
-                } else {
-                    t.bind('click', function (event) {
-                        if ($(this).is('a')) {
-                            stopDefault(event);
-                        }
-                        if (group) {
-                            group.each(function () {
-                                this.apply(window, [true]);
-                            });
-                        }
-                        _F.apply(this, [!w.is(':hidden')]);
-                    });
-                    _F.apply(this, [w.is(':hidden')]);
-                }
-
-            })(t, $(this).attr('target'), groupname);
-        });
-    });*/
     //---------------------------------------------------------------------------------------------图片加载时显示缩略图
     $('img[lowsrc]', this).each(function () {
         if ($(this).data('_lowsrc'))

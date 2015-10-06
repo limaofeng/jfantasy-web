@@ -1,21 +1,21 @@
-{{#extend "wrapper"}}
-    {{#content "pageTitle"}}
-        菜单管理
-        <small>功能描述</small>
-    {{/content}}
+{{#extend "_base"}}
     {{#content "head"}}
+        <link rel="stylesheet" href="/stylesheets/pop.css"/>
+        <style type="text/css">
+            #container {
+                position: fixed;
+            }
+            #menuDetails{
+                border: 1px solid #88a0ba;
+                width: 100%;
+                display: block;
+                height: calc(100% - 17px);
+                margin-top: 5px;
+                overflow: auto;
+            }
+        </style>
         <script type="text/javascript">
             $(function () {
-                //当浏览器窗口发生变化时,自动调整布局的js代码
-                var _top = $('#layout_left').offset().top + 15;
-                var _$layout = $('#layout_left,#menuDetails');
-                var _resize = function () {
-                    _$layout.css('minHeight', $(window).height() - _top);
-                };
-                $(window).resize(_resize);
-                $page$.one('destroy', function () {
-                    $(window).unbind('resize', _resize);
-                });
                 //修改数据
                 var menuFilter = function (data) {
                     data._icon = data.icon;
@@ -33,7 +33,7 @@
                     }
                     return data;
                 };
-                window.menus = {{{menus}}};
+                window.menus = {{{string menus}}};
                 menus.each(function () {
                     menuFilter(this);
                 });
@@ -88,7 +88,7 @@
                             $('#' + node.tId + '_span').click();
                             $.msgbox({
                                 msg: '菜单 <b>' + data.name + '</b> 保存成功',
-                                type: 'success'
+                                icon: 'success'
                             });
                         });
                         $('.menu-save', element.target).click(function (e) {
@@ -150,14 +150,14 @@
                                 index = $('#' + treeNodes[0].tId).index() + 1;
                             }
                             if (index > 0) {
-                                $.post('<@s.url namespace="/security/menu" action="save"/>', {
+                                $.post('/security/menus/save', {
                                     id: treeNodes[0].id,
                                     sort: index,
                                     'parentId': parentId
                                 }, function () {
                                     $.msgbox({
                                         msg: "顺序调整成功",
-                                        type: "success"
+                                        icon: "success"
                                     });
                                 });
                             }
@@ -179,7 +179,7 @@
                     } else {
                         $.msgbox({
                             msg: "请先选择要添加菜单的上级菜单",
-                            type: "warning"
+                            icon: "warning"
                         });
                     }
                 });
@@ -195,7 +195,7 @@
                     if (selectdNodes.length != 1) {
                         $.msgbox({
                             msg: "请先选择你要修改的菜单",
-                            type: "warning"
+                            icon: "warning"
                         });
                         return stopDefault(e);
                     }
@@ -207,7 +207,7 @@
                     if (selectdNodes.length == 0) {
                         $.msgbox({
                             msg: "请先选择要删除的菜单",
-                            type: "warning"
+                            icon: "warning"
                         });
                         return stopDefault(e);
                     }
@@ -217,7 +217,7 @@
                             var onode = treeNode.getParentNode();
                             $.msgbox({
                                 msg: '菜单 <b>' + treeNode.name + '</b> 删除成功',
-                                type: 'success'
+                                icon: 'success'
                             });
                             onode = onode ? onode : treeNode.getNextNode();
                             onode = onode ? onode : treeNode.getPreNode();
@@ -233,238 +233,91 @@
             });
         </script>
     {{/content}}
-    {{#content "pageContent"}}
-        <div class="col-md-4 pad0L">
-            <div class="content-box pad5A mrg0B pad0B" id="layout_left">
-                <a title="添加" class="btn medium primary-bg menu-add" href="javascript:;">
-                    <span class="button-content"><i class="glyph-icon icon-plus float-left"></i>添加</span>
-                </a>
-                <a title="编辑" class="btn medium primary-bg menu-update" href="javascript:;">
-                    <span class="button-content"><i class="glyph-icon icon-edit float-left"></i>编辑</span>
-                </a>
-                <a title="删除" class="btn medium primary-bg menu-remove" href="/security/menus/delete">
-                    <span class="button-content"><i class="glyph-icon icon-remove float-left"></i>删除</span>
-                </a>
-                <a title="添加根" class="btn medium primary-bg menu-add-root"href="javascript:;">
-                    <span class="button-content"><i class="glyph-icon icon-folder-open float-left"></i> 添加根</span>
-                </a>
-                <div class="divider mrg5B"></div>
-                <ul id="menuTree" class="ztree"></ul>
-            </div>
-        </div>
-        <div class="col-md-8 pad0L pad0R">
-            <div class="content-box pad5A mrg0B pad0B" id="menuDetails">
-                <div class="template mrg5A" name="default">
-                    <h3>
-                        What is Fides Admin
-                    </h3>
+    {{#content "container"}}
+        <div id="layout_left">
+            <a class="ui_button menu-add" href="###">添加</a>
+            <a class="ui_button menu-update" href="###">修改</a>
+            <a class="ui_button menu-remove" href="/security/menus/delete">删除</a>
 
-                    <p class="font-gray-dark">
-                        The AUI Framework is a HTML/CSS/JS framework that helps you quickly build modern, beautiful and
-                        accessible user interfaces for interactive web applications. It is powered by jQuery and
-                        includes a lot of UI interactions, effects, widgets, elements, components and themes. These make
-                        AUI a very powerful companion when it comes to solving all kinds of use cases. Read through the
-                        documentation to get an idea of how many widgets and elements are available.
-                    </p>
+            <div class="tree">
+                <div class="bg-caption">
+                    <span class="bgc-title">所有栏目</span>
                 </div>
-                <div class="template mrg5A" name="view">
-                    <div class="infobox warning-bg mrg10B">
-                        <p><i class="glyph-icon icon-exclamation mrg10R"></i>To view the available grid system options
-                            &amp; configurations you can visit the <a title="Fides Admin Grid System documentation" target="_blank" href="grid.html">Fides Admin Grid
-                                System documentation</a> page.</p>
-                    </div>
-                    <div class="form-bordered">
-                        <div class="form-row">
-                            <div class="form-label col-md-2">
-                                <label for="">
-                                    名称：
-                                </label>
-                            </div>
-                            <div class="form-input col-md-10">
-                                <input name="name" disabled="disabled" class="view-field"/>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-label col-md-2">
-                                <label for="">
-                                    图标：
-                                </label>
-                            </div>
-                            <div class="form-input col-md-10">
-                                <div class="input-append-wrapper">
-                                    <div class="input-append ui-state-default">
-                                        <i class="glyph-icon {_icon}"></i>
-                                    </div>
-                                    <div class="append-left">
-                                        <input name="icon" disabled="disabled" class="view-field" mapping="_icon"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-label col-md-2">
-                                <label for="">
-                                    类型：
-                                </label>
-                            </div>
-                            <div class="form-input col-md-10">
-                                <select class="chosen-select" disabled="disabled" data-placeholder="未选择菜单类型">
-                                    <option>{type:menuType()}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row pad0B">
-                            <div class="form-label col-md-2">
-                                <label for="">
-                                    值：
-                                </label>
-                            </div>
-                            <div class="form-input col-md-10">
-                                <input name="value" disabled="disabled" class="view-field"/>
-                            </div>
-                        </div>
-                        <div class="form-row pad0B">
-                            <div class="form-label col-md-2">
-                                <label for="">
-                                    描述：
-                                </label>
-                            </div>
-                            <div class="form-input col-md-10">
-                                <input name="description" disabled="disabled" class="view-field"/>
-                            </div>
-                        </div>
-                        <div class="form-row pad0B">
-                            <div class="form-input col-md-10 col-md-offset-2">
-                                <a title="编辑菜单" class="btn medium primary-bg radius-all-4 switch" template="edit" href="javascript:;">
-                                    <span class="button-content">
-                                        <i class="glyph-icon icon-edit float-left"></i>
-                                        编辑菜单
-                                    </span>
-                                </a>
-                                <a title="查看操作说明" class="btn medium bg-gray radius-all-4 hover-white switch" template="default" href="javascript:;">
-                                    <span class="button-content">
-                                        <i class="glyph-icon icon-exclamation font-gray-dark float-left"></i>
-                                        查看操作说明
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="template mrg5A" name="edit">
-                    <div class="infobox warning-bg mrg10B">
-                        <p><i class="glyph-icon icon-exclamation mrg10R"></i>To view the available grid system options
-                            &amp; configurations you can visit the <a title="Fides Admin Grid System documentation"
-                                                                      target="_blank" href="grid.html">Fides Admin Grid
-                                System documentation</a> page.</p>
-                    </div>
-                    <form action="/security/menus/save" class="form-bordered saveForm" method="post">
-                    <input type="hidden" class="view-field" name="parentId" mapping="parentId"/>
-                    <input type="hidden" class="view-field" name="id"/>
-
-                    <div class="form-row">
-                        <div class="form-label col-md-2">
-                            <label for="">
-                                名称：
-                            </label>
-                        </div>
-                        <div class="form-input col-md-10">
-                            <input type="text" class="view-field" name="name"/>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-label col-md-2">
-                            <label for="">
-                                图标：
-                            </label>
-                        </div>
-                        <div class="form-input col-md-10">
-                            <div class="input-append-wrapper">
-                                <a class="btn input-append ui-state-default popover-button" data-placement="bottom"
-                                   title="请选择菜单的图标" data-id="#notif-box-example">
-                                    <i class="glyph-icon {_icon}"></i>
-                                </a>
-
-                                <div class="append-left">
-                                    <input type="text" name="icon" class="view-field" mapping="_icon"/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-label col-md-2">
-                            <label for="">
-                                类型：
-                            </label>
-                        </div>
-                        <div class="form-input col-md-10">
-                            <select id="menuType" name="type" class="view-field chosen-select"
-                                    data-placeholder="请选择菜单类型!"></select>
-                        </div>
-                    </div>
-                    <div class="form-row pad0B">
-                        <div class="form-label col-md-2">
-                            <label for="">
-                                值：
-                            </label>
-                        </div>
-                        <div class="form-input col-md-10">
-                            <input name="value" class="view-field"/>
-                        </div>
-                    </div>
-                    <div class="form-row pad0B">
-                        <div class="form-label col-md-2">
-                            <label for="">
-                                描述：
-                            </label>
-                        </div>
-                        <div class="form-input col-md-10">
-                            <input name="description" class="view-field small-textarea"/>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-input col-md-10 col-md-offset-2">
-                            <a title="编辑菜单" class="btn medium primary-bg radius-all-4 switch menu-view" href="javascript:;" template="view">
-                                <span class="button-content">
-                                    <i class="glyph-icon icon-reply float-left"></i>
-                                    编辑菜单
-                                </span>
-                            </a>
-                            <a title="保存修改" class="btn medium primary-bg radius-all-4 menu-save" href="javascript:;">
-                                <span class="button-content">
-                                    <i class="glyph-icon icon-save float-left"></i>
-                                    <label>保存修改</label>
-                                </span>
-                            </a>
-                            <a title="查看操作说明" class="btn medium bg-gray radius-all-4 hover-white switch" template="default" href="javascript:;">
-                                <span class="button-content">
-                                    <i class="glyph-icon icon-exclamation font-gray-dark float-left"></i>
-                                    查看操作说明
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div id="notif-box-example" class="hide medium-box">
-            <div class="popover-title display-block clearfix form-row pad10A">
-                <div class="form-input">
-                    <div class="form-input-icon">
-                        <i class="glyph-icon icon-search transparent"></i>
-                        <input type="text" placeholder="输入查询的关键字" id="search" class="radius-all-100"/>
-                    </div>
+                <div class="bg-tree">
+                    <ul id="menuTree" class="ztree"></ul>
                 </div>
             </div>
-            <div class="scrollable-content scrollable-small pad15A small-box">
-                {{>icons}}
-            </div>
-            <div class="pad10A button-pane button-pane-alt text-center">
-                <a href="javascript:;" class="btn medium primary-bg">
-                    <span class="button-content">View all notifications</span>
-                </a>
-            </div>
         </div>
+        <div id="layout_right">
+            <div id="menuDetails">
+                <div style="margin: 3px;" class="template" name="default">
+                    <h1>菜单操作文档</h1>
+                </div>
+                <div style="margin: 3px;" class="template" name="view">
+                    <table class="formTable mb3">
+                        <caption>基本信息<a href="###" style="float:right;padding-right:50px;" class="switch"
+                                        template="edit">编辑</a></caption>
+                        <tbody>
+                        <tr>
+                            <td class="formItem_title w100">名称：</td>
+                            <td class="formItem_content"><label name="name" class="view-field"><label></td>
+                            <td class="formItem_title w100">菜单类型：</td>
+                            <td class="formItem_content">{type:menuType()}</td>
+                        </tr>
+                        <tr>
+                            <td class="formItem_title w100">菜单值：</td>
+                            <td class="formItem_content" colspan="3"><label name="value" class="view-field"><label></td>
+                        </tr>
+                        <tr>
+                            <td class="formItem_title ">描述：</td>
+                            <td class="formItem_content" colspan="3"><label name="description"
+                                                                            class="view-field"><label></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin: 3px;" class="template" name="edit">
+                        <form action="/security/menus/save" class="saveForm" method="post">
+                            <input type="hidden" class="view-field" name="parentId" mapping="parentId"/>
+                            <input type="hidden" class="view-field" name="id"/>
+                        <table class="formTable mb3">
+                            <caption>基本信息<a href="###" class="switch back" template="view" style="float:right;padding-right:50px;">取消</a></caption>
+                            <tbody>
+                            <tr>
+                                <td class="formItem_title w100">名称：</td>
+                                <td class="formItem_content">
+                                    <input type="text" class="view-field" name="name"/>
+                                </td>
+                                <td class="formItem_title w100">菜单类型：</td>
+                                <td class="formItem_content">
+                                    <select id="menuType" name="type" class="view-field chosen-select" style="width:250px;" data-placeholder="请选择菜单类型!"></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="formItem_title w100">菜单值：</td>
+                                <td class="formItem_content" colspan="3">
+                                    <textarea name="value" class="view-field" style="width:98%;"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="formItem_title ">描述：</td>
+                                <td class="formItem_content" colspan="3">
+                                    <textarea name="description" class="view-field" style="width:98%;"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="formItem_title "></td>
+                                <td class="formItem_content" colspan="3">
+                                    <a class="ui_button switch menu-view" href="javascript:;" template="view">返回</a>
+                                    <a class="ui_button menu-save" href="javascript:;">保存修改</a>
+                                    <a class="ui_button switch" template="default" href="javascript:;">查看操作说明</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
         </div>
     {{/content}}
 {{/extend}}

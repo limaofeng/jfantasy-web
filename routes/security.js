@@ -5,9 +5,9 @@ var async = require('async');
 var router = express.Router();
 
 router.get('/menus', function (req, res, next) {
-    http.get('/security/menus', function (_res) {
+    http.get('/security/menus?limit=0,1000', function (_res) {
         _res.on('complete', function (data) {
-            res.render('security/menus', {title: 'Express', temp: 'base', menus: JSON.stringify(data)});
+            res.render('security/menus', {title: 'Express', temp: 'base', menus: data});
         });
     });
 });
@@ -21,17 +21,14 @@ router.post('/menus/delete', function (req, res, next) {
 });
 
 router.post('/menus/save', function (req, res, next) {
+    console.log(req.body);
     if (!!req.body.id) {
-        http.put('/security/menus/' + req.body.id, req.body, function (_res) {
-            _res.on('complete', function (data) {
+        http.put('/security/menus/' + req.body.id, req.body, function (error,_res,data) {
                 res.json(data);
-            });
         });
     } else {
-        http.post('/security/menus', req.body, function (_res) {
-            _res.on('complete', function (data) {
+        http.post('/security/menus', req.body, function (error,_res,data) {
                 res.json(data);
-            });
         });
     }
 });
@@ -39,29 +36,29 @@ router.post('/menus/save', function (req, res, next) {
 
 //hl---------------------------------------------------------------------
 router.get('/users', function (req, res, next) {
-    http.get('/security/users', function (_res) {
-        _res.on('complete', function (data) {
-            res.render('security/users', {pager: data});
-        });
+    http.get({
+        path: '/security/users',
+        headers: {'X-Page-Fields': true}
+    }, function (error, _res, data) {
+        res.render('security/users', {pager: data});
     });
 });
 
 //用户查询
-router.post('/users/search', function (req, res, next) {
-    http.get('/security/users', function (_res) {
-        _res.on('complete', function (data) {
-            res.json(data);
-        });
+router.get('/users/search', function (req, res, next) {
+    http.get({
+        path: '/security/users',
+        headers: {'X-Page-Fields': true}
+    }, req.query,function (error, _res, data) {
+        res.json(data);
     });
 });
 //用户新增
 router.get('/users/add', function (req, res, next) {
     async.parallel({
         roles: function (callback) {
-            http.get('/security/roles', function (_res) {
-                _res.on('complete', function (data) {
-                    callback(null, data.pageItems);
-                });
+            http.get('/security/roles?limit=0,10', function (error,_res,data) {
+                    callback(null, data);
             });
         },
         websites: function (callback) {
@@ -81,25 +78,21 @@ router.get('/users/add', function (req, res, next) {
 router.get('/users/:id/edit', function (req, res, next) {
     async.parallel({
         roles: function (callback) {
-            http.get('/security/roles', function (_res) {
-                _res.on('complete', function (data) {
-                    callback(null, data.pageItems);
-                });
+            http.get('/security/roles', function (error,_res,data) {
+                callback(null, data);
             });
         },
         websites: function (callback) {
-            http.get('/system/websites', function (_res) {
-                _res.on('complete', function (data) {
-                    callback(null, data);
-                });
+            http.get('/system/websites', function (error,_res,data) {
+                callback(null, data);
             });
         },
-        //查询品牌数据
         user: function (callback) {
-            http.get('/security/users/'+req.params.id, function (_res) {
-                _res.on('complete', function (data) {
+            http.get({
+                path: '/security/users/' + req.params.id,
+                headers: {'X-Expend-Fields': 'roles,website'}
+            }, function (error,_res,data) {
                     callback(null, data);
-                });
             });
         }
     }, function (err, results) {

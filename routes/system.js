@@ -11,9 +11,11 @@ var router = express.Router();
 var async = require('async');
 
 router.get('/payconfigs', function (req, res, next) {
-    http.get('/system/payconfigs', function (_res) {
+    http.get({
+        path: '/system/payconfigs', headers: {'X-Page-Fields': true}
+    }, function (_res) {
         _res.on('complete', function (data) {
-            res.render('system/payconfigs', {pager: JSON.stringify(data)});
+            res.render('system/payconfigs', {pager: data});
         });
     });
 });
@@ -120,9 +122,15 @@ router.get('/payments/:id', function (req, res, next) {
 //        console.log(results);
 //    });
 //});
-router.get('/data_dictionarys', function (req, res, next) {
-    http.get('/system/ddts', function (error,_res,data) {
-        res.render('system/data_dictionarys', {types: data.pageItems});
+router.get('/dds', function (req, res, next) {
+    http.get('/system/ddts?limit=0,100', function (error, _res, data) {
+        res.render('system/dds', {types: data});
     });
 });
+router.get('/dds/search', function (req, res, next) {
+    http.get({path: '/system/dds', headers: {'X-Page-Fields': true}}, req.query, function (error, _res, data) {
+        res.json(data);
+    });
+});
+
 module.exports = router;

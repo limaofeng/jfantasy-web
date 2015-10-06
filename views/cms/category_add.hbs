@@ -15,105 +15,38 @@
         });
     });
 </script>
-
-<div class="pad10L pad10R">
-<div class="example-box">
     <form id="saveForm" action="/cms/category/save" method="post" cssClass="center-margin">
-         <input name="parentCode" value="{{category.code}}" type="hidden"/>
-         <div class="row">
-            <div class="col-md-6">
-                <div class="form-row">
-                    <div class="form-label col-md-2">
-                        <label for="">
-                            栏目编码:
-                        </label>
-                    </div>
-                    <div class="form-input col-md-10">
-                        <div class="append-left">
-                            <input name="code"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-row">
-                    <div class="form-label col-md-2">
-                        <label for="">
-                            栏目名称:
-                        </label>
-                    </div>
-                    <div class="form-input col-md-10">
-                        <div class="append-left">
-                            <input name="name"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-             <div class="col-md-6">
-                 <div class="form-row">
-                     <div class="form-label col-md-2">
-                         <label for="">
-                             栏目英文:
-                         </label>
-                     </div>
-                     <div class="form-input col-md-10">
-                         <div class="append-left">
-                             <input name="egname"/>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-             <div class="col-md-6">
-                 <div class="form-row">
-                     <div class="form-label col-md-2">
-                         <label for="">
-                         </label>
-                     </div>
-                     <div class="form-input col-md-10">
-                         <div class="append-left">
-                         </div>
-                     </div>
-                 </div>
-             </div>
-             <div class="col-md-6">
-                 <div class="form-row">
-                     <div class="form-label col-md-2">
-                         <label for="">
-                             栏目描述:
-                         </label>
-                     </div>
-                     <div class="form-input col-md-10">
-                         <div class="append-left">
-                             <textarea name="description"></textarea>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-         </div>
-        <div class="form-row">
-            <div>
-                <div style="float: left;padding-right: 50px;padding-left: 140px;">
-                    <a href="javascript:void(0);" class="btn medium primary-bg radius-all-4 menu-save4" onclick="$('#saveForm').submit();return false;" title="保存">
-                        <span class="glyph-icon icon-separator">
-                             <i class="glyph-icon icon-save"></i>
-                        </span>
-                         <span class="button-content">
-                             保存
-                         </span>
-                    </a>
-                </div>
-                <div style="float: left;">
-                    <a href="javascript:void(0);" class="btn medium primary-bg radius-all-4 switch menu-view back-page" title="返回">
-                        <span class="glyph-icon icon-separator">
-                              <i class="glyph-icon icon-reply"></i>
-                        </span>
-                         <span class="button-content">
-                             返回
-                         </span>
-                    </a>
-                </div>
-            </div>
-        </div>
+        <table class="formTable mb3 paymentForm">
+            <caption>添加文章分类<a href="#" class="back-page" style="float:right;padding-right:50px;">返回</a></caption>
+            <tbody>
+            <input name="parentCode" value="{{category.code}}" type="hidden"/>
+                <tr>
+                    <td class="formItem_title w100">栏目编码: </td>
+                    <td class="formItem_content"> <input name="code" type="text"/></td>
+                </tr>
+                <tr>
+                    <td class="formItem_title w100">栏目名称:</td>
+                    <td class="formItem_content"><input name="name" type="text"/></td>
+                </tr>
+                <tr>
+                    <td class="formItem_title w100">栏目英文:</td>
+                    <td class="formItem_content"><input name="egname" type="text"/></td>
+                </tr>
+                <tr>
+                    <td class="formItem_title w100">栏目描述:</td>
+                    <td class="formItem_content"><textarea name="description"></textarea></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="formTable mb3">
+            <tbody>
+            <tr>
+                <td class="formItem_title w100"></td>
+                <td class="formItem_content">
+                    <a class="ui_button" href="javascript:void(0);" onclick="$('#saveForm').submit();return false;">保存</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </form>
-</div>
-</div>
+

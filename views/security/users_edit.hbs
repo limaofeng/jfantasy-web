@@ -1,15 +1,15 @@
 <script type="text/javascript">
     $(function () {
-        var imageUploader = $('#imageUploader').upload({data:{'dir':'brand_logo'},theme:'image',size:'160x160'});
+        {{!--var imageUploader = $('#imageUploader').upload({data: {'dir': 'brand_logo'}, theme: 'image', size: '160x160'});--}}
         $("#saveForm").ajaxForm({
-            beforeSerialize : function(zhis, options){
+            {{!--beforeSerialize: function (zhis, options) {
                 var _data = {};
-                options.data = _data;
                 var _images = imageUploader.getData();
-                if(_images.length > 0){
+                if (_images.length > 0) {
                     _data['details.avatar'] = _images[0].fileManagerId + ':' + _images[0].absolutePath;
                 }
-            },
+                options.data = _data;
+            },--}}
             success: function (data) {
                 top.$.msgbox({
                     msg: "保存成功",
@@ -20,134 +20,47 @@
         });
     });
 </script>
-<div class="pad10L pad10R">
-    <div class="infobox warning-bg mrg10B">
-        <p><i class="glyph-icon icon-exclamation mrg10R"></i>To view the available grid system options &amp; configurations you can visit the <a title="Fides Admin Grid System documentation" target="_blank" href="grid.html">Fides Admin Grid System documentation</a> page.</p>
-    </div>
-<div class="example-box">
 <form id="saveForm" action="/security/users/save" method="post" cssClass="center-margin">
-    <input type="hidden" name="id" value="{{user.id}}"/>
-        <div class="col-md-6 pad10T">
-              <div class="form-row">
-                    <div class="form-label col-md-2">
-                        <label for="">
-                            用户名
-                        </label>
-                    </div>
-                    <div class="form-input col-md-10">
-                        <div class="append-left">
-                            <input type="text" name="username" id="username" autocomplete="off" disabled="true" value="{{user.username}}"/>
-                        </div>
-                    </div>
-              </div>
-            <div class="form-row">
-                <div class="form-label col-md-2">
-                    <label for="">
-                        密码
-                    </label>
-                </div>
-                <div class="form-input col-md-10">
-                    <div class="append-left">
-                        <input type="password" name="password" value="{{user.password}}"/>
-                    </div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-label col-md-2">
-                    <label for="">
-                        呢称
-                    </label>
-                </div>
-                <div class="form-input col-md-10">
-                    <div class="append-left">
-                        <input type="text" name="nickName"  value="{{user.nickName}}"/>
-                    </div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-label col-md-2">
-                    <label for="">
-                        邮箱
-                    </label>
-                </div>
-                <div class="form-input col-md-10">
-                    <div class="append-left">
-                        <input type="text" name="details.email" value="{{user.details.email}}"/>
-                    </div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-label col-md-2">
-                    <label for="">
-                        角色
-                    </label>
-                </div>
-                <div class="form-input col-md-10">
-                    <div class="append-left form-checkbox-radio">
-                        {{#roles}}
-                            <label><input type="checkbox" name="roles.code" value="{{code}}" class="custom-checkbox" style="line-height:10px "/>{{name}}</label>
-                        {{/roles}}
-                    </div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-label col-md-2">
-                    <label for="">
-                        站点
-                    </label>
-                </div>
-                <div class="form-input col-md-10">
-                    <div class="append-left">
-                        <select class="chosen-select" name="website.id">
-                            {{#websites}}
-                                <option value="{{key}}" {{#compare key '==' role.code}} checked="checked"{{/compare}}>{{name}}</option>
-                            {{/websites}}
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="form-row" style="text-align: center;">
-                <div>
-                    <div style="float: left;padding-right: 50px;">
-                        <a href="javascript:void(0);" class="btn medium primary-bg radius-all-4 menu-save4"  onclick="$('#saveForm').submit();return false;" title="保存"  >
-                            <span class="glyph-icon icon-separator">
-                                 <i class="glyph-icon icon-save"></i>
-                            </span>
-                             <span class="button-content">
-                                 保存
-                             </span>
-                        </a>
-                    </div>
-                    <div style="float: left;">
-                        <a href="javascript:void(0);" class="btn medium primary-bg radius-all-4 switch menu-view back-page "  title="返回">
-                            <span class="glyph-icon icon-separator">
-                                  <i class="glyph-icon icon-reply"></i>
-                            </span>
-                             <span class="button-content">
-                                 返回
-                             </span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <div class="col-md-6 form-vertical">
-        <div class="form-row">
-            <div class="form-label col-md-2"></div>
-            <div class="form-input col-md-10" id="imageUploader"></div>
-        </div>
-        <div class="form-row">
-            <div class="form-label col-md-2">
-                <label for="">
-                   描述
-                </label>
-            </div>
-            <div class="form-input col-md-10">
-                <textarea name="details.description" class="small-textarea" css="height: 90px;">{{user.detauls.description}}</textarea>
-            </div>
-        </div>
-    </div>
-
-</@s.form>
-</div>
-</div>
+    <table class="formTable mb3 paymentForm">
+        <caption>用户编辑<a href="#" class="back-page" style="float:right;padding-right:50px;">返回</a></caption>
+        <tbody>
+        <tr>
+            <td class="formItem_title w100">用户名</td>
+            <td class="formItem_content "><input type="text"  name="username" id="username" autocomplete="off" class="w"  disabled="true" value="{{user.username}}"/></td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">密码</td>
+            <td class="formItem_content"><input type="text" name="password" id="password" autocomplete="off" class="w"  disabled="true" value="{{user.password}}"/></td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">呢称</td>
+            <td class="formItem_content"><input type="text" name="password" id="nickName" autocomplete="off" class="w"  disabled="true" value="{{user.password}}"/></td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">邮箱</td>
+            <td class="formItem_content"><input type="text" name="details.email" autocomplete="off" class="w"  disabled="true" value="{{user.details.email}}"/></td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">角色</td>
+            <td class="formItem_content">
+                {{#roles}}
+                    <label><input type="checkbox" name="roles.code" value="{{code}}" class="custom-checkbox" {{#../user.roles}}{{#compare ../code '==' code}}checked="checked"{{/compare}}{{/../user.roles}} style="line-height:10px "/>{{name}}</label>
+                {{/roles}}
+            </td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">站点</td>
+            <td class="formItem_content"><select class="chosen-select w" name="website.id" >
+                {{#websites}}
+                    <option value="{{key}}" {{#compare key '==' ../user.website.key}}checked="checked"{{/compare}}>{{name}}</option>
+                {{/websites}}
+            </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">备注</td>
+            <td class="formItem_content"><textarea name="details.description" class="small-textarea" css="height: 90px;">{{user.detauls.description}}</textarea></td>
+        </tr>
+        </tbody>
+    </table>
+</form>

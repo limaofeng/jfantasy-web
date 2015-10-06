@@ -1,0 +1,76 @@
+{{#extend "_base"}}
+    {{#content "head"}}
+        <script type="text/javascript">
+            $(function () {
+                var $grid = $('#view').dataGrid($('#searchFormPanel'), $('.batch'));
+                $grid.data('grid').view().on('add', function (data) {
+                    this.target.find('.delete').click(function (e) {
+                        deleteMethod([data.id]);
+                        return stopDefault(e);
+                    });
+                });
+                $grid.setJSON({{{string pager}}});
+                var deleteMethod = $('.batchDelete').batchExecute($("#allChecked"), $grid.data('grid').pager(), 'id', '是否确认删除广告位？<br/>{key}？', function () {
+                    $.msgbox({
+                        msg: "删除成功",
+                        type: "success"
+                    });
+                });
+            });
+        </script>
+    {{/content}}
+    {{#content "container"}}
+        <div id="searchFormPanel" class="button-panel pad5A">
+            <form id="searchForm" action="/admin/cms/newbanner/search.do" method="post">
+                <table class="formTable mb3">
+                    <caption>广告查询条件</caption>
+                    <tbody>
+                    <tr>
+                        <td class="formItem_title w100">编码:</td>
+                        <td class="formItem_content"><input type="text" name="filters.LIKES_key" class="ui_input_text w input_w193"/></td>
+                        <td class="formItem_title w100">名称:</td>
+                        <td class="formItem_content"><input type="text" name="filters.LIKES_name" class="ui_input_text w input_w193"/></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+            <div style="padding-top:2px;padding-bottom: 3px;">
+                <a class="ui_button" onclick="$('#searchForm').submit()">查询</a>
+                <a class="ui_button add" href="/cms/banners/add" target="after:closest('#container>div')">添加</a>
+            </div>
+        </div>
+        <div class="batch">
+            <a href="/admin/cms/newbanner/delete.do" class="ui_button batchDelete">批量删除</a>
+        </div>
+        <div class="grid-panel">
+            <table id="view" class="formTable mb3 listTable">
+                <caption>查询结果列表</caption>
+                <thead>
+                <tr>
+                    <th style="width: 30px;"><input checkAll=".checkBox_userId" id="checkBox" type="checkbox"/></th>
+                    <th class="sort w250" orderBy="key">编码</th>
+                    <th class="sort" orderBy="name">名称</th>
+                    <th class="sort" orderBy="description">描述</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr align="center" class="template" name="default">
+                    <td><input class="checkBox_userId" type="checkbox" value="{id}"/></td>
+                    <td>
+                        <span class="list-title">{key}</span>
+                        <div class="list-options" toggle="closest('tr')">
+                            <a class="delete" href="###">删除</a>/
+                            <a href="/cms/banners/{key}/edit" target="after:closest('#container>div')">编辑</a>
+                        </div>
+                    </td>
+                    <td>{name}</td>
+                    <td>{description}</td>
+                </tr>
+                <tr class="empty">
+                    <td class="norecord" colspan="4">暂无数据</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    {{/content}}
+{{/extend}}

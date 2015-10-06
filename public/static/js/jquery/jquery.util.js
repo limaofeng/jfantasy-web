@@ -42,26 +42,15 @@ jQuery.extend({
 
     /** 设置屏锁 */
     lock: function () {
-        div = document.createElement('div'),
-            $div = $(div),
-            $div.css({
-                zIndex: 1000,
-                position: 'absolute',
-                left: 0,
-                top: 0,
-                width: $(window).width() + 'px',
-                height: $(document).height() + 'px',
-                overflow: 'hidden'
-            }).addClass('d-mask');
-        /*
-         $div.bind('click', function () {
-         that._reset();
-         }).bind('dblclick', function () {
-         that._click('cancel');
-         });
-         */
-        top.document.body.appendChild(div);
-        return $div;
+        return $(document.createElement('div')).css({
+            zIndex: 1000,
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            width: $(window).width() + 'px',
+            height: $(document).height() + 'px',
+            overflow: 'hidden'
+        }).addClass('d-mask').appendTo('body');
     },
 
     /** 解开屏锁 */

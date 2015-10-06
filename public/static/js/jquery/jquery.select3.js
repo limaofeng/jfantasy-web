@@ -34,7 +34,8 @@ jQuery.fn.extend({
             if(!!zhis.data('chosen')){
                 zhis.data('chosen').container.hide()
             }else if (!!zhis.data('select2')) {
-                zhis.data('select2').$container.hide()
+                console.log(zhis.data('select2'));
+                //.$container.hide()
             } else {
                 zhis.hide();
             }

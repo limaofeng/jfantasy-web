@@ -1,0 +1,228 @@
+{{#extend "_base"}}
+    {{#content "head"}}
+        <style type="text/css">
+            #articles {
+                border: 1px solid #88a0ba;
+                width: 100%;
+                display: block;
+                height: calc(100% - 43px);
+                margin-top: 5px;
+                padding-left: 3px;
+                padding-right: 3px;
+                overflow: auto;
+            }
+        </style>
+        <script type="text/javascript">
+            $(function () {
+                /*
+                $(window).resize(function(){
+                    $('#layout_right').width($('#container').width() - $("#layout_left").width() - 30);
+                    $('#layout_left').height($('#container').height()- 46);
+                    $('#layout_right').height($('#container').height()-55);
+                });
+                $(window).resize();
+                */
+
+                window.categoryFilter = function (data) {
+
+                    if (!data.children) {
+                        delete data.children;
+                    }
+                    if (!data.parentId) {
+                        data.open = true;
+                    }
+                    data.isParent = true;
+                    return data;
+                };
+                //分类树
+                window.categorys = {{{string categorys}}};
+                categorys.each(function () {
+                    categoryFilter(this);
+                });
+                window.categoryTree = $('#categoryTree').zTree({
+                    data: {
+                        key: {
+                            name: "name"
+                        },
+                        simpleData: {
+                            enable: true,
+                            idKey: "code",
+                            pIdKey: "parentCode"
+                        }
+                    }, edit: {
+                        drag: {
+                            isMove: true
+                        },
+                        enable: true,
+                        showAddBtn: false,
+                        showRemoveBtn: false,
+                        showRenameBtn: false
+                    },
+                    callback: {
+                        onClick: function (e, treeId, treeNode) {
+                            //查找上级节点，生成树的目录导航
+                            var nodePaths = [];
+                            for (var p = treeNode; p != null; p = p.getParentNode()) {
+                                nodePaths.push(p.name);
+                            }
+                            $('#nodePath').html(nodePaths.reverse().toString().replace(new RegExp(",", "ig"), ' > '));
+                            //重置查询条件
+                            $('#layout_right_reload').attr('href', '/cms/categorys/' + treeNode.code + '/articles').click();
+                            //修改编辑链接
+                            $('.category-edit').attr('href', $('.category-edit').data('href').filter(treeNode));
+                            //修改删除链接
+                            $('.category-remove').attr('href', $('.category-remove').data('href').filter(treeNode));
+                            //修改添加链接
+                            $('.category-add').attr('href', $('.category-add').data('href').filter(treeNode));
+                            return false;
+                        },
+                        beforeDrop: function (treeId, treeNodes) {
+                            if (!treeNodes || treeNodes.length == 0) {
+                                return false;
+                            }
+                            return confirm('是否确定移动[' + treeNodes[0].name + ']菜单');
+                        },
+                        onDrop: function (event, treeId, treeNodes, targetNode, moveType) {
+                            if (!treeNodes || treeNodes.length == 0) {
+                                return false;
+                            }
+                            var index = 0;
+                            var parentCode = treeNodes[0].parentCode;
+                            if (!!targetNode) {
+                                index = $('#' + targetNode.tId).index() + 1;
+                                switch (moveType) {
+                                    case 'prev':
+                                        index--;
+                                        break;
+                                    case 'inner':
+                                        index = !targetNode.children ? 1 : targetNode.children.length;
+                                        parentCode = targetNode.code;
+                                        break;
+                                    case 'next':
+                                        index++;
+                                        break;
+                                }
+                            } else if (moveType == 'inner') {
+                                index = $('#' + treeNodes[0].tId).index() + 1;
+                            }
+                            if (index > 0) {
+                                $.post('/cms/category/save', {
+                                    code: treeNodes[0].code,
+                                    sort: index,
+                                    'parent.code': parentCode
+                                }, function () {
+                                    top.$.msgbox({
+                                        msg: "顺序调整成功",
+                                        icon: "success"
+                                    });
+                                });
+                            }
+                            return stopDefault(event);
+                        }
+                    }
+                }, categorys);
+
+
+                window.moveCategoryTree = $('#moveCategoryTree').zTree({
+                    data: {
+                        key: {
+                            name: "name"
+                        },
+                        simpleData: {
+                            enable: true,
+                            idKey: "code",
+                            pIdKey: "parentCode"
+                        }
+                    }, edit: {
+                        drag: {
+                            isMove: false
+                        },
+                        enable: true,
+                        showAddBtn: false,
+                        showRemoveBtn: false,
+                        showRenameBtn: false
+                    }
+                });
+                //添加分类
+                $('.category-add').bind('click', function (e) {
+                    if (categoryTree.getSelectedNodes().length == 0) {
+                        $.msgbox({
+                            msg: "请先选择一个文章栏目",
+                            icon: "warning"
+                        });
+                        return false;
+                    }
+                    return stopDefault(e);
+                });
+                //修改分类
+                $('.category-edit').bind('click', function (e) {
+                    if (categoryTree.getSelectedNodes().length != 1) {
+                        $.msgbox({
+                            msg: "请先选择你要修改的文章栏目",
+                            icon: "warning"
+                        });
+                        return stopDefault(e);
+                    }
+                });
+                //删除栏目
+                $('.category-remove').click(function (e) {
+                    if (categoryTree.getSelectedNodes().length == 0) {
+                        $.msgbox({
+                            msg: "请先选择要删除的文章栏目",
+                            icon: "warning"
+                        });
+                        return stopDefault(e);
+                    }
+                    var treeNode = categoryTree.getSelectedNodes()[0];
+                    jQuery.dialog.confirm("确认删除分类["+treeNode.name+"]？", function () {
+                        $.post($(this).attr('href'), function () {
+                            $.msgbox({
+                                msg: "删除成功",
+                                icon: "success"
+                            });
+                            var onode = treeNode.getParentNode();
+                            onode = onode ? onode : treeNode.getNextNode();
+                            onode = onode ? onode : treeNode.getPreNode();
+                            if (onode) {
+                                $('#' + onode.tId + '_span').click();
+                            }
+                            categoryTree.removeNode(treeNode);
+                        });
+                    });
+                    return stopDefault(e);
+                });
+                if (!!categorys.length) {
+                    categoryTree.selectNode(categoryTree.getNodeByParam('code', categorys[0].code), true);
+                    setTimeout(function () {
+                        $('#' + categoryTree.getSelectedNodes()[0].tId + '_a').click();
+                    }, 300);
+                }
+            });
+        </script>
+    {{/content}}
+    {{#content "container"}}
+        <div id="layout_left">
+            <a class="ui_button category-add" data-href="/cms/categorys/add?code={code}" target="after:closest('#container')">添加</a>
+            <a class="ui_button category-edit" data-href="/cms/categorys/{code}/edit" target="after:closest('#container')">编辑</a>
+            <a class="ui_button category-remove" data-href="/cms/categorys/{code}/delete">删除</a>
+            {{!--
+            <a class="ui_button root-add" href="/cms/category/add" target="after:closest('#container')">添加根</a>
+            --}}
+            <div class="tree">
+                <div class="bg-caption">
+                    <span class="bgc-title">所有栏目</span>
+                </div>
+                <div class="bg-tree">
+                    <ul id="categoryTree" class="ztree"></ul>
+                </div>
+            </div>
+        </div>
+        <div id="layout_right">
+		<span style="height: 27px;line-height: 35px;display: block;">
+		位置:<span id="nodePath"></span>
+		</span>
+            <a id="layout_right_reload" href="" target="html:next('#articles')" style="display:none;"></a>
+            <div id="articles"></div>
+        </div>
+    {{/content}}
+{{/extend}}
