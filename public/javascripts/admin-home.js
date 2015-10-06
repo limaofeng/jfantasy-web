@@ -414,6 +414,5 @@ function resizeContainer() {
 	} else {
 		w = wwidth - eastW - 6 - 1;//TODO 少1px firefox 有问题
 	}
-
 	$("#west").width(w);
 }

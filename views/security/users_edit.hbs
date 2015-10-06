@@ -30,7 +30,7 @@
         </tr>
         <tr>
             <td class="formItem_title w100">密码</td>
-            <td class="formItem_content"><input type="text" name="password" id="password" autocomplete="off" class="w"  disabled="true" value="{{user.password}}"/></td>
+            <td class="formItem_content"><input type="password" name="password" id="password" autocomplete="off" class="w"  disabled="true" value="{{user.password}}"/></td>
         </tr>
         <tr>
             <td class="formItem_title w100">呢称</td>
@@ -62,5 +62,11 @@
             <td class="formItem_content"><textarea name="details.description" class="small-textarea" css="height: 90px;">{{user.detauls.description}}</textarea></td>
         </tr>
         </tbody>
+    </table>
+    <table id="saveFormButs" class="formTable mb3">
+        <tr>
+            <td class="formItem_title w100"></td>
+            <td class="formItem_content"><a href="javascript:void(0);" onclick="$('#saveForm').submit();return false;" class="ui_button">保存</a></td>
+        </tr>
     </table>
 </form>

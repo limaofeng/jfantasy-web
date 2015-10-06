@@ -257,6 +257,7 @@ textarea:hover {
 	border: 1px solid white;
 	height: 35px;
 	*border-top:white 0px solid;
+	text-align: center;
 }
 .formTable th {
 	background-color: #C7DBEB;
@@ -282,6 +283,9 @@ textarea:hover {
 	background-color: #f8f9fa;
 	padding: 0 13px 0 5px;
 	line-height: 22px;
+}
+.formTable td.formItem_content {
+	text-align: left;
 }
 .formItem_content-text {
 	padding: 5px;
@@ -987,6 +991,12 @@ img.disabled_btn {
 .list-options{
 	float: right; padding-right: 5px; display: none;
 }
-.formTable>caption>.back-page{
+.formTable>caption>a{
 	float:right;padding-right:50px;
+}
+#container{
+	width:100%;height:100%;display: block;
+}
+.listTable thead th:first-child {
+	width: 30px;
 }

@@ -83,6 +83,7 @@ app.use('/users', require('./routes/users'));
 app.use('/security', require('./routes/security'));
 app.use('/mall', require('./routes/mall'));
 app.use('/system', require('./routes/system'));
+app.use('/delivery',require('./routes/delivery'))
 // 会员
 app.use('/members', require('./routes/members'));
 // 诊所

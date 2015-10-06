@@ -121,10 +121,11 @@ router.post('/users/:id/delete', function (req, res, next) {
 //hl-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 //角色列表
 router.get('/roles', function (req, res, next) {
-    http.get('/security/roles', function (_res) {
-        _res.on('complete', function (data) {
-            res.render('security/roles', {pager: data});
-        });
+    http.get({
+        path: '/security/roles',
+        headers: {'X-Page-Fields': true}
+    }, function (error, _res, data) {
+        res.render('security/roles', {pager: data});
     });
 });
 //角色添加跳转页面
@@ -158,8 +159,11 @@ router.post('/roles/save', function (req, res, next) {
     }
 });
 //角色查询
-router.post('/roles/search', function (req, res, next) {
-    http.get('/security/roles', req.body, function (error,_res,data) {
+router.get('/roles/search', function (req, res, next) {
+    http.get({
+        path: '/security/roles',
+        headers: {'X-Page-Fields': true}
+    }, req.query, function (error,_res,data) {
         res.json(data);
     });
 });

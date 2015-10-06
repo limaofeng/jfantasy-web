@@ -2,9 +2,6 @@
     {{#content "head"}}
         <link rel="stylesheet" href="/stylesheets/pop.css"/>
         <style type="text/css">
-            #container {
-                position: fixed;
-            }
             #menuDetails{
                 border: 1px solid #88a0ba;
                 width: 100%;
@@ -230,6 +227,12 @@
                     return stopDefault(e);
                 });
                 menuTree.setJSON(menus);
+                if (!!menus.length) {
+                    menuTree.selectNode(menuTree.getNodeByParam('id', menus[0].id), true);
+                    setTimeout(function () {
+                        $('#' + menuTree.getSelectedNodes()[0].tId + '_a').click();
+                    }, 100);
+                }
             });
         </script>
     {{/content}}
@@ -250,13 +253,10 @@
         </div>
         <div id="layout_right">
             <div id="menuDetails">
-                <div style="margin: 3px;" class="template" name="default">
-                    <h1>菜单操作文档</h1>
-                </div>
+                <div style="margin: 3px;" class="template" name="default"></div>
                 <div style="margin: 3px;" class="template" name="view">
                     <table class="formTable mb3">
-                        <caption>基本信息<a href="###" style="float:right;padding-right:50px;" class="switch"
-                                        template="edit">编辑</a></caption>
+                        <caption>基本信息<a href="javascript:;" class="switch" template="edit">编辑</a></caption>
                         <tbody>
                         <tr>
                             <td class="formItem_title w100">名称：</td>
@@ -270,47 +270,44 @@
                         </tr>
                         <tr>
                             <td class="formItem_title ">描述：</td>
-                            <td class="formItem_content" colspan="3"><label name="description"
-                                                                            class="view-field"><label></td>
+                            <td class="formItem_content" colspan="3"><label name="description" class="view-field"><label></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
                 <div style="margin: 3px;" class="template" name="edit">
-                        <form action="/security/menus/save" class="saveForm" method="post">
-                            <input type="hidden" class="view-field" name="parentId" mapping="parentId"/>
-                            <input type="hidden" class="view-field" name="id"/>
+                    <form action="/security/menus/save" class="saveForm" method="post">
+                        <input type="hidden" class="view-field" name="parentId" mapping="parentId"/>
+                        <input type="hidden" class="view-field" name="id"/>
                         <table class="formTable mb3">
-                            <caption>基本信息<a href="###" class="switch back" template="view" style="float:right;padding-right:50px;">取消</a></caption>
+                            <caption>基本信息<a href="javascript:;" class="switch back" template="view">取消</a></caption>
                             <tbody>
                             <tr>
                                 <td class="formItem_title w100">名称：</td>
                                 <td class="formItem_content">
-                                    <input type="text" class="view-field" name="name"/>
+                                    <input type="text" class="view-field ui_input_text w" name="name"/>
                                 </td>
                                 <td class="formItem_title w100">菜单类型：</td>
                                 <td class="formItem_content">
-                                    <select id="menuType" name="type" class="view-field chosen-select" style="width:250px;" data-placeholder="请选择菜单类型!"></select>
+                                    <select id="menuType" name="type" class="view-field" style="width:250px;"></select>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="formItem_title w100">菜单值：</td>
                                 <td class="formItem_content" colspan="3">
-                                    <textarea name="value" class="view-field" style="width:98%;"></textarea>
+                                    <input name="value" type="text" class="view-field ui_input_text w_98"/>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="formItem_title ">描述：</td>
                                 <td class="formItem_content" colspan="3">
-                                    <textarea name="description" class="view-field" style="width:98%;"></textarea>
+                                    <textarea name="description" class="view-field w_98"></textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="formItem_title "></td>
                                 <td class="formItem_content" colspan="3">
-                                    <a class="ui_button switch menu-view" href="javascript:;" template="view">返回</a>
                                     <a class="ui_button menu-save" href="javascript:;">保存修改</a>
-                                    <a class="ui_button switch" template="default" href="javascript:;">查看操作说明</a>
                                 </td>
                             </tr>
                             </tbody>

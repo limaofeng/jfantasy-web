@@ -12,95 +12,36 @@
         });
     });
 </script>
-<div class="example-box" style="padding-left:10px;padding-right:10px;">
-    <div class="example-code">
-        <div class="content-box box-toggle button-toggle">
-            <h3 class="content-box-header primary-bg">
-                <span class="float-left">编辑角色</span>
-                <a href="javascript:void(0)" class="float-right icon-separator btn toggle-button" title="Toggle Box">
-                    <i class="glyph-icon icon-toggle icon-chevron-up"></i>
-                </a>
-            </h3>
-            <div class="content-box-wrapper">
-            <form id="saveForm"  action="/security/roles/save" method="post" class="center-margin">
-                <input type="hidden" value="{{role.code}}" name="code"/>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-row">
-                            <div class="form-label col-md-3">
-                                <label for="">
-                                    名称
-                                </label>
-                            </div>
-                            <div class="form-input col-md-9">
-                                <div class="append-left">
-                                    <input  type="text" name="name" id="name" value="{{role.name}}"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-label col-md-3">
-                                <label for="">
-                                    是否启用
-                                </label>
-                            </div>
-                            <div class="form-checkbox-radio col-md-9">
-                                <div class="append-left">
-                                    <label><input type="radio" style="width:20px;" name="enabled" value="true" style="width:20px;" {{#compare role.enabled true}} checked="checked"{{/compare}}/>启用</label>
-                                    <label><input type="radio" style="width:20px;" name="enabled" value="false" style=" width:20px;"{{#compare role.enabled false}} checked="checked"{{/compare}}/>禁用</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-label col-md-3">
-                                <label for="">
-                                    描述
-                                </label>
-                            </div>
-                            <div class="form-input col-md-9">
-                                <div class="append-left">
-                                    <textarea name="description" style="width: 890px; height: 118px;">{{role.description}}</textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div style="float: left;padding-right: 50px;">
-                                <a href="javascript:void(0);" class="btn medium primary-bg radius-all-4 menu-save4"  onclick="$('#saveForm').submit();return false;" title="保存">
-                                         <span class="button-content">
-                                                 <i class="glyph-icon icon-save float-left"></i>
-                                             保存
-                                          </span>
-                                </a>
-                            </div>
-                            <div style="float: left;">
-                                <a href="javascript:void(0);" class="btn medium primary-bg radius-all-4 switch menu-view back-page "  title="返回" >
-                                         <span class="button-content">
-                                              <i class="glyph-icon icon-reply"></i>
-                                             返回
-                                        </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-row">
-                            <div class="form-label col-md-3">
-                                <label for="">
-                                    编码
-                                </label>
-                            </div>
-                            <div class="form-input col-md-9">
-                                <div class="append-right">
-                                    <input type="text" name="code" value="{{role.code}}" disabled="disabled"/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </form>
-            </div>
-        </div>
-    </div>
-</div>
+<form id="saveForm" action="/security/roles/save" method="post" class="center-margin">
+    <table class="formTable mb3 paymentForm">
+        <caption>角色编辑<a href="#" class="back-page" style="float:right;padding-right:50px;">返回</a></caption>
+        <tbody>
+        <input type="hidden" value="{{role.code}}" name="code"/>
+        <tr>
+            <td class="formItem_title w100">名称</td>
+            <td class="formItem_content "><input type="text" name="name" id="name" value="{{role.name}}"/></td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">编码</td>
+            <td class="formItem_content "><input type="text" name="code" disabled="true" value="{{role.code}}"/></td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">是否启用</td>
+            <td class="formItem_content ">
+               <input type="radio" style="width:20px;" name="enabled" value="true" style="width:20px;" {{#compare role.enabled true}} checked="checked" {{/compare}}/>启用
+               <input type="radio" style="width:20px;" name="enabled" value="false" style=" width:20px;" {{#compare role.enabled false}} checked="checked" {{/compare}}/>禁用
+            </td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">描述</td>
+            <td class="formItem_content "><textarea name="description" style="width: 890px; height: 118px;"></textarea>{{role.description}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <table id="saveFormButs" class="formTable mb3">
+        <tr>
+            <td class="formItem_title w100"></td>
+            <td class="formItem_content"><a href="javascript:void(0);" onclick="$('#saveForm').submit();return false;" class="ui_button">保存</a></td>
+        </tr>
+    </table>
+</form>

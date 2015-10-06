@@ -171,6 +171,7 @@ $(function () {
         $('select', this).filter(function(){
             return !$(this).data('_select2');
         }).each(function () {
+            $(this).removeClass('select2-offscreen').prev('.select2-container').remove();
             var settings = {};
             if ($(this).width() != 0) {
                 settings.width = $(this).width() + 'px';

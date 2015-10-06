@@ -23,7 +23,7 @@
                         if (data.flag) {
                             top.$.msgbox({
                                 msg: "调整成功",
-                                type: "success",
+                                icon: "success",
                                 callback: function () {
                                     $('#pager').pager().reload();
                                 }
@@ -31,7 +31,7 @@
                         } else {
                             $.msgbox({
                                 msg: "序号不存在",
-                                type: "warning"
+                                icon: "warning"
                             });
                         }
 
@@ -44,21 +44,21 @@
         var deleteMethod = $('.batchDelete').batchExecute($("#allChecked"), $grid.data('grid').pager(), 'id', '确认要删除文章[{title}]？', function () {
             $.msgbox({
                 msg: "删除成功!",
-                type: "success"
+                icon: "success"
             });
         });
 
         var deleteIssue = $('.batchIssue').batchExecute($("#allChecked"), $grid.data('grid').pager(), 'id', '确认要发布文章[{title}]？', function () {
             $.msgbox({
                 msg: "发布成功!",
-                type: "success"
+                icon: "success"
             });
         });
 
         var deletenoIssue = $('.batchnoIssue').batchExecute($("#allChecked"), $grid.data('grid').pager(), 'id', '确认要关闭文章[{title}]？', function () {
             $.msgbox({
                 msg: "关闭成功!",
-                type: "success"
+                icon: "success"
             });
         });
 
@@ -75,7 +75,7 @@
                             if (moveCategoryTree.getSelectedNodes().length == 0) {
                                 $.msgbox({
                                     msg: "请先选择一个分类",
-                                    type: "warning"
+                                    icon: "warning"
                                 });
                                 return false;
                             }
@@ -88,7 +88,7 @@
                             }, function () {
                                 top.$.msgbox({
                                     msg: "移动成功",
-                                    type: "success",
+                                    icon: "success",
                                     callback: function () {
                                         $('#pager').pager().reload();
                                     }
@@ -137,7 +137,7 @@
         <caption>查询结果列表</caption>
         <thead>
         <tr>
-            <th style="width:30px;">
+            <th>
                 <input id="allChecked" class="custom-checkbox bg-white" checkAll=".id" type="checkbox"/>
             </th>
             <th>标题</th>
@@ -149,11 +149,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr align="center" class="template" name="default">
+        <tr class="template" name="default">
             <td><input type="checkbox" class="id" value="{id}"/></td>
             <td>
                 <a class="list-title" class="view" href="/cms/articles/{id}/view">{title}</a>
-                <div class="list-options" toggle="closest('tr')">
+                <div class="float:right;padding-right:5px;" toggle="closest('tr')">
                     <a class="edit" href="/cms/articles/{id}/edit" target="after:closest('.grid-panel')">编辑</a>/
                     <a class="delete" href="/cms/articles/{id}/delete">删除</a>
                 </div>
