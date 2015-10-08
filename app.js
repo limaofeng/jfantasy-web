@@ -24,13 +24,6 @@ fs.readdir(__dirname + '/views/layout', function (err, fileNames) {
 });
 hbs.registerHelper(require('./lib/hbs-helper.js'));
 hbs.registerHelper(require('handlebars-layouts')(hbs));
-hbs.registerHelper("equals", function (v1, v2, options) {
-    if (v1 == v2) {
-        return options.fn(this);
-    } else {
-        return options.inverse(this);
-    }
-});
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
