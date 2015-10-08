@@ -1,93 +1,127 @@
-<script type="text/javascript">
-    $(function () {
-        $("#saveForm").ajaxForm({
-            success: function (data) {
-                $('#pager').pager().reload();
-                top.$.msgbox({
-                    msg: "保存成功",
-                    icon: "success"
-                });
-                $page$.backpage();
-            }
-        });
-    });
-</script>
-        <form id="saveForm" action="/members/save" method="post" class="center-margin">
-            <table class="formTable mb3 paymentForm">
-                <caption>会员添加<a href="#" class="back-page" style="float:right;padding-right:50px;">返回</a></caption>
-                <tbody>
-                     <th class="formItem_title w100" >账号信息</th>
-                <tr>
-                    <td class="formItem_title w100">用户账号：</td>
-                    <td class="formItem_content"><input type="text" name="username" class="w"></td>
-                </tr>
-                <tr>
-                    <td class="formItem_title w100">昵称：</td>
-                    <td class="formItem_content"><input type="text" name="nickName" class="w"></td>
-                </tr>
-                <tr>
-                    <td class="formItem_title w100">登陆密码：</td>
-                    <td class="formItem_content"><input type="password" name="password" class="w"></td>
-                </tr>
-                <tr>
-                    <td class="formItem_title w100">是否启用：</td>
-                    <td class="formItem_content">
-                        <input type="radio" id="details_enabled_true" name="enabled" value="true">是
-                        <input type="radio" id="details_enabled_false" name="enabled" value="false">否
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <table class="formTable mb3 paymentForm">
-                <tbody>
-                <th class="formItem_title w100" >基本信息</th>
-                <tr>
-                    <td class="formItem_title w100">姓名：</td>
-                    <td class="formItem_content"><input type="text" name="details.name" class="w"></td>
-                </tr>
-                <tr>
-                    <td class="formItem_title w100">性别：</td>
-                    <td class="formItem_content">
-                        <input type="radio" id="details_sex_male" name="details.sex" value="male">男
-                        <input type="radio" id="details_sex_female" name="details.sex" value="female">女
-                    </td>
-                </tr>
-                <tr>
-                    <td class="formItem_title w100">生日：</td>
-                    <td class="formItem_content"><input type="text" name="details.birthday" class="datepicker" data-format="yyyy-MM-dd"></td>
-                </tr>
-                <tr>
-                    <td class="formItem_title w100">固定电话：</td>
-                    <td class="formItem_content"><input type="text" name="details.tel"  class="w"></td>
-                </tr>
-                <tr>
-                    <td class="formItem_title w100">积分：</td>
-                    <td class="formItem_content"><input type="text" name="details.score"  class="w"></td>
-                </tr>
-                <tr>
-                    <td class="formItem_title w100">描述：</td>
-                    <td class="formItem_content"><textarea name="details.description" class="w"></textarea></td>
-                </tr>
-                <tr>
-                    <td class="formItem_title w100">积分：</td>
-                    <td class="formItem_content"><input type="text" name="details.mobile"  class="w"></td>
-                </tr>
-                <tr>
-                    <td class="formItem_title w100">邮箱</td>
-                    <td class="formItem_content"><input type="text" name="details.email"  class="w"></td>
-                </tr>
-                </tbody>
-            </table>
-            <table class="formTable mb3">
-                <tbody>
-                <tr>
-                    <td class="formItem_title w100"></td>
-                    <td class="formItem_content">
-                        <a class="ui_button" href="javascript:void(0);" onclick="$('#saveForm').submit();return false;">保存</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </form>
-    </div>
-</div>
+<form id="saveForm" action="/members/save" method="post" class="center-margin">
+    <table class="formTable mb3">
+        <tbody>
+        <tr>
+            <td class="opt-title">
+                <span>添加会员信息</span>
+                <ul class="Tabtable" tabs="{selectedClass:'Tabcurr',event:'click'}">
+                    <li><a href="#" tab="#basic">基本信息</a></li>
+                    <li><a href="#" tab="#accountInfo">账号信息</a></li>
+                    <li><a href="#" tab="#receipt">收货信息</a></li>
+                </ul>
+                <a href="###" class="back-page" style="float:right;padding-right:50px;">返回会员列表>></a>
+
+                <div style="clear:both;BORDER-BOTTOM:1PX SOLID #6483A4;"></div>
+                <table id="basic" class="formTable mb3">
+                    <tbody>
+                    <tr>
+                        <td class="formItem_title w100">姓名：</td>
+                        <td class="formItem_content"><input type="text" name="details.name" class="w"></td>
+                    </tr>
+                    <tr>
+                        <td class="formItem_title w100">性别：</td>
+                        <td class="formItem_content">
+                            <input type="radio" id="details_sex_male" name="details.sex" value="male">男
+                            <input type="radio" id="details_sex_female" name="details.sex" value="female">女
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="formItem_title w100">移动电话：</td>
+                        <td class="formItem_content"><input type="text" name="details.mobile" class="w"></td>
+                    </tr>
+                    <tr>
+                        <td class="formItem_title w100">固定电话：</td>
+                        <td class="formItem_content"><input type="text" name="details.tel" class="w"></td>
+                    </tr>
+                    <tr>
+                        <td class="formItem_title w100">生日：</td>
+                        <td class="formItem_content"><input type="text" name="details.birthday" class="datepicker"
+                                                            data-format="yyyy-MM-dd"></td>
+                    </tr>
+                    <tr>
+                        <td class="formItem_title w100">积分：</td>
+                        <td class="formItem_content"><input type="text" name="details.score" class="w"></td>
+                    </tr>
+                    <tr>
+                        <td class="formItem_title w100">邮箱：</td>
+                        <td class="formItem_content"><input type="text" name="details.email" class="w"></td>
+                    </tr>
+                    <tr>
+                        <td class="formItem_title w100">描述：</td>
+                        <td class="formItem_content"><textarea name="details.description" class="w"></textarea></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div id="accountInfo">
+                    <table class="formTable mb3">
+                        <tbody>
+                        <tr>
+                            <td class="formItem_title w100">用户账号：</td>
+                            <td class="formItem_content"><input type="text" name="username" class="w"></td>
+                        </tr>
+                        <tr>
+                            <td class="formItem_title w100">昵称：</td>
+                            <td class="formItem_content"><input type="text" name="nickName" class="w"></td>
+                        </tr>
+                        <tr>
+                            <td class="formItem_title w100">登陆密码：</td>
+                            <td class="formItem_content"><input type="password" name="password" class="w"></td>
+                        </tr>
+                        <tr>
+                            <td class="formItem_title w100">是否启用：</td>
+                            <td class="formItem_content">
+                                <input type="radio" id="details_enabled_true" name="enabled" value="true">是
+                                <input type="radio" id="details_enabled_false" name="enabled" value="false">否
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="receipt">
+                    <table class="formTable mb3">
+                        <tbody>
+                        <tr>
+                            <td class="formItem_title w100">所在地区：</td>
+                            <td class="formItem_content"><input type="text" name="area" class="w"></td>
+                        </tr>
+                        <tr>
+                            <td class="formItem_title w100">详细地址：</td>
+                            <td class="formItem_content"><input type="text" name="address" class="w"></td>
+                        </tr>
+                        <tr>
+                            <td class="formItem_title w100">邮政编码：</td>
+                            <td class="formItem_content"><input type="text" name="zipCode" class="w"></td>
+                        </tr>
+                        <tr>
+                            <td class="formItem_title w100">收货人姓名：</td>
+                            <td class="formItem_content"><input type="text" name="name " class="w"></td>
+                        </tr>
+                        <tr>
+                            <td class="formItem_title w100">手机号码：</td>
+                            <td class="formItem_content"><input type="text" name="mobile" class="w"></td>
+                        </tr>
+                        <tr>
+                            <td class="formItem_title w100">是否为默认地址：</td>
+                            <td class="formItem_content">
+                                <input type="radio" name="isDefault" class="w" value="true"/>是
+                                <input type="radio" name="isDefault" class="w" value="false"/>否
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="formTable mb3">
+        <tbody>
+        <tr>
+            <td class="formItem_title w100"></td>
+            <td class="formItem_content">
+                <a class="ui_button" href="javascript:void(0);" onclick="$('#saveForm').submit();return false;">保存</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>

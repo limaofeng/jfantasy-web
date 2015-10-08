@@ -38,7 +38,7 @@
             <a class="ui_button batchDelete" href="/security/resources/delete">删除</a>
         </div>
         <div class="batch">
-            <a title="批量删除" class="ui_button batchDelete" style="height: 20px" href="/delivery/corps/elete">
+            <a title="批量删除" class="ui_button batchDelete" style="height: 20px" href="/delivery/corps/delete">
                 批量删除
             </a>
         </div>
@@ -60,6 +60,7 @@
                         <div class="list-options" toggle="closest('tr')">
                             <a href="/members/{id}" class="delete" title="删除">删除</a>/
                             <a href="/members/{id}/edit" class="edit"target="after:closest('#container')">编辑</a>
+                            <a class="view" href="/delivery/shippings/{id}/view" target="after:closest('#container>div')">{sn}</a>
                         </div>
                     </td>
                     <td>{nickName}</td>
