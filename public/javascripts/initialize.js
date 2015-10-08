@@ -85,16 +85,16 @@ $(function () {
     });
     //---------------------------------------------------------------------------------------------加载日期控件
     initializes.push(function () {
-        $('[date]', this).each(function (index, zhis) {
+        $('[date],.datepicker', this).each(function (index, zhis) {
             if ($(zhis).data('_date'))
                 return;
             $(zhis).data('_date', true);
             $(zhis).addClass('Wdate');
             //$(zhis).attr('readonly', true);
-            var jsonStr = $(zhis).attr('date').replace(/\$\([^(^)]+\).val\(\)/g, function () {
+            var _settings = !!$(zhis).attr('date') ? eval('('+ $(zhis).attr('date').replace(/\$\([^(^)]+\).val\(\)/g, function () {
                 return '"#F{' + arguments[0] + '}"';//'new Function("return " + "' +  + ';")';
-            });
-            var settings = Fantasy.merge(eval('(' + jsonStr + ')') || {}, {
+            })+ ')') : {dateFmt:$(zhis).data('format')};
+            var settings = Fantasy.merge(_settings  || {}, {
                 maxDate: '2099-10-01',
                 minDate: '1900-01-01',
                 dateFmt: 'yyyy-MM-dd',
