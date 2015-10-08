@@ -5,22 +5,56 @@ var router = express.Router();
 var async = require('async');
 
 router.get('/', function (req, res, next) {
-    http.get('/members', function (error, _res, data) {
+    http.get({path:'/members',headers:{'X-Page-Fields':true}},function (error, _res, data) {
         res.render('member/members', {pager: data});
+        console.log(data);
     });
 });
+
+router.get('/search', function (req, res, next) {
+    http.get({path: '/members', headers: {'X-Page-Fields':true}}, function (error, _res, data) {
+        res.json(data);
+    });
+});
+
+//router.use('/search', function (req, res, next) {
+//    //var params = {};
+//    //var _p = {};
+//    //if(req.method=='POST'){
+//    //    _p = req.body;
+//    //}else{
+//    //    _p = req.query;
+//    //}
+//    //for(var key in _p){
+//    //    if(!req.body[key]){
+//    //        continue;
+//    //    }
+//    //    params[key] = _p[key];
+//    //}
+//    http.get({path:'/members',headers:{'X-Page-Fields':true}},function (error, _res, data) {
+//        // http.get('/members', params, function (_res) {
+//        _res.on('complete', function (data) {
+//            res.json(data);
+//        });
+//    });
+//});
 
 router.get('/add', function (req, res, next) {
     res.render('member/members_add');
 });
 
 router.get('/:id/edit', function (req, res, next) {
-    http.get('/members/' + req.params.id, function (_res) {
-        _res.on('complete', function (data) {
+    http.get('/members/' + req.params.id,function (error, _res, data) {
             res.render('member/members_edit', {member: data});
-        });
     });
 });
+
+//router.get('/types/:id/edit', function (req, res, next) {
+//    http.get('/delivery/types/'+req.params.id, function (error, _res, data) {
+//        res.render('delivery/types_edit', {type: data});
+//        console.log(data);
+//    });
+//});
 
 router.get('/:id/delete', function (req, res, next) {
     http.delete('/members/' + req.params.id, function (_res) {
@@ -66,40 +100,16 @@ router.post('/delete', function (req, res, next) {
 router.post('/save', function (req, res, next) {
     req.body = helper.paramJson(req.body);
     if (!!req.body.id) {
-        http.put('/members/' + req.body.id, req.body, function (_res) {
-            _res.on('complete', function (data) {
+        http.put('/members/' + req.body.id, req.body, function (error, _res, data) {
                 res.json(data);
-            });
         });
     } else {
-        http.post('/members', req.body, function (_res) {
-            _res.on('complete', function (data) {
+        http.post('/members', req.body, function (error, _res, data) {
                 res.json(data);
-            });
         });
     }
 });
 
-router.use('/search', function (req, res, next) {
-    var params = {};
-    var _p = {};
-    if(req.method=='POST'){
-        _p = req.body;
-    }else{
-        _p = req.query;
-    }
-    for(var key in _p){
-        if(!req.body[key]){
-            continue;
-        }
-        params[key] = _p[key];
-    }
-    http.get('/members', params, function (_res) {
-        _res.on('complete', function (data) {
-            res.json(data);
-        });
-    });
-});
 ///**
 // * 就诊人列表
 // */
