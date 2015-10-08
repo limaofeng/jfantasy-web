@@ -228,6 +228,7 @@ $(function () {
         });
     });
     //---------------------------------------------------------------------------------------------datepicker插件
+    /*
     initializes.push(function () {
         if($.browser.msie){
             return;
@@ -238,7 +239,7 @@ $(function () {
             }
             $(this).data('_datepicker', true).datepicker();
         });
-    });
+    });*/
     //---------------------------------------------------------------------------------------------mask
     initializes.push(function () {
         if($.browser.msie){
