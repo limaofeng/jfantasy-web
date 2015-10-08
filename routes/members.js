@@ -123,24 +123,59 @@ router.post('/save', function (req, res, next) {
 /**
  * 会员详情
  */
-router.get('/:id', function (req, res, next) {
-    async.parallel({
-        member: function(callback){
-            http.get('/members/' + req.params.id, function (_res) {
-                _res.on('complete', function (data) {
-                    callback(null,data);
-                });
-            });
-        },
-        patients: function(callback){
-            http.get('/members/'+req.params.id+'/patients', function (_res) {
-                _res.on('complete', function (data) {
-                    callback(null,data);
-                });
-            });
-        }
-    },function(err, result){
-        res.render('member/members_view', {member: result.member, patients: result.patients});
+//router.get('/:id', function (req, res, next) {
+//    async.parallel({
+//        member: function(callback){
+//            http.get('/members/' + req.params.id, function (_res) {
+//                _res.on('complete', function (data) {
+//                    callback(null,data);
+//                });
+//            });
+//        },
+//        patients: function(callback){
+//            http.get('/members/'+req.params.id+'/patients', function (_res) {
+//                _res.on('complete', function (data) {
+//                    callback(null,data);
+//                });
+//            });
+//        }
+//    },function(err, result){
+//        res.render('member/members_view', {member: result.member, patients: result.patients});
+//    });
+//});
+
+//收货地址
+router.get('/receivers', function (req, res, next) {
+    http.get({path: '/members/212/receivers', headers: {'X-Page-Fields': true}}, function (error, _res, data) {
+        res.render('member/receivers', {pager: data});
     });
 });
+router.get('/types/search', function (req, res, next) {
+    http.get({path: '/delivery/types', headers: {'X-Page-Fields': true,'X-Expend-Fields':'corp'}}, function (error, _res, data) {
+        res.json(data);
+    });
+});
+router.get('/receivers/add', function (req, res, next) {
+    //http.get('/delivery/corps?limit=0,20', function (error, _res, data) {
+        res.render('member/receivers_add');//,{corps:data}
+  //  });
+});
+router.get('/types/:id/edit', function (req, res, next) {
+    http.get('/delivery/types/'+req.params.id, function (error, _res, data) {
+        res.render('delivery/types_edit', {type: data});
+        console.log(data);
+    });
+});
+router.post('/types/save', function (req, res, next) {
+    if(!!req.body.id){
+        http.put('/delivery/types/'+req.body.id,req.body, function (error, _res, data) {
+            res.json(data);
+        });
+    }else{
+        http.post('/delivery/types/',req.body, function (error, _res, data) {
+            res.json(data);
+        });
+    }
+});
+//收货地址
 module.exports = router;
