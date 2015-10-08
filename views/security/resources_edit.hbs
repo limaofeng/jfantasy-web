@@ -5,105 +5,49 @@
                 $('#pager').pager().reload();
                 top.$.msgbox({
                     msg: "保存成功",
-                    type: "success"
+                    icon: "success"
                 });
                 $page$.backpage();
             }
         });
     });
 </script>
-<div class="example-box" style="padding-left:10px;padding-right:10px;">
-    <div class="example-code">
-        <div class="content-box box-toggle button-toggle">
-            <h3 class="content-box-header primary-bg">
-                <span class="float-left">添加资源</span>
-                <a href="javascript:void(0)" class="float-right icon-separator btn toggle-button" title="Toggle Box">
-                    <i class="glyph-icon icon-toggle icon-chevron-up"></i>
-                </a>
-            </h3>
-            <div class="content-box-wrapper">
-                <form id="saveForm"  action="/security/resources/save" method="post" class="center-margin">
-                    <input type="hidden" name="id"  value="{{resource.id}}"/>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-row">
-                                <div class="form-label col-md-3">
-                                    <label for="">
-                                       名称
-                                    </label>
-                                </div>
-                                <div class="form-input col-md-9">
-                                    <div class="append-left">
-                                        <input  type="text" name="name" id="name" value="{{resource.name}}"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-label col-md-3">
-                                    <label for="">
-                                        类型
-                                    </label>
-                                </div>
-                                <div class="form-checkbox-radio col-md-9">
-                                    <div class="append-left">
-                                        <select name="type">
-                                            <option value="url" checked="checked">url</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-label col-md-3">
-                                    <label for="">
-                                        描述
-                                    </label>
-                                </div>
-                                <div class="form-input col-md-9">
-                                    <div class="append-left">
-                                        <textarea name="description" style="width: 890px; height: 118px;">{{resource.description}}</textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div style="float: left;padding-right: 50px;">
-                                    <a href="javascript:void(0);" class="btn medium primary-bg radius-all-4 menu-save4"  onclick="$('#saveForm').submit();return false;" title="保存">
-                                         <span class="button-content">
-                                                 <i class="glyph-icon icon-save float-left"></i>
-                                             保存
-                                          </span>
-                                    </a>
-                                </div>
-                                <div style="float: left;">
-                                    <a href="javascript:void(0);" class="btn medium primary-bg radius-all-4 switch menu-view back-page "  title="返回" >
-                                         <span class="button-content">
-                                              <i class="glyph-icon icon-reply"></i>
-                                             返回
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-row">
-                                <div class="form-label col-md-3">
-                                    <label for="">
-                                        值
-                                    </label>
-                                </div>
-                                <div class="form-input col-md-9">
-                                    <div class="append-right">
-                                        <input type="text" name="value" value="{{resource.value}}"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </form>
-
-            </div>
-
-        </div>
-    </div>
-</div>
+<form id="saveForm" action="/security/resources/save" method="post" class="center-margin">
+    <table class="formTable mb3 paymentForm">
+        <caption>资源编辑<a href="#" class="back-page" style="float:right;padding-right:50px;">返回</a></caption>
+        <tbody>
+        <input type="hidden" name="id"  value="{{resource.id}}"/>
+        <tr>
+            <td class="formItem_title w100">名称:</td>
+            <td class="formItem_content"><input type="text" name="name" class="w"  value="{{resource.name}}"></td>
+        </tr>
+        <tr>
+            <td class="formItem_title ">类型:</td>
+            <td class="formItem_content">
+                <select name="type" class="w">
+                    <option value="{{resource.type}}" checked="checked">{{resource.type}}</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="formItem_title ">描述:</td>
+            <td class="formItem_content"><textarea name="description"  class="w">{{resource.description}}</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="formItem_title ">值</td>
+            <td class="formItem_content"><input type="text" name="value"  class="w" value="{{resource.value}}"/></td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="formTable mb3">
+        <tbody>
+        <tr>
+            <td class="formItem_title w100"></td>
+            <td class="formItem_content">
+                <a class="ui_button" href="javascript:void(0);" onclick="$('#saveForm').submit();return false;">保存</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>

@@ -21,7 +21,6 @@ router.post('/menus/delete', function (req, res, next) {
 });
 
 router.post('/menus/save', function (req, res, next) {
-    console.log(req.body);
     if (!!req.body.id) {
         http.put('/security/menus/' + req.body.id, req.body, function (error,_res,data) {
                 res.json(data);
@@ -116,7 +115,6 @@ router.post('/users/:id/delete', function (req, res, next) {
     http.delete('/security/users/' + req.params.id, function (_res) {
         _res.on('complete', function (data) {
             res.json(data);
-            console.log(data);
         });
     });
 });
@@ -149,7 +147,6 @@ router.post('/roles/save', function (req, res, next) {
     if(!!req.body.code) {
         http.put('/security/roles/'+req.body.code, req.body, function (_res) {
             _res.on('complete', function (data) {
-                console.log(data)
                 res.json(data);
             });
         });
@@ -183,10 +180,16 @@ router.post('/roles/delete', function (req, res, next) {
 //hl--------------------------------------------------------------------------------------------/
 //资源相关列表
 router.get('/resources', function (req, res, next) {
-    http.get('/security/resources', function (_res) {
-        _res.on('complete', function (data) {
+    http.get({path:'/security/resources',headers:{'X-Page-Fields':true}}, function (error,_res,data) {
             res.render('security/resources', {pager: data});
-        });
+    });
+});
+
+
+//资源查询
+router.get('/resources/search', function (req, res, next) {
+    http.get({path:'/security/resources', headers: {'X-Page-Fields': true}},req.query, function (error, _res, data) {
+        res.json(data);
     });
 });
 
@@ -197,45 +200,31 @@ router.get('/resources/add', function (req, res, next) {
 //资源保存
 router.post('/resources/save', function (req, res, next) {
     if(!!req.body.id) {
-        http.post('/security/resources', req.body.id,req.body, function (_res) {
-            _res.on('complete', function (data) {
-                res.json(data);
-            });
+        http.put('/security/resources/'+req.body.id,req.body, function (error, _res, data) {
+            res.json(data);
         });
     }else{
-        http.post('/security/resources', req.body, function (_res) {
-            _res.on('complete', function (data) {
+        http.post('/security/resources', req.body, function (error, _res, data) {
                 res.json(data);
             });
-        });
     }
 });
 
 
-//资源查询
-router.post('/resources/search', function (req, res, next) {
-    http.get('/security/resources', function (_res) {
-        _res.on('complete', function (data) {
-            res.json(data);
-        });
-    });
-});
+
 //资源编辑
 router.get('/resources/:id/edit', function (req, res, next) {
-    http.get('/security/resources/' + req.params.id, function (_res) {
-        _res.on('complete', function (data) {
+    http.get('/security/resources/' + req.params.id, function (error, _res, data) {
             res.render('security/resources_edit', {resource: data});
-        });
     });
 });
+
 //删除
 router.post('/resources/delete', function (req, res, next) {
     var ids = req.body.ids;
     ids = ids instanceof Array ? ids : [ids];
-    http.delete('/security/resources',ids, function (_res) {
-        _res.on('complete', function (data) {
+    http.delete('/security/resources',ids, function (error, _res, data) {
             res.json(data);
-        });
     });
 });
 //-------------------------------------------------------------------------------------------------------------------
