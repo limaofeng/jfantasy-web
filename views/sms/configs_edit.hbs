@@ -1,0 +1,73 @@
+{{#extend "_base"}}
+    {{#content "head"}}
+        <script type="text/javascript">
+            $(function () {
+                //列表初始化
+                var $grid = $('#view').dataGrid($('#searchFormPanel'), $('.batch'));
+                $grid.data('grid').view().on('add', function (data) {
+                    this.target.find('.delete').click(function (e) {
+                        deleteMethod([data.id]);
+                        return stopDefault(e);
+                    });
+                });
+                $grid.setJSON({{{string pager}}});
+                var deleteMethod = $('.batchDelete').batchExecute($("#allChecked"), $grid.data('grid').pager(), 'id', '是否确认删除[{name}]支付方式？', function () {
+                    $.msgbox({
+                        msg: "删除成功",
+                        icon: "success"
+                    });
+                });
+            });
+        </script>
+    {{/content}}
+    {{#content "container"}}
+        <div id="searchFormPanel" class="button-panel pad5A">
+            <form id="searchForm" action="/members/search" method="get">
+                <table class="formTable mb3">
+                    <caption>手机验证码配置查询条件</caption>
+                    <tbody>
+                    <tr>
+                        <td class="formItem_title w100">名称:</td>
+                        <td class="formItem_content"><input type="text" name="LIKES_name" class="w100" /></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+            <a class="ui_button" onclick="$('#searchForm').submit()">查询</a>
+            <a class="ui_button add" href="/members/receivers/add" target="after:closest('#container')">添加</a>
+            <a class="ui_button batchDelete" href="/security/resources/delete">删除</a>
+        </div>
+        <div class="batch">
+            <a title="批量删除" class="ui_button batchDelete" style="height: 20px" href="/delivery/corps/elete">
+                批量删除
+            </a>
+        </div>
+        <div class="grid-panel">
+            <table id="view" class="formTable mb3 listTable">
+                <caption>查询结果列表</caption>
+                <thead>
+                <tr>
+                    <th style="width:30px;"><input id="allChecked" checkall=".id" type="checkbox"/></th>
+                    <th style="width:250px;">收货人姓名</th>
+                    <th>所属地区</th>
+                    <th>收货地址</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr align="center" class="template" name="default" >
+                    <td><input class="id" type="checkbox" value="{id}"/></td>
+                    <td><span class="list-title">{name}</span>
+                        <div class="list-options" toggle="closest('tr')">
+                            <a href="/members/{id}" class="delete" title="删除">删除</a>/
+                            <a href="/members/{id}/edit" class="edit"target="after:closest('#container')">编辑</a>
+                        </div>
+                    </td>
+                    <td>{area}</td>
+                    <td>{address}</td>
+                </tr>
+                <tr class="empty"><td class="norecord" colspan="4">暂无数据</td></tr>
+                </tbody>
+            </table>
+        </div>
+    {{/content}}
+{{/extend}}
