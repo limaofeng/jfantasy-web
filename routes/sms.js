@@ -21,10 +21,10 @@ router.get('/configs/add', function (req, res, next) {
   //  });
 });
 router.get('/configs/:id/edit', function (req, res, next) {
-    http.get('/sms/configs/'+req.params.id, function (error, _res, data) {
-        res.render('sms/configs_edit', {type: data});
-        console.log(data);
-    });
+        http.get('/sms/configs/'+req.params.id, function (error, _res, data) {
+            res.render('sms/configs_edit', {type: data});
+            console.log(data);
+        });
 });
 router.post('/configs/save', function (req, res, next) {
     if(!!req.body.id){
