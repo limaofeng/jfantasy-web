@@ -98,6 +98,8 @@ app.use('/medicines', require('./routes/medicines'));
 app.use('/patients', require('./routes/patients'));
 // 药房
 app.use('/pharmacys', require('./routes/pharmacys'));
+//微信
+app.use('/weixin', require('./routes/weixin'));
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
