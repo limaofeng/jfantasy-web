@@ -82,14 +82,14 @@ Fantasy.util.jClass(Fantasy.util.Observable, {
                         _importJs.each(function(){
                             var url = this;
                             _queue.push(function(){
-                                $.get(url,function(){
+                                $.getScript(url,function(){
                                     if(!!_queue.length) {
                                         _queue.pop().call();
                                     }
                                 });
                             });
                         });
-                        _queue.pop().call();
+                        _queue.reverse().pop().call();
                     }
                 }
             };
