@@ -22,12 +22,12 @@
     {{/content}}
     {{#content "container"}}
         <div id="searchFormPanel" class="button-panel pad5A">
-            <form id="searchForm" action="/system/payments/search" method="post">
+            <form id="searchForm" action="/delivery/shippings/search" method="post">
                 <table class="formTable mb3">
-                    <caption>支付记录查询条件</caption>
+                    <caption>发货信息查询条件</caption>
                     <tbody>
                     <tr>
-                        <td class="formItem_title w100">支付编号:</td>
+                        <td class="formItem_title w100">发货编号:</td>
                         <td class="formItem_content"><input type="text" name="LIKES_sn" class="w100" /></td>
                     </tr>
                     </tbody>
@@ -36,35 +36,33 @@
             <a class="ui_button" onclick="$('#searchForm').submit()">查询</a>
         </div>
         <div class="batch">
-            <a title="批量删除" class="ui_button batchDelete" style="height: 20px" href="/system/payments/delete">
-                批量删除
+            <a title="批量删除" class="ui_button batchDelete" style="height: 20px" href="/delivery/corps/delete">
+            批量删除
             </a>
         </div>
         <div class="grid-panel">
             <table id="view" class="formTable mb3 listTable">
-                <caption>查询结果列表</caption>
+               <caption>查询结果列表</caption>
                 <thead>
                 <tr>
                     <th style="width:30px;"><input id="allChecked" checkall=".id" type="checkbox"/></th>
-                    <th class="sort" orderBy="sn">支付编号</th>
-                    <th class="sort" orderBy="paymentType">支付类型</th>
-                    <th class="sort" orderBy="paymentConfigName">支付配置名称</th>
-                    <th class="sort" orderBy="paymentStatus">支付状态</th>
-                    <th class="sort" orderBy="totalAmount">支付金额</th>
+                    <th>发货编号</th>
+                    <th>收货人姓名</th>
+                    <th style="width:250px;">收货人手机</th>
+                    <th style="width:250px;">收货人地址</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="template" name="default">
-                    <td><input class="id custom-checkbox" type="checkbox" value="{id}"/></td>
-                    <td class="font-bold"> <a class="view" href="/system/payments/{id}/view" target="after:closest('#container>div')">{sn}</a></td>
-                    <td>{paymentType:dict({'offline':'线下支付','online':'在线支付'})}</td>
-                    <td>{paymentConfigName}</td>
+                <tr align="center" class="template" name="default" >
+                    <td><input class="id" type="checkbox" value="{id}"/></td>
                     <td>
-                        {paymentStatus:dict({'ready':'准备','timeout':'超时','invalid':'作废','success':'成功','failure':'失败'})}
+                        <a class="view" href="/delivery/shippings/{id}/view" target="after:closest('#container>div')">{sn}</a>
                     </td>
-                    <td>{totalAmount}</td>
+                    <td>{shipName}</td>
+                    <td>{shipMobile}</td>
+                    <td>{shipAddress}</td>
                 </tr>
-                <tr class="empty"><td class="norecord" colspan="6">暂无数据</td></tr>
+                <tr class="empty"><td class="norecord" colspan="4">暂无数据</td></tr>
                 </tbody>
             </table>
         </div>

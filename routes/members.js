@@ -44,7 +44,7 @@ router.get('/add', function (req, res, next) {
 });
 
 router.get('/:id/edit', function (req, res, next) {
-    http.get('/members/' + req.params.id,function (error, _res, data) {
+    http.get({path:'/members/' + req.params.id,headers:{'X-Expend-Fields':'details'}},function (error, _res, data) {
             res.render('member/members_edit', {member: data});
     });
 });
@@ -150,7 +150,7 @@ router.get('/receivers', function (req, res, next) {
         res.render('member/receivers', {pager: data});
     });
 });
-router.get('/types/search', function (req, res, next) {
+router.get('/receivers/search', function (req, res, next) {
     http.get({path: '/delivery/types', headers: {'X-Page-Fields': true,'X-Expend-Fields':'corp'}}, function (error, _res, data) {
         res.json(data);
     });
@@ -166,13 +166,13 @@ router.get('/types/:id/edit', function (req, res, next) {
         console.log(data);
     });
 });
-router.post('/types/save', function (req, res, next) {
+router.post('/:memid/receivers/save', function (req, res, next) {
     if(!!req.body.id){
-        http.put('/delivery/types/'+req.body.id,req.body, function (error, _res, data) {
+        http.put('/members/'+req.params.memid+'/receivers/'+req.body.id,req.body, function (error, _res, data) {
             res.json(data);
         });
     }else{
-        http.post('/delivery/types/',req.body, function (error, _res, data) {
+        http.post('/members/'+req.params.memid+'/receivers',req.body, function (error, _res, data) {
             res.json(data);
         });
     }

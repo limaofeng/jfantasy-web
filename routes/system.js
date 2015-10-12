@@ -83,9 +83,9 @@ router.get('/payconfigs/:id/test', function (req, res, next) {
 
 
 router.get('/payments', function (req, res, next) {
-    http.get('/system/payments', function (_res) {
+    http.get({path:'/system/payments',headers:{'X-Page-Fields':true}}, function (_res) {
         _res.on('complete', function (data) {
-            res.render('system/payments', {pager: JSON.stringify(data)});
+            res.render('system/payments', {pager:data});
         });
     });
 });
@@ -97,31 +97,13 @@ router.get('/payments/:id', function (req, res, next) {
         });
     });
 });
+//支付详细页
+router.get('/payments/:id/view', function (req, res, next) {
+    http.get('/system/payments/'+req.params.id, function (error, _res, data) {
+        res.render('system/payments_view', {payment: data});
+    });
+});
 
-//数据字典
-//router.get('/data_dictionarys', function (req, res, next) {
-//    async.parallel({
-//        //查询分类数据
-//        types: function (callback) {
-//            http.get('/system/ddts', function (_res) {
-//                _res.on('complete', function (data) {
-//                    callback(null, data);
-//                });
-//            });
-//        },
-//        //列表页数据
-//        pager: function (callback) {
-//            http.get('/system/dds', function (_res) {
-//                _res.on('complete', function (data) {
-//                    callback(null, data);
-//                });
-//            });
-//        }
-//    }, function (err, results) {
-//        res.render('system/data_dictionarys', results);
-//        console.log(results);
-//    });
-//});
 router.get('/dds', function (req, res, next) {
     http.get('/system/ddts?limit=0,100', function (error, _res, data) {
         res.render('system/dds', {types: data});
@@ -130,12 +112,6 @@ router.get('/dds', function (req, res, next) {
 router.get('/dds/search', function (req, res, next) {
     http.get({path: '/system/dds', headers: {'X-Page-Fields': true}}, req.query, function (error, _res, data) {
         res.json(data);
-    });
-});
-//数据字典
-router.get('/data_dictionarys', function (req, res, next) {
-    http.get('/system/ddts', function (error,_res,data) {
-        res.render('system/data_dictionarys', {types: data.pageItems});
     });
 });
 
@@ -157,4 +133,70 @@ router.post('/dd/save',function(req,res,next){
     }
 });
 
+//地区列表
+router.get('/areas', function (req, res, next) {
+    http.get({path: '/common/areas', headers: {'X-Page-Fields': true}}, function (error, _res, data) {
+        res.render('system/areas', {pager: data});
+    });
+});
+router.get('/areas/search', function (req, res, next) {
+    http.get({path: '/common/areas', headers: {'X-Page-Fields': true}}, function (error, _res, data) {
+        res.json(data);
+    });
+});
+router.get('/areas/add', function (req, res, next) {
+    http.get('/common/areas?limit=0,20', function (error, _res, data) {
+        res.render('system/areas_add',{rootArea:data});
+    });
+});
+router.get('/areas/:id/edit', function (req, res, next) {
+    http.get('/common/areas/'+req.params.id, function (error, _res, data) {
+        res.render('system/areas_edit', {area: data});
+        console.log(data);
+    });
+});
+router.post('/areas/save', function (req, res, next) {
+    if(!!req.body.id){
+        http.put('/system/areas/'+req.body.id,req.body, function (error, _res, data) {
+            res.json(data);
+        });
+    }else{
+        http.post('/system/areas/',req.body, function (error, _res, data) {
+            res.json(data);
+        });
+    }
+});
+//网站配置
+router.get('/websites', function (req, res, next) {
+    http.get({path: '/system/websites', headers: {'X-Page-Fields': true}}, function (error, _res, data) {
+        res.render('system/websites', {pager: data});
+    });
+});
+router.get('/websites/search', function (req, res, next) {
+    http.get({path: '/system/websites', headers: {'X-Page-Fields': true}}, function (error, _res, data) {
+        res.json(data);
+    });
+});
+router.get('/websites/add', function (req, res, next) {
+    http.get('/system/areas?limit=0,20', function (error, _res, data) {
+        res.render('system/websites_add',{rootArea:data});
+    });
+});
+router.get('/websites/:id/edit', function (req, res, next) {
+    http.get('/system/websites/'+req.params.id, function (error, _res, data) {
+        res.render('system/websites_edit', {area: data});
+        console.log(data);
+    });
+});
+router.post('/websites/save', function (req, res, next) {
+    if(!!req.body.id){
+        http.put('/system/websites/'+req.body.id,req.body, function (error, _res, data) {
+            res.json(data);
+        });
+    }else{
+        http.post('/system/websites/',req.body, function (error, _res, data) {
+            res.json(data);
+        });
+    }
+});
 module.exports = router;

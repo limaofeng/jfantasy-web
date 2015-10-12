@@ -1,0 +1,177 @@
+
+        <table class="formTable mb3">
+            <tbody>
+            <tr>
+                <td class="opt-title">
+                    <span>查看发货信息</span>
+                    <ul class="Tabtable" tabs="{selectedClass:'Tabcurr',event:'click'}">
+                        <li><a href="#" tab="#basic">基本信息</a></li>
+                        <li><a href="#" tab="#goodsParameterDiv">物流信息</a></li>
+                        <li><a href="#" tab="#goodsImage">发货信息</a></li>
+                        <li><a href="#" tab="#receipt">收货信息</a></li>
+                        <li><a href="#" tab="#plan">订单信息</a></li>
+                    </ul>
+                    <a href="###" class="back-page" style="float:right;padding-right:50px;">返回发货信息列表>></a>
+
+                    <div style="clear:both;BORDER-BOTTOM:1PX SOLID #6483A4;"></div>
+                    <table id="basic" class="formTable mb3">
+                        <tbody>
+                        <tr>
+                            <td class="formItem_title w100">发货编号:</td>
+                            <td class="formItem_content"> {{shipping.sn}}</td>
+                            <td class="formItem_title w100">配送方式名称:</td>
+                            <td class="formItem_content">{{shipping.typeName }}</td>
+                        </tr>
+                        <tr>
+                            <td class="formItem_title w100"> 订单编号:</td>
+                            <td class="formItem_content"> {{shipping.orderSn}}</td>
+                            <td class="formItem_title w100"> 订单类型:</td>
+                            <td class="formItem_content"> {{shipping.orderType}}</td>
+                        </tr>
+                        <tr>
+                            <td class="formItem_title w100">备注:</td>
+                            <td class="formItem_content"> {{shipping.memo}}</td>
+                            <td class="formItem_content"> </td>
+                            <td class="formItem_content"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div id="goodsParameterDiv">
+                        <table class="formTable mb3">
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                        <table id="goodsParameter" class="formTable mb3 listTable">
+                                <tbody>
+                                <tr>
+                                    <td class="formItem_title w100">配送方式名称:</td>
+                                    <td class="formItem_content">{{shipping.typeName }}</td>
+                                    <td class="formItem_content"></td>
+                                    <td class="formItem_content"></td>
+                                </tr>
+                                <tr>
+                                    <td class="formItem_title w100">物流费用:</td>
+                                    <td class="formItem_content">{{shipping.deliveryFee}}</td>
+                                    <td class="formItem_title w100">物流单号:</td>
+                                    <td class="formItem_content"> {{shipping.deliverySn}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="formItem_title w100">物流公司:</td>
+                                    <td class="formItem_content">
+                                        <select name="corp">
+                                            {{#corps}}
+                                                <option value="{{id}}">{{name}}</option>
+                                            {{/corps}}
+                                        </select>
+                                    </td>
+                                    <td class="formItem_title w100">配送类型:</td>
+                                    <td class="formItem_content">
+                                        <input type="radio" name="method" value="deliveryAgainstPayment" {{#compare type.method 'deliveryAgainstPayment'}}checked="checked"{{/compare}}/>先付款后发货
+                                        <input type="radio" name="method" value="cashOnDelivery" {{#compare type.method 'deliveryAgainstPayment'}}checked="checked"{{/compare}}/>货到付款
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="formItem_title w100">首重量(克):</td>
+                                    <td class="formItem_content"><input type="text" name="firstWeight" value="{{type.firstWeight}}"></td>
+                                    <td class="formItem_title ">首重价格(元):</td>
+                                    <td class="formItem_content"><input type="text" name="firstWeightPrice" value="{{type.firstWeightPrice}}"></td>
+                                </tr>
+                                <tr>
+                                    <td class="formItem_title w100">续重量(克):</td>
+                                    <td class="formItem_content"><input type="text" name="continueWeight" value="{{type.continueWeight}}"></td>
+                                    <td class="formItem_title ">续重价格(元):</td>
+                                    <td class="formItem_content"><input type="text" name="continueWeightPrice" value="{{type.continueWeightPrice}}"></td>
+                                </tr>
+                                <tr>
+                                    <td class="formItem_title ">描述:</td>
+                                    <td class="formItem_content" colspan="3">
+                                        <textarea name="description" style="width:98%; height: 118px;">{{description}}</textarea>
+                                    </td>
+                                </tr>
+                                </tbody>
+                        </table>
+                        <table id="goodsParameterForm" class="formTable mb3" style="display:none;">
+                            <caption>商品参数详细信息</caption>
+                            <tbody>
+                            <tr>
+                                <td class="formItem_title w100">参数名称</td>
+                                <td class="formItem_content"><input name="name" type="text" class="ui_input_text w250"/>
+                                </td>
+                                <td class="formItem_title w100">参数规格</td>
+                                <td class="formItem_content"><input name="value" type="text"
+                                                                    class="ui_input_text w250"/></td>
+                            </tr>
+                            <tr>
+                                <td class="formItem_title w100"></td>
+                                <td class="formItem_content" colspan="3">
+                                    <a href="#" id="goodsParameterFormNew" class="ui_button goodsParameterFormNew">添加新的商品参数</a>
+                                    <a href="#" id="goodsParameterFormEdit" class="ui_button">编辑</a>
+                                    <a href="#" id="goodsParameterFormSave" class="ui_button">保存商品参数</a>
+                                    <a href="#" id="goodsParameterFormReset" class="ui_button">重置</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="goodsImage" style="padding-top:4px;">
+                        <div id="goodsImageUploader">
+                            <table id="view" class="formTable mb3 listTable">
+                                <caption>查询结果列表</caption>
+                                <thead>
+                                <tr>
+                                    <th style="width:30px;"><input id="allChecked" checkall=".id" type="checkbox"/></th>
+                                    <th style="width:250px;">物流公司名称</th>
+                                    <th>订单编号</th>
+                                    <th>收货人姓名</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr align="center" class="template" name="default" >
+                                    <td><input class="id" type="checkbox" value="{id}"/></td>
+                                    <td>
+                                        <a class="view" href="/delivery/shippings/{id}/view" target="after:closest('#container>div')">{deliveryCorpName}</a>
+                                    </td>
+                                    <td>{orderSn}</td>
+                                    <td>{shipName}</td>
+                                </tr>
+                                <tr class="empty"><td class="norecord" colspan="4">暂无数据</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="plan" style="padding-top:4px;">
+                        <div id="planeImageUploader"></div>
+                    </div>
+                    <div id="receipt" style="padding-top:4px;">
+                        <table id="receipt" class="formTable mb3">
+                            <tbody>
+                            <tr>
+                                <td class="formItem_title w100">收货人姓名:</td>
+                                <td class="formItem_content"> {{shipping.shipName}}</td>
+                                <td class="formItem_title w100">收货手机:</td>
+                                <td class="formItem_content"> {{shipping.shipMobile}}</td>
+                            </tr>
+                            <tr>
+                                <td class="formItem_title w100">收货地址:</td>
+                                <td class="formItem_content"> {{shipping.shipAddress}}</td>
+                                <td class="formItem_title w100">收货地区存储:</td>
+                                <td class="formItem_content"> {{shipping.shipArea}}</td>
+                            </tr>
+                            <tr>
+                                <td class="formItem_title w100">收货邮编:</td>
+                                <td class="formItem_content"> {{shipping.shipMobile}}</td>
+                                <td class="formItem_content"></td>
+                                <td class="formItem_content"> </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="video">
+                        <div id="videoUploader"></div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>

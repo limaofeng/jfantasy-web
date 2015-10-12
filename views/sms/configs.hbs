@@ -14,7 +14,7 @@
                 var deleteMethod = $('.batchDelete').batchExecute($("#allChecked"), $grid.data('grid').pager(), 'id', '是否确认删除[{name}]支付方式？', function () {
                     $.msgbox({
                         msg: "删除成功",
-                        type: "success"
+                        icon: "success"
                     });
                 });
             });
@@ -22,21 +22,23 @@
     {{/content}}
     {{#content "container"}}
         <div id="searchFormPanel" class="button-panel pad5A">
-            <form id="searchForm" action="/system/payments/search" method="post">
+            <form id="searchForm" action="/sms/configs/search" method="get">
                 <table class="formTable mb3">
-                    <caption>支付记录查询条件</caption>
+                    <caption>手机验证码配置查询条件</caption>
                     <tbody>
                     <tr>
-                        <td class="formItem_title w100">支付编号:</td>
-                        <td class="formItem_content"><input type="text" name="LIKES_sn" class="w100" /></td>
+                        <td class="formItem_title w100">名称:</td>
+                        <td class="formItem_content"><input type="text" name="LIKES_name" class="w100" /></td>
                     </tr>
                     </tbody>
                 </table>
             </form>
             <a class="ui_button" onclick="$('#searchForm').submit()">查询</a>
+            <a class="ui_button add" href="/sms/configs/add" target="after:closest('#container')">添加</a>
+            <a class="ui_button batchDelete" href="/sms/configs/delete">删除</a>
         </div>
         <div class="batch">
-            <a title="批量删除" class="ui_button batchDelete" style="height: 20px" href="/system/payments/delete">
+            <a title="批量删除" class="ui_button batchDelete" style="height: 20px" href="/delivery/corps/elete">
                 批量删除
             </a>
         </div>
@@ -46,25 +48,24 @@
                 <thead>
                 <tr>
                     <th style="width:30px;"><input id="allChecked" checkall=".id" type="checkbox"/></th>
-                    <th class="sort" orderBy="sn">支付编号</th>
-                    <th class="sort" orderBy="paymentType">支付类型</th>
-                    <th class="sort" orderBy="paymentConfigName">支付配置名称</th>
-                    <th class="sort" orderBy="paymentStatus">支付状态</th>
-                    <th class="sort" orderBy="totalAmount">支付金额</th>
+                    <th style="width:250px;">验证码</th>
+                    <th>所属地区</th>
+                    <th>收货地址</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="template" name="default">
-                    <td><input class="id custom-checkbox" type="checkbox" value="{id}"/></td>
-                    <td class="font-bold"> <a class="view" href="/system/payments/{id}/view" target="after:closest('#container>div')">{sn}</a></td>
-                    <td>{paymentType:dict({'offline':'线下支付','online':'在线支付'})}</td>
-                    <td>{paymentConfigName}</td>
-                    <td>
-                        {paymentStatus:dict({'ready':'准备','timeout':'超时','invalid':'作废','success':'成功','failure':'失败'})}
+                <tr align="center" class="template" name="default" >
+                    <td><input class="id" type="checkbox" value="{id}"/></td>
+                    <td><span class="list-title">{name}</span>
+                        <div class="list-options" toggle="closest('tr')">
+                            <a href="/members/{id}" class="delete" title="删除">删除</a>/
+                            <a href="/members/{id}/edit" class="edit"target="after:closest('#container')">编辑</a>
+                        </div>
                     </td>
-                    <td>{totalAmount}</td>
+                    <td>{area}</td>
+                    <td>{address}</td>
                 </tr>
-                <tr class="empty"><td class="norecord" colspan="6">暂无数据</td></tr>
+                <tr class="empty"><td class="norecord" colspan="4">暂无数据</td></tr>
                 </tbody>
             </table>
         </div>

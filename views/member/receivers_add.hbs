@@ -12,46 +12,49 @@
         });
     });
 </script>
-        <form id="saveForm" action="/members/save" method="post" class="center-margin">
-            <table class="formTable mb3 paymentForm">
-                <caption>会员添加<a href="#" class="back-page" style="float:right;padding-right:50px;">返回</a></caption>
-                <tbody>
-                <tr>
-                    <td class="formItem_title w100">所在地区：</td>
-                    <td class="formItem_content"><input type="text" name="username" class="w"></td>
-                </tr>
-                <tr>
-                    <td class="formItem_title w100">详细地址：</td>
-                    <td class="formItem_content"><input type="text" name="nickName" class="w"></td>
-                </tr>
-                <tr>
-                    <td class="formItem_title w100">邮政编码：</td>
-                    <td class="formItem_content"><input type="password" name="password" class="w"></td>
-                </tr>
-                <tr>
-                    <td class="formItem_title w100">收货人姓名：</td>
-                    <td class="formItem_content"><input type="password" name="password" class="w"></td>
-                </tr>
-                <tr>
-                    <td class="formItem_title w100">手机号码：</td>
-                    <td class="formItem_content"><input type="password" name="password" class="w"></td>
-                </tr>
-                <tr>
-                    <td class="formItem_title w100">电话号码：</td>
-                    <td class="formItem_content"><input type="password" name="password" class="w"></td>
-                </tr>
-                </tbody>
-            </table>
-            <table class="formTable mb3">
-                <tbody>
-                <tr>
-                    <td class="formItem_title w100"></td>
-                    <td class="formItem_content">
-                        <a class="ui_button" href="javascript:void(0);" onclick="$('#saveForm').submit();return false;">保存</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </form>
-    </div>
+<form id="saveForm" action="/members/228/receivers/save" method="post" class="center-margin">
+    <table class="formTable mb3 paymentForm">
+        <caption>会员添加<a href="#" class="back-page" style="float:right;padding-right:50px;">返回</a></caption>
+        <tbody>
+        <tr>
+            <td class="formItem_title w100">所在地区：</td>
+            <td class="formItem_content"><input type="text" name="area" class="w"></td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">详细地址：</td>
+            <td class="formItem_content"><input type="text" name="address" class="w"></td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">邮政编码：</td>
+            <td class="formItem_content"><input type="text" name="zipCode" class="w"></td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">收货人姓名：</td>
+            <td class="formItem_content"><input type="text" name="name" class="w"></td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">手机号码：</td>
+            <td class="formItem_content"><input type="text" name="mobile" class="w"></td>
+        </tr>
+        <tr>
+            <td class="formItem_title w100">是否为默认地址：</td>
+            <td class="formItem_content">
+                <input type="radio" name="isDefault" class="w" value="true"/>是
+                <input type="radio" name="isDefault" class="w" value="false"/>否
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="formTable mb3">
+        <tbody>
+        <tr>
+            <td class="formItem_title w100"></td>
+            <td class="formItem_content">
+                <a class="ui_button" href="javascript:void(0);" onclick="$('#saveForm').submit();return false;">保存</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+</div>
 </div>

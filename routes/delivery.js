@@ -37,7 +37,6 @@ router.get('/corps/search', function (req, res, next) {
         res.json(data);
     });
 });
-
 //配送方式
 router.get('/types', function (req, res, next) {
     http.get({path: '/delivery/types', headers: {'X-Page-Fields': true,'X-Expend-Fields':'corp'}}, function (error, _res, data) {
@@ -72,4 +71,15 @@ router.post('/types/save', function (req, res, next) {
     }
 });
 
+router.get('/shippings', function (req, res, next) {
+    http.get({path: '/delivery/shippings', headers: {'X-Page-Fields': true}}, function (error, _res, data) {
+        res.render('delivery/shippings', {pager: data});
+    });
+});
+
+router.get('/shippings/:id/view', function (req, res, next) {
+    http.get('/delivery/shippings/'+req.params.id, function (error, _res, data) {
+        res.render('delivery/shippings_view', {shipping: data});
+    });
+});
 module.exports = router;

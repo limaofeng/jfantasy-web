@@ -8,7 +8,6 @@
                 <li><a href="#" tab="#basic">基本信息</a></li>
                 <li><a href="#" tab="#goodsParameterDiv">物流信息</a></li>
                 <li><a href="#" tab="#goodsImage">发货信息</a></li>
-                <li><a href="#" tab="#receipt">收货信息</a></li>
                 <li><a href="#" tab="#plan">订单信息</a></li>
             </ul>
             <a href="###" class="back-page" style="float:right;padding-right:50px;">返回发货信息列表>></a>
@@ -17,10 +16,22 @@
             <table id="basic" class="formTable mb3">
                 <tbody>
                 <tr>
-                    <td class="formItem_title w100">发货编号:</td>
-                    <td class="formItem_content"> {{shipping.sn}}</td>
+                    <td class="formItem_title w100">物流公司名称:</td>
+                    <td class="formItem_content">{{shipping.deliveryCorpName}}</td>
+                    <td class="formItem_title w100">物流公司网址:</td>
+                    <td class="formItem_content"> {{shipping.deliveryCorpUrl}}</td>
+                </tr>
+                <tr>
+                    <td class="formItem_title w100">物流费用:</td>
+                    <td class="formItem_content">{{shipping.deliveryFee}}</td>
+                    <td class="formItem_title w100">物流单号:</td>
+                    <td class="formItem_content"> {{shipping.deliverySn}}</td>
+                </tr>
+                <tr>
                     <td class="formItem_title w100">配送方式名称:</td>
-                    <td class="formItem_content">{{shipping.typeName }}</td>
+                    <td class="formItem_content"></td>
+                    <td class="formItem_content"></td>
+                    <td class="formItem_content"></td>
                 </tr>
                 <tr>
                     <td class="formItem_title w100"> 订单编号:</td>
@@ -29,10 +40,28 @@
                     <td class="formItem_content"> {{shipping.orderType}}</td>
                 </tr>
                 <tr>
-                    <td class="formItem_title w100">备注:</td>
-                    <td class="formItem_content"> {{shipping.memo}}</td>
-                    <td class="formItem_content"> </td>
-                    <td class="formItem_content"></td>
+                    <td class="formItem_title w100">收货地址:</td>
+                    <td class="formItem_content"> {{shipping.shipAddress}}</td>
+                    <td class="formItem_title w100">收货地区存储:</td>
+                    <td class="formItem_content"> {{shipping.shipArea}}</td>
+                </tr>
+                <tr>
+                    <td class="formItem_title w100">收货手机:</td>
+                    <td class="formItem_content"> {{shipping.shipMobile}}</td>
+                    <td class="formItem_title w100">收货人姓名:</td>
+                    <td class="formItem_content"> {{shipping.shipName}}</td>
+                </tr>
+                <tr>
+                    <td class="formItem_title w100">收货邮编:</td>
+                    <td class="formItem_content"> {{shipping.shipMobile}}</td>
+                    <td class="formItem_title w100">收货人姓名:</td>
+                    <td class="formItem_content"> {{shipping.shipZipCode}}</td>
+                </tr>
+                <tr>
+                    <td class="formItem_title w100">收货邮编:</td>
+                    <td class="formItem_content"> {{shipping.shipMobile}}</td>
+                    <td class="formItem_title w100">发货编号:</td>
+                    <td class="formItem_content"> {{shipping.sn}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -46,15 +75,9 @@
                     <tbody>
                     <tr>
                         <td class="formItem_title w100">配送方式名称:</td>
-                        <td class="formItem_content">{{shipping.typeName }}</td>
+                        <td class="formItem_content"><input type="text" name="name" value="{{type.name}}"></td>
                         <td class="formItem_content"></td>
                         <td class="formItem_content"></td>
-                    </tr>
-                    <tr>
-                        <td class="formItem_title w100">物流费用:</td>
-                        <td class="formItem_content">{{shipping.deliveryFee}}</td>
-                        <td class="formItem_title w100">物流单号:</td>
-                        <td class="formItem_content"> {{shipping.deliverySn}}</td>
                     </tr>
                     <tr>
                         <td class="formItem_title w100">物流公司:</td>
@@ -140,37 +163,37 @@
                     </table>
                 </div>
             </div>
-
             <div id="plan" style="padding-top:4px;">
                 <div id="planeImageUploader"></div>
             </div>
-            <div id="receipt" style="padding-top:4px;">
-                <table id="receipt" class="formTable mb3">
-                    <tbody>
-                    <tr>
-                        <td class="formItem_title w100">收货人姓名:</td>
-                        <td class="formItem_content"> {{shipping.shipName}}</td>
-                        <td class="formItem_title w100">收货手机:</td>
-                        <td class="formItem_content"> {{shipping.shipMobile}}</td>
-                    </tr>
-                    <tr>
-                        <td class="formItem_title w100">收货地址:</td>
-                        <td class="formItem_content"> {{shipping.shipAddress}}</td>
-                        <td class="formItem_title w100">收货地区存储:</td>
-                        <td class="formItem_content"> {{shipping.shipArea}}</td>
-                    </tr>
-                    <tr>
-                        <td class="formItem_title w100">收货邮编:</td>
-                        <td class="formItem_content"> {{shipping.shipMobile}}</td>
-                        <td class="formItem_content"></td>
-                        <td class="formItem_content"> </td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div id="panorama" style="padding-top:4px;">
+                <div id="panoramaImageUploader"></div>
             </div>
             <div id="video">
                 <div id="videoUploader"></div>
             </div>
+            <table class="formTable mb3 listTable" id="bthlog">
+                <caption>日志列表</caption>
+                <thead>
+                <tr>
+                    <th style="width: 30px;"><input checkAll=".checkBox_userId" id="checkBox" type="checkbox"
+                                                    checktip="{message:'您选中了{num}条记录',tip:'#user_check_info'}"/>
+                    </th>
+                    <th class="sort w250" orderBy="sn">日期</th>
+                    <th class="sort" orderBy="name">操作人</th>
+                    <th class="sort" orderBy="description">描述</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="4">
+                        <div id="pager" class="paging digg"></div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
         </td>
     </tr>
     </tbody>

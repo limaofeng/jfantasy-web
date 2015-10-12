@@ -1,0 +1,58 @@
+<style type="text/css">
+    .paymentForm input {
+        width: 200px;
+    }
+    .paymentForm select {
+        width: 215px;
+    }
+</style>
+<script type="text/javascript">
+    $(function () {
+        $("#saveForm").ajaxForm(function () {
+            $('#pager').pager().reload();
+            $.msgbox({
+                msg: "保存成功",
+                icon: "success"
+            });
+            $page$.backpage();
+        });
+    });
+</script>
+<form id="saveForm" action="/system/areas/save" method="post">
+    <table class="formTable mb3 paymentForm">
+        <caption>地区添加<a href="#" class="back-page" style="float:right;padding-right:50px;">返回</a></caption>
+        <tbody>
+        <tr>
+            <td class="formItem_title w100">上级:</td>
+            <td class="formItem_content">
+                <select name="" id="rootArea">
+                    <option></option>
+                </select>
+            </td>
+        </tr>
+        <!--<@s.select id="rootArea" headerKey="" headerValue="--添加到当前地区--" list="@com.fantasy.common.service.AreaService@list(#parameters['parentId'])" listKey="id" listValue="name" cssStyle="width:200px;" value="''"/>-->
+        <tr>
+            <td class="formItem_title w100">编号:</td>
+            <td class="formItem_content"><input type="text" name="id"/></td>
+        </tr>
+        <tr>
+            <td class="formItem_title ">名称:</td>
+            <td class="formItem_content"><input type="text" name="name"/></td>
+        </tr>
+        <tr>
+            <td class="formItem_title ">排序:</td>
+            <td class="formItem_content"><input type="text" name="sort"/></td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="formTable mb3">
+        <tbody>
+        <tr>
+            <td class="formItem_title w100"></td>
+            <td class="formItem_content">
+                <a class="ui_button" href="javascript:void(0);" onclick="$('#saveForm').submit();return false;">保存</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>

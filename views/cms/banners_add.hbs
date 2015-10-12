@@ -1,68 +1,17 @@
 <script type="text/javascript">
     $(function(){
-        var _interval = setInterval(function(){
-            if($('#saveFormButs','body').length == 0){
-                clearInterval(_interval);
-                return;
-            }
-            var _top = document.documentElement.clientHeight-$('#saveFormButs').height()-1;
-            $('#saveFormButs').css({top:'',position:''});
-            var top = $('#saveFormButs').offset().top;
-            if(_top < top){
-                $('#saveFormButs').css({top:_top,position:'fixed',width:$('#saveFormButs').prev().width()});
-            }
-        }, 200);
-
-        var view = $('#view').view().on('add',function(data){
-            var zhis = this;
-            var upload = this.target.find('#uploader').upload({data:{'dir':'goodsImages'},size:Fantasy.measure('420x244',$('[name="size"]').val()),theme:'image'}).on('uploadComplete',function(data){
-                zhis.target.find('[mapping="bannerImageStore"]').val(data.fileManagerId+':'+data.absolutePath);
-            }).setJSON(data.bannerImage?[data.bannerImage]:[]);
-            var $html = this.target.initialize();
-            if(this.getTemplateName() == 'update'){
-                $html.find('.save').click(function(){
-                    zhis.setValue('type','2');
-                    zhis.setValue('bannerImage',upload.getData());
-                    view.setTemplate(zhis.getIndex(),'default',zhis.getData());
-                });
-                if(this.getData().type=='1'){
-                    $html.find('.delete-div').remove();
-                }
-                $html.find('.cancel').click(function(){
-                    if(zhis.getData().type=='1'){
-                        view.remove(zhis.getIndex());
-                    }else{
-                        view.setTemplate(zhis.getIndex(),'default');
-                    }
-                });
-            }else{
-                upload.disenable();
-                $html.find('.delete').click(function(e){
-                    $.dialog.confirm('是否删除广告项:'+zhis.getData().title,function(){
-                        view.remove(zhis.getIndex());
-                    });
-                    return stopDefault(e);
-                });
-            }
-        });
-        $("#saveForm").ajaxForm(function(data){
+        $("#saveForm").ajaxForm(function () {
             $('#pager').pager().reload();
-            top.$.msgbox({
-                msg : "保存成功",
-                icon : "success"
+            $.msgbox({
+                msg: "保存成功",
+                icon: "success"
             });
-            $('.back-page').backpage();
-        });
-        $('.add-item').click(function(){
-            if(!view.find('type','1')){
-                view.add({type:'1'},'update');
-            }
+            $page$.backpage();
         });
     });
 
 </script>
 <form id="saveForm" action="/admin/cms/newbanner/save.do" method="post">
-
     <table class="formTable">
         <caption>广告位基本信息<a href="###" class="back-page">返回</a></caption>
         <tbody>

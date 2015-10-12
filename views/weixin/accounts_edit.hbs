@@ -1,0 +1,69 @@
+<style type="text/css">
+    .paymentForm input {
+        width: 200px;
+    }
+    .paymentForm select {
+        width: 215px;
+    }
+</style>
+<script type="text/javascript">
+    $(function () {
+        $("#saveForm").ajaxForm(function () {
+            $('#pager').pager().reload();
+            $.msgbox({
+                msg: "保存成功",
+                icon: "success"
+            });
+            $page$.backpage();
+        });
+    });
+</script>
+<form id="saveForm" action="/weixin/accounts/save" method="post">
+    <table class="formTable mb3 paymentForm">
+        <caption>微信公从号添加<a href="#" class="back-page" style="float:right;padding-right:50px;">返回</a></caption>
+        <tbody>
+            <tr>
+                <td class="formItem_title w100">开发者凭证:</td>
+                <td class="formItem_content"><input type="hidden" name="appId" value="{{account.appId}}"></td>
+            </tr>
+            <tr>
+                <td class="formItem_title w100">代理ID:</td>
+                <td class="formItem_content"><input type="text" name="agentId" value="{{account.agentId}}"></td>
+            </tr>
+            <tr>
+                <td class="formItem_title ">公众号名称:</td>
+                <td class="formItem_content"><input type="text" name="name"  value="{{account.name}}"></td>
+            </tr>
+            <tr>
+                <td class="formItem_title ">原始ID:</td>
+                <td class="formItem_content"><input type="text" name="primitiveId"  value="{{account.primitiveId}}"></td>
+            </tr>
+            <tr>
+                <td class="formItem_title ">密钥:</td>
+                <td class="formItem_content"><input type="text" name="secret"  value="{{account.secret}}"></td>
+            </tr>
+            <tr>
+                <td class="formItem_title ">token:</td>
+                <td class="formItem_content"><input type="text" name="token"  value="{{account.token}}"></td>
+            </tr>
+            <tr>
+                <td class="formItem_title ">公众号类型:</td>
+                <td class="formItem_content">
+                    <input type="radio" name="type" value="service"/>服务
+                    <input type="radio" name="type" value="subscription"/>订阅
+                    <input type="radio" name="type" value="enterprise"/>企业
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="formTable mb3">
+        <tbody>
+        <tr>
+            <td class="formItem_title w100"></td>
+            <td class="formItem_content">
+                <a class="ui_button" href="javascript:void(0);" onclick="$('#saveForm').submit();return false;">保存</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>

@@ -13,6 +13,7 @@
     });
 </script>
 <form id="saveForm" action="/members/save" method="post" class="center-margin">
+    <input type="hidden" name="id" class="w" value="{{member.id}}"/>
     <table class="formTable mb3 paymentForm">
         <caption>会员添加<a href="#" class="back-page" style="float:right;padding-right:50px;">返回</a></caption>
         <tbody>
@@ -27,7 +28,7 @@
         </tr>
         <tr>
             <td class="formItem_title w100">登陆密码：</td>
-            <td class="formItem_content"><input type="password" name="password" class="w"  value="{{member.password}}"/></td>
+            <td class="formItem_content"><input type="password" name="password" class="w"  value="******"/></td>
         </tr>
         <tr>
             <td class="formItem_title w100">是否启用：</td>
@@ -50,7 +51,7 @@
         </tr>
         <tr>
             <td class="formItem_title w100">生日：</td>
-            <!--<td class="formItem_content"><input type="text" name="details.birthday" class="datepicker" data-format="yyyy-mm-dd"></td>-->
+            <td class="formItem_content"><input type="text" name="details.birthday" class="datepicker" data-format="yyyy-MM-dd" value="{{date member.details.birthday 'yyyy-MM-dd'}}"></td>
         </tr>
         <tr>
             <td class="formItem_title w100">固定电话：</td>
