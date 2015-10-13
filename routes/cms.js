@@ -58,7 +58,6 @@ router.get('/categorys/:code/articles', function (req, res, next) {
 });
 
 router.get('/articles', function (req, res, next) {
-    console.log(req.query);
     http.get({
         path: '/cms/articles',
         headers: {'X-Page-Fields': true}

@@ -6,10 +6,6 @@ Fantasy.util.JSON = new (Fantasy.util.jClass((function(){
 
     var useHasOwn = {}.hasOwnProperty ? true : false;
     
-    var pad = function(n){
-        return n < 10 ? "0" + n : n;
-    };
-    
     var m = {
         "\b": '\\b',
         "\t": '\\t',
@@ -130,7 +126,7 @@ Fantasy.util.JSON = new (Fantasy.util.jClass((function(){
 			}else if(jsonData.test(json)){
 				json = json.replace(jsonData,'Date.parse($1,"yyyy-MM-ddThh:mm:ss")');
 			}
-           return (new Function('return ' + json))();//eval('(' + json + ')');
+           return (new Function('return ' + json))();
         }
     };
     
