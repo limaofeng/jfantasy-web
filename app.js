@@ -45,61 +45,42 @@ app.use('/', function (req, res, next) {
     req.session.user = {nickName: "系统管理员"};
     res.locals.wrapper = req.header('X-Requested-With') == 'XMLHttpRequest' ? 'empty' : 'base';
     if (!req.session.treeMenus) {
-        http.get('/system/websites/haolue/menus', function (_res) {
-            _res.on('complete', function (data) {
-                var treeMenus = [];
-                data.forEach(function (v) {
-                    if (v.layer == 1) {
-                        treeMenus.push(v);
-                    } else {
-                        data.forEach(function (_v) {
-                            if (_v.id == v.parentId) {
-                                if (!_v.children) {
-                                    _v.children = [];
-                                }
-                                _v.children.push(v);
+        http.get('/system/websites/haolue/menus', function (error,_res,data) {
+            var treeMenus = [];
+            data.forEach(function (v) {
+                if (v.layer == 1) {
+                    treeMenus.push(v);
+                } else {
+                    data.forEach(function (_v) {
+                        if (_v.id == v.parentId) {
+                            if (!_v.children) {
+                                _v.children = [];
                             }
-                        });
-                    }
-                });
-                req.session.treeMenus = treeMenus;
-                next();
+                            _v.children.push(v);
+                        }
+                    });
+                }
             });
+            req.session.treeMenus = treeMenus;
+            next();
         });
     } else {
         next();
     }
 });
 
-app.use('/', require('./routes/index'));
-app.use('/users', require('./routes/users'));
-app.use('/security', require('./routes/security'));
-app.use('/mall', require('./routes/mall'));
-app.use('/system', require('./routes/system'));
-app.use('/delivery',require('./routes/delivery'))
-app.use('/sms',require('./routes/sms'))
-// 会员
-app.use('/members', require('./routes/members'));
-// 诊所
-app.use('/clinics', require('./routes/clinics'));
-// 医生
-app.use('/doctors', require('./routes/doctors'));
-// 地区
-app.use('/areas', require('./routes/areas'));
-//挂号单
-app.use('/registrations', require('./routes/registrations'));
-// 导诊
-app.use('/guides', require('./routes/guides'));
-// 文章
-app.use('/cms', require('./routes/cms'));
-// 药品
-app.use('/medicines', require('./routes/medicines'));
-// 就诊人
-app.use('/patients', require('./routes/patients'));
-// 药房
-app.use('/pharmacys', require('./routes/pharmacys'));
-//微信
-app.use('/weixin', require('./routes/weixin'));
+app.use('/', require('./routes/index'));// 首页
+app.use('/users', require('./routes/users'));// 用户
+app.use('/security', require('./routes/security'));// 用户 & 角色
+app.use('/mall', require('./routes/mall'));// 品牌 & 商品
+app.use('/system', require('./routes/system'));// 网站 & 地区 & 数据字典
+app.use('/delivery',require('./routes/delivery'));// 物流
+app.use('/sms',require('./routes/sms'));// 短信验证配置
+app.use('/members', require('./routes/members'));// 会员
+app.use('/areas', require('./routes/areas'));// 地区
+app.use('/cms', require('./routes/cms'));// 文章 & 广告位
+app.use('/weixin', require('./routes/weixin'));// 微信
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
