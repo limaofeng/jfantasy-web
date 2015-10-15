@@ -19,5 +19,8 @@
     "bufferhelper": "*",
     "formidable": "*",
     "async": "*"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.4"
   }
 }
