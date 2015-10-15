@@ -3,7 +3,11 @@ machine:
     version: v4.1.1
   environment:
     COVERALLS_REPO_TOKEN: K5I1WJaOmUn8dFIJAAdPk5PuGIP1nMTJb
+    NODE_ENV: test test=*.js ./node_modules/.bin/mocha \
+      --require blanket \
+      --reporter mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js
 
 test:
   override:
     - ./node_modules/.bin/mocha
+    - ./node_modules/coveralls/bin/coveralls.js
