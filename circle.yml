@@ -2,7 +2,7 @@ machine:
   node:
     version: v4.1.1
   environment:
-    CODECLIMATE_REPO_TOKEN: K5I1WJaOmUn8dFIJAAdPk5PuGIP1nMTJb
+    COVERALLS_REPO_TOKEN: K5I1WJaOmUn8dFIJAAdPk5PuGIP1nMTJb
 
 test:
   override:
