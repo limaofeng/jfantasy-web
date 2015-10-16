@@ -3,4 +3,7 @@ language: node_js
 node_js:
   - "4.1"
 
+env:
+  - COVERALLS_REPO_TOKEN=K5I1WJaOmUn8dFIJAAdPk5PuGIP1nMTJb
+
 sudo: false

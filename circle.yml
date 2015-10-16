@@ -7,4 +7,3 @@ machine:
 test:
   override:
     - ./node_modules/.bin/mocha
-    - ./node_modules/coveralls/bin/coveralls.js
