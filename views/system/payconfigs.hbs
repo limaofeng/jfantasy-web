@@ -99,7 +99,8 @@
                 <tr align="center" class="template" name="default" >
                     <td><input class="id" type="checkbox" value="{id}"/></td>
                     <td>
-                        <a style="float:left;padding-left: 20px;" class="view" href="/system/payconfigs/view?id={id}">{deliveryCorpName}</a>
+                        {{!-- style="float:left;padding-left: 20px;" --}}
+                        <a class="view" href="/system/payconfigs/view?id={id}">{name}</a>
                     </td>
                     <td>{paymentConfigType:dict({'offline':'线下支付','online':'在线支付'})}</td>
                     <td>{paymentFeeType:dict({'fixed':'固定费用','scale':'按比例收费'})}</td>

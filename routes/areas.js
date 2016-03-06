@@ -2,7 +2,7 @@
  * 区域
  */
 var express = require('express');
-var http = require('./../lib/http-utils-defult');
+var http = require('./../lib/http-client-defult');
 var router = express.Router();
 var async = require('async');
 

@@ -1,3 +1,19 @@
+var http = require('../lib/http-client')({
+    hostname: 'localhost',
+    port: 8080
+});
+
+http.get('/security/roles', function (_res) {
+    _res.on('complete', function (data) {
+        console.log(data);
+    });
+});
+
+http.get('/security/roles', function (error, res, body) {
+    console.log(body);
+});
+
+
 var assert = require("assert");
 describe('Array', function(){
     describe('#indexOf()', function(){

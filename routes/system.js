@@ -1,5 +1,5 @@
 var express = require('express');
-var http = require('./../lib/http-utils-defult');
+var http = require('./../lib/http-client-defult');
 var async = require('async');
 var router = express.Router();
 
@@ -49,7 +49,7 @@ router.post('/payconfigs/save', function (req, res) {
     }
 });
 router.get('/payconfigs/:id/test', function (req, res) {
-    http.get('/system/payconfigs/' + req.params.id + '/test', req.query, function (error,_res,data) {
+    http.post('/system/payconfigs/' + req.params.id + '/test', req.query, function (error,_res,data) {
         res.render('system/payconfigs_test', {payform: data});
     });
 });
