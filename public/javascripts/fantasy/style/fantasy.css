@@ -1,4 +1,0 @@
-/*消除IE下a标签的虚线框*/
-a[href ^="#"]:focus,a[href ^="javascript"]:focus {
-	outline: 0 none;
-}
