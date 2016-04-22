@@ -240,6 +240,7 @@
     transform: rotate(-360deg);
   }
 }
+/*#endregion Animations*/
 /*#region Colors*/
 .themeprimary {
   color: #2dc3e8 !important;
@@ -862,6 +863,7 @@
 .bordered-maroon {
   border-color: #981b48 !important;
 }
+/*#endregion Bordered Colors*/
 /*#region Paddings*/
 .no-padding {
   padding: 0 !important;
@@ -1075,6 +1077,7 @@
 .margin-bottom-50 {
   margin-bottom: 50px !important;
 }
+/*#endregion Margins*/
 /*#region Fonts*/
 .font-10 {
   font-size: 10%;
@@ -1133,6 +1136,7 @@
 .font-200 {
   font-size: 200%;
 }
+/*#endregion Fonts*/
 /*Firefox Outline bug*/
 button:focus,
 a:focus {
@@ -1411,6 +1415,7 @@ a:focus,
 a:active {
   text-decoration: none;
 }
+/*#endregion Typography */
 /*--------Page Components--------*/
 /*#region navbar*/
 .navbar {
@@ -2395,6 +2400,7 @@ a:active {
     min-width: 45px;
   }
 }
+/*#endregion navbar*/
 .main-container {
   position: static;
   padding: 0;
@@ -2959,6 +2965,7 @@ a:active {
     display: inline-block;
   }
 }
+/*#endregion Sidebar*/
 /*#region Page Content*/
 .page-content {
   display: block;
@@ -2973,6 +2980,7 @@ a:active {
     margin-right: 0;
   }
 }
+/*#endregion Page Content*/
 /*#region Breadcrumbs*/
 .page-breadcrumbs {
   position: relative;
@@ -3041,6 +3049,7 @@ a:active {
   font-size: 14px;
   color: #b2b6bf;
 }
+/*#endregion Breadcrumb*/
 /*#region page-header*/
 .page-header {
   position: relative;
@@ -3187,7 +3196,7 @@ a:active {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
-  margin: 0 0 30px 0
+  margin: 0 0 30px 0;
   /*#region Bordered Widgetbox*/
   /*#endregion Bordered Widgetbox*/
   /*#region Radius Header*/
@@ -3295,7 +3304,7 @@ a:active {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
   color: #555555;
   padding-right: 12px;
-  text-align: left
+  text-align: left;
   /*#region Bordered Header */
   /*#endregion Bordered Header*/
 }
@@ -3606,6 +3615,7 @@ a:active {
   margin-right: -12px;
   margin-left: -12px;
 }
+/*#endregion Widget*/
 /*#region DataBoxes*/
 .databox-container {
   text-align: center;
@@ -4438,6 +4448,7 @@ width:calc(100% - 250px);
 .databox .chart {
   font-size: 13px;
 }
+/*#endregion DataBoxes*/
 /*#region Alerts*/
 .alert {
   margin-bottom: 20px;
@@ -4487,6 +4498,7 @@ width:calc(100% - 250px);
   border-color: #11a9cc;
   background: #57b5e3;
 }
+/*#endregion Alerts*/
 /*#region Tabs*/
 /*#region Tab Content*/
 .tab-content {
@@ -4531,7 +4543,7 @@ width:calc(100% - 250px);
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
 }
 .nav-tabs > li {
-  margin-bottom: -2px
+  margin-bottom: -2px;
   /*#region Colred Tab*/
   /*#endregion Colred Tab*/
 }
@@ -5071,6 +5083,8 @@ width:calc(100% - 250px);
 .nav-tabs > li:not(.active):not(.open) > a:not(:hover) > [class*="fa-"].disabled:first-child {
   color: #909090 !important;
 }
+/*#endregion Tab*/
+/*#endregion Tabs*/
 /*#region Buttons*/
 .btn {
   cursor: pointer;
@@ -5092,7 +5106,7 @@ width:calc(100% - 250px);
   -moz-background-clip: padding;
   border-radius: 2px;
   background-clip: padding-box;
-  font-size: 13px
+  font-size: 13px;
   /*#region Link Button*/
   /*#endregion Link Button*/
   /*#region Shiny Button*/
@@ -6283,6 +6297,8 @@ fieldset[disabled] .btn-maroon.active {
 .btn-group-vertical > .btn:first-child {
   margin-left: 0;
 }
+/*#endregion Group Button*/
+/*#endregion Buttons*/
 /*#region Accordion*/
 .accordion.spaced.panel-group .panel + .panel {
   margin-top: 3px;
@@ -6375,6 +6391,7 @@ fieldset[disabled] .btn-maroon.active {
 .accordion.panel-group.no-padding {
   padding: 0;
 }
+/*#endregion Accordions*/
 /*#region labels and badges */
 .label,
 .badge {
@@ -6642,6 +6659,7 @@ fieldset[disabled] .btn-maroon.active {
 .badge-maroon.graded {
   background: linear-gradient(to left, #981b48, #eab6c9) !important;
 }
+/*#endregion labels and badges */
 /*#region Progress Bar*/
 .progress {
   -webkit-border-radius: 3px;
@@ -6901,6 +6919,7 @@ fieldset[disabled] .btn-maroon.active {
   background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
   background-image: linear-gradient(-135deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
 }
+/*#endregion Progress Bar*/
 /*#region Wells*/
 .well {
   -webkit-border-radius: 2px;
@@ -6917,7 +6936,7 @@ fieldset[disabled] .btn-maroon.active {
   color: #262626;
   position: relative;
   margin-bottom: 30px;
-  min-height: 0px
+  min-height: 0px;
   /*#region Bordered Well*/
   /*#endregion Bordered Well*/
   /*#region Colored Well*/
@@ -7027,6 +7046,7 @@ fieldset[disabled] .btn-maroon.active {
   margin-left: -19px;
   margin-right: -19px;
 }
+/*#endregion Wells*/
 /*#region PopOvers*/
 .popover {
   -webkit-border-radius: 3px;
@@ -7113,6 +7133,7 @@ fieldset[disabled] .btn-maroon.active {
 .popover-notitle + .popover.right .arrow:after {
   border-right-color: #ffffff;
 }
+/*#endregion Popovers*/
 /*#region ToolTips*/
 .tooltip.in {
   zoom: 1;
@@ -7819,6 +7840,7 @@ fieldset[disabled] .btn-maroon.active {
 .tooltip-maroon + .tooltip.bottom .tooltip-arrow {
   border-bottom-color: #981b48;
 }
+/*#endregion ToolTips*/
 /*#region Notifications*/
 .toast-title {
   font-weight: bold;
@@ -7901,7 +7923,7 @@ button.toast-close-button {
 }
 #toast-container {
   position: fixed;
-  z-index: 999999
+  z-index: 999999;
   /*overrides*/
 }
 #toast-container > div {
@@ -8099,6 +8121,7 @@ button.toast-close-button {
     width: 25em;
   }
 }
+/*#endregion Notifications*/
 /*#region Modal*/
 .modal-blue .modal-header {
   border-bottom: 3px solid #5db2ff;
@@ -8234,6 +8257,7 @@ button.toast-close-button {
   color: #53a93f;
   border-bottom: 3px solid #a0d468;
 }
+/*#endregion Modal*/
 /*#region DropDown*/
 .dropdown-menu {
   border: 1px solid #ccc !important;
@@ -8473,6 +8497,7 @@ button.toast-close-button {
   bottom: 0;
   top: auto;
 }
+/*#endregion DropDown*/
 /*#region Pagination*/
 .pagination,
 .pager li > a {
@@ -8550,6 +8575,7 @@ button.toast-close-button {
   padding: 7px 16px;
   font-size: 16px;
 }
+/*#endregion Pagination*/
 /*#region Tables*/
 .table {
   background-color: #ffffff;
@@ -8950,6 +8976,7 @@ button.toast-close-button {
   margin-left: -7px;
   margin-bottom: 0;
 }
+/*#endregion Tables*/
 /*#region Nestable List*/
 .dd {
   position: relative;
@@ -9233,6 +9260,7 @@ button.toast-close-button {
 .dd-dragel > .dd-item > .dd2-handle .normal-icon {
   display: none;
 }
+/*#endregion Nestable List*/
 /*#region TreeView*/
 .tree {
   padding-right: 14px;
@@ -9443,6 +9471,7 @@ button.toast-close-button {
   color: #2dc3e8;
   margin-right: 30px;
 }
+/*#endregion Treeview*/
 /*#region Wizards*/
 .wizard {
   -webkit-border-radius: 2px;
@@ -9776,6 +9805,7 @@ button.toast-close-button {
 .step-content .active .btn-group .active {
   display: inline-block;
 }
+/*#endregion Wizards*/
 /*#region Charts*/
 .chart {
   height: 220px;
@@ -9914,6 +9944,7 @@ flot-donut-caption .legendLabel span {
   font-family: "Droid Arabic Kufi", "WYekan";
   font-size: 11px;
 }
+/*#endregion Charts*/
 /*--------Forms--------*/
 .form-bordered .form-group {
   border-top: 1px solid #e5e5e5;
@@ -10471,6 +10502,28 @@ span.input-icon {
 .input-group > .btn-group > .btn.btn-sm > .caret {
   margin-top: 10px;
 }
+/*#endregion Form TextInput*/
+/*#region File Input */
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: left;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block;
+}
+/*#endregion */
 /*#region CheckBox and RadioBox*/
 input[type=checkbox],
 input[type=radio] {
@@ -10729,6 +10782,7 @@ input[type=radio]:checked ~ .text:before {
 .checkbox label {
   padding-right: 0;
 }
+/*#endregion CheckBox and RadioBox*/
 /*#region Switches*/
 input[type=checkbox].checkbox-slider {
   width: 55px;
@@ -11172,6 +11226,7 @@ input[type=checkbox].checkbox-slider.colored-maroon.toggle:checked ~ .text:after
 input[type=checkbox].checkbox-slider.colored-maroon.toggle ~ .text:after {
   background-color: #981b48;
 }
+/*#endregion Switches*/
 /*#region Form Sliders*/
 /*#region noUiSlider*/
 .noUi-target,
@@ -11865,6 +11920,8 @@ input[type=checkbox].checkbox-slider.colored-maroon.toggle ~ .text:after {
   margin-top: 25px;
   height: 5px;
 }
+/*#endregion jQRangeSlider*/
+/*#endregion Form Sliders*/
 /*#region Spinners*/
 .spinbox {
   position: relative;
@@ -12022,6 +12079,7 @@ input[type=checkbox].checkbox-slider.colored-maroon.toggle ~ .text:after {
 .spinbox.spinbox-horizontal.spinbox-two-sided input {
   padding-right: 35px !important;
 }
+/*#endregion Spinners*/
 .select2-container {
   font-size: 13px;
   box-sizing: border-box;
@@ -12471,6 +12529,7 @@ input[type=checkbox].checkbox-slider.colored-maroon.toggle ~ .text:after {
   -moz-opacity: 1;
   opacity: 1;
 }
+/*#endregion TagsInput*/
 /*#region ColorPicker*/
 .minicolors {
   position: relative;
@@ -12742,13 +12801,14 @@ input[type=checkbox].checkbox-slider.colored-maroon.toggle ~ .text:after {
   vertical-align: middle;
   border-radius: 0;
 }
+/*#endregion ColorPicker*/
 /*#region DatePicker*/
 .datepicker {
   top: 0;
   right: 0;
   padding: 4px;
   margin-top: 1px;
-  z-index: 9999 !important
+  z-index: 9999 !important;
   /*.dow {
 		border-top: 1px solid #ddd !important;
 	}*/
@@ -12847,6 +12907,7 @@ input[type=checkbox].checkbox-slider.colored-maroon.toggle ~ .text:after {
   width: 16px;
   height: 16px;
 }
+/*#endregion DatePicker*/
 /**
 * A stylesheet for use with Bootstrap 3.x
 * @author: Dan Grossman http://www.dangrossman.info/
@@ -13322,6 +13383,7 @@ input[type=checkbox].checkbox-slider.colored-maroon.toggle ~ .text:after {
     width: 100%;
   }
 }
+/*#endregion TimePicker*/
 /*#region wysiwyg*/
 .wysiwyg-editor {
   max-height: 250px;
@@ -13762,6 +13824,7 @@ div[data-role="editor-toolbar"] {
 .note-editor .note-color-palette div .note-color-btn:hover {
   border: 1px solid #000;
 }
+/*#endregion Summernote*/
 /*#region Bootstrap Validator*/
 .bv-form .help-block {
   margin-bottom: 0;
@@ -13772,6 +13835,7 @@ div[data-role="editor-toolbar"] {
 .nav-tabs li.bv-tab-error > a {
   color: #d73d32;
 }
+/*#endregion Bootstrap Validator*/
 /*--------Pages and Widgets--------*/
 /*#region Login Page*/
 .login-container {
@@ -13921,6 +13985,7 @@ right:calc(50% - 25px);
   background-color: #ffffff;
   text-align: right;
 }
+/*#endregion Login Page*/
 /*#region Register*/
 .register-container {
   position: relative;
@@ -13979,6 +14044,7 @@ right:calc(50% - 25px);
   background-color: #ffffff;
   text-align: right;
 }
+/*#endregion Register*/
 /*#region Lockscreen Page*/
 .lock-container {
   margin: 15% auto;
@@ -14074,6 +14140,7 @@ right:calc(50% - 114px);
   padding-right: 5px;
   cursor: pointer;
 }
+/*#endregion Lockscreen Page*/
 /*#region Pricing Tables*/
 .pricing-container {
   padding: 20px;
@@ -14247,6 +14314,7 @@ right:calc(50% - 114px);
   font-size: 15px;
   color: #ffffff;
 }
+/*#endregion Pricing Tables*/
 /*#region Invoice Page*/
 .invoice-container .table-bordered thead > tr {
   background-color: #ffffff !important;
@@ -14278,6 +14346,7 @@ right:calc(50% - 114px);
 .invoice-container ul li {
   line-height: 22px;
 }
+/*#endregion Invoice Page*/
 /*#region Timeline*/
 .timeline {
   list-style: none;
@@ -14511,6 +14580,7 @@ width:calc(100% - 90px);
     padding: 20px 20px 20px;
   }
 }
+/*#endregion Timleline*/
 /*#region Profile*/
 .profile-container .profile-header {
   min-height: 175px;
@@ -14720,6 +14790,7 @@ width:calc(100% - 90px);
     border-left: 0;
   }
 }
+/*#endregion Profile*/
 /*#region Comment*/
 .comment {
   padding-top: 12px;
@@ -14779,6 +14850,7 @@ width:calc(100% - 90px);
 .comment .comment-footer a:hover {
   color: #2dc3e8;
 }
+/*#endregion Comment*/
 /*#region Mail*/
 .mail-container {
   position: relative;
@@ -15352,6 +15424,7 @@ width:calc(100% - 90px);
     margin: 0 auto;
   }
 }
+/*#endregion Mail*/
 /*!
  * FullCalendar v2.3.2 Stylesheet
  * Docs & License: http://fullcalendar.io/
@@ -15396,14 +15469,14 @@ body .fc {
   /* when user is selecting cells */
   background: #bce8f1;
   opacity: .3;
-  filter: alpha(opacity=30)
+  filter: alpha(opacity=30);
   /* for IE */
 }
 .fc-bgevent {
   /* default look for background events */
   background: #8fdf82;
   opacity: .3;
-  filter: alpha(opacity=30)
+  filter: alpha(opacity=30);
   /* for IE */
 }
 .fc-nonbusiness {
@@ -15439,7 +15512,7 @@ NOTE: use percentage font sizes or else old IE chokes
 */
 .fc-icon:after {
   position: relative;
-  margin: 0 -1em
+  margin: 0 -1em;
   /* ensures character will be centered, regardless of width */
 }
 .fc-icon-left-single-arrow:after {
@@ -15633,7 +15706,7 @@ previous button's border...
 }
 /* jqui themed */
 .fc-popover > .ui-widget-header + .ui-widget-content {
-  border-top: 0
+  border-top: 0;
   /* where they meet, let the header have the border */
 }
 /* Misc Reusable Components
@@ -15663,11 +15736,11 @@ hr.fc-divider {
   left: 0;
 }
 .fc-bg {
-  bottom: 0
+  bottom: 0;
   /* strech bg to bottom edge */
 }
 .fc-bg table {
-  height: 100%
+  height: 100%;
   /* strech bg to bottom edge */
 }
 /* Tables
@@ -15677,7 +15750,7 @@ hr.fc-divider {
   table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;
-  font-size: 1em
+  font-size: 1em;
   /* normalize cross-browser */
 }
 .fc th {
@@ -15698,7 +15771,7 @@ hr.fc-divider {
   vertical-align: top;
 }
 .fc td.fc-today {
-  border-style: double
+  border-style: double;
   /* overcome neighboring borders */
 }
 /* Fake Table Rows
@@ -15718,7 +15791,7 @@ hr.fc-divider {
   border-bottom: 0 hidden transparent;
 }
 .fc-row:first-child table {
-  border-top: 0 hidden transparent
+  border-top: 0 hidden transparent;
   /* no top border on first row */
 }
 /* Day Row (used within the header and the DayGrid)
@@ -15732,12 +15805,12 @@ hr.fc-divider {
 /* highlighting cells & background event skeleton */
 .fc-row .fc-bgevent-skeleton,
 .fc-row .fc-highlight-skeleton {
-  bottom: 0
+  bottom: 0;
   /* stretch skeleton to bottom of row */
 }
 .fc-row .fc-bgevent-skeleton table,
 .fc-row .fc-highlight-skeleton table {
-  height: 100%
+  height: 100%;
   /* stretch skeleton to bottom of row */
 }
 .fc-row .fc-highlight-skeleton td,
@@ -15757,7 +15830,7 @@ temporary rendered events).
 .fc-row .fc-content-skeleton {
   position: relative;
   z-index: 4;
-  padding-bottom: 2px
+  padding-bottom: 2px;
   /* matches the space above the events */
 }
 .fc-row .fc-helper-skeleton {
@@ -15790,7 +15863,7 @@ temporary rendered events).
   /* re-scope all positions */
   width: 100%;
   /* hack to force re-sizing this inner element when scrollbars appear/disappear */
-  overflow: hidden
+  overflow: hidden;
   /* don't let negative margins or absolute positioning create further scroll */
 }
 /* Global Event Styles
@@ -15807,7 +15880,7 @@ temporary rendered events).
   /* default BORDER color */
   background-color: #3a87ad;
   /* default BACKGROUND color */
-  font-weight: normal
+  font-weight: normal;
   /* undo jqui's ui-widget-header bold */
 }
 /* overpower some of bootstrap's and jqui's styles on <a> tags */
@@ -15816,12 +15889,12 @@ temporary rendered events).
 .ui-widget .fc-event {
   color: #262626;
   /* default TEXT color */
-  text-decoration: none
+  text-decoration: none;
   /* if <a> has an href */
 }
 .fc-event[href],
 .fc-event.fc-draggable {
-  cursor: pointer
+  cursor: pointer;
   /* give events with links and draggable events a hand mouse pointer */
 }
 .fc-not-allowed,
@@ -15834,7 +15907,7 @@ temporary rendered events).
   z-index: 1;
   background: #fff;
   opacity: .25;
-  filter: alpha(opacity=25)
+  filter: alpha(opacity=25);
   /* for IE */
 }
 .fc-event .fc-content {
@@ -15956,7 +16029,7 @@ a.fc-more:hover {
 }
 /* popover that appears when "more" link is clicked */
 .fc-day-grid .fc-row {
-  z-index: 1
+  z-index: 1;
   /* make the "more" popover one higher than this */
 }
 .fc-more-popover {
@@ -16043,11 +16116,11 @@ a.fc-more:hover {
   /* we are sure there are no day numbers in these views, so... */
   padding-top: 1px;
   /* add a pixel to make sure there are 2px padding above events */
-  padding-bottom: 1em
+  padding-bottom: 1em;
   /* ensure a space at bottom of cell for user selecting/clicking */
 }
 .fc-basic-view .fc-body .fc-row {
-  min-height: 4em
+  min-height: 4em;
   /* ensure that all rows are at least this tall */
 }
 /* a "rigid" row will take up a constant amount of height because content-skeleton is absolute */
@@ -16097,17 +16170,17 @@ a.fc-more:hover {
 --------------------------------------------------------------------------------------------------*/
 .fc-agenda-view .fc-day-grid {
   position: relative;
-  z-index: 2
+  z-index: 2;
   /* so the "more.." popover will be over the time grid */
 }
 .fc-agenda-view .fc-day-grid .fc-row {
-  min-height: 3em
+  min-height: 3em;
   /* all-day section will never get shorter than this */
 }
 .fc-agenda-view .fc-day-grid .fc-row .fc-content-skeleton {
   padding-top: 1px;
   /* add a pixel to make sure there are 2px padding above events */
-  padding-bottom: 1em
+  padding-bottom: 1em;
   /* give space underneath events for clicking/selecting days */
 }
 /* TimeGrid axis running down the side (for both the all-day area and the slot area)
@@ -16125,7 +16198,7 @@ a.fc-more:hover {
   text-align: right;
 }
 .ui-widget td.fc-axis {
-  font-weight: normal
+  font-weight: normal;
   /* overcome jqui theme making it bold */
 }
 /* TimeGrid Structure
@@ -16137,7 +16210,7 @@ a.fc-more:hover {
   z-index: 1;
 }
 .fc-time-grid {
-  min-height: 100%
+  min-height: 100%;
   /* so if height setting is 'auto', .fc-bg stretches to fill height */
 }
 .fc-time-grid table {
@@ -16176,7 +16249,7 @@ a.fc-more:hover {
 --------------------------------------------------------------------------------------------------*/
 .fc-time-grid .fc-slats td {
   height: 1.5em;
-  border-bottom: 0
+  border-bottom: 0;
   /* each cell is responsible for its top border */
 }
 .fc-time-grid .fc-slats .fc-minor td {
@@ -16184,20 +16257,20 @@ a.fc-more:hover {
 }
 .fc-time-grid .fc-slats .ui-widget-content {
   /* for jqui theme */
-  background: none
+  background: none;
   /* see through to fc-bg */
 }
 /* TimeGrid Highlighting Slots
 --------------------------------------------------------------------------------------------------*/
 .fc-time-grid .fc-highlight-container {
   /* a div within a cell within the fc-highlight-skeleton */
-  position: relative
+  position: relative;
   /* scopes the left/right of the fc-highlight to be in the column */
 }
 .fc-time-grid .fc-highlight {
   position: absolute;
   right: 0;
-  left: 0
+  left: 0;
   /* top and bottom will be in by JS */
 }
 /* TimeGrid Event Containment
@@ -16218,7 +16291,7 @@ a.fc-more:hover {
 .fc-time-grid .fc-event,
 .fc-time-grid .fc-bgevent {
   position: absolute;
-  z-index: 1
+  z-index: 1;
   /* scope inner z-index's */
 }
 .fc-time-grid .fc-bgevent {
@@ -16251,7 +16324,7 @@ We use the full "fc-time-grid-event" class instead of using descendants because 
 be a descendant of the grid when it is being dragged.
 */
 .fc-time-grid-event {
-  overflow: hidden
+  overflow: hidden;
   /* don't let the bg flow over rounded corners */
 }
 .fc-time-grid-event .fc-time,
@@ -16274,21 +16347,21 @@ be a descendant of the grid when it is being dragged.
   vertical-align: top;
 }
 .fc-time-grid-event.fc-short .fc-time span {
-  display: none
+  display: none;
   /* don't display the full time text... */
 }
 .fc-time-grid-event.fc-short .fc-time:before {
-  content: attr(data-start)
+  content: attr(data-start);
   /* ...instead, display only the start time */
 }
 .fc-time-grid-event.fc-short .fc-time:after {
-  content: "\000A0-\000A0"
+  content: "\000A0-\000A0";
   /* seperate with a dash, wrapped in nbsp's */
 }
 .fc-time-grid-event.fc-short .fc-title {
   font-size: .85em;
   /* make the title text the same size as the time */
-  padding: 0
+  padding: 0;
   /* undo padding from above */
 }
 /* resizer */
@@ -16439,6 +16512,7 @@ be a descendant of the grid when it is being dragged.
     right: 45px;
   }
 }
+/*#endregion Tasks*/
 /*#region Tickets*/
 .tickets-container {
   position: relative;
@@ -16565,6 +16639,7 @@ be a descendant of the grid when it is being dragged.
     border-bottom: 1px solid #eeeeee;
   }
 }
+/*#endregion Tickets*/
 /*#region Dashboard Box*/
 .dashboard-box {
   background-color: #ffffff;
@@ -16739,6 +16814,7 @@ right:calc(20% - 35px);
     border-left: 0;
   }
 }
+/*#endregion Dashboard Box*/
 /*#region Orders*/
 .orders-container {
   position: relative;
@@ -16879,6 +16955,7 @@ top:calc(50% - 13px);
   font-size: 18px;
   color: #cccccc;
 }
+/*#endregion Orders*/
 /*#region 404*/
 .body-404 {
   background-color: #2dc3e8;
@@ -16963,6 +17040,7 @@ top:calc(50% - 13px);
 .body-500 .return-btn:hover {
   color: #fb6e52;
 }
+/*#endregion 404*/
 /*#region SearchHelpBar*/
 .searchhelpbar {
   width: 100%;
@@ -16989,6 +17067,7 @@ top:calc(50% - 13px);
 .searchhelpbar .search-box > div {
   padding: 19px;
 }
+/*#endregion SearchHelpBar*/
 /*#region Loading*/
 @-webkit-keyframes typing {
   0% {
@@ -16997,7 +17076,7 @@ top:calc(50% - 13px);
   }
   25% {
     background-color: rgba(255, 255, 255, 0.4);
-    box-shadow: -12px 0px 0px 0px #ffffff, 24px 0px 0px 0px rgba(255, 255, 255, 0.2);
+    box-shadow: -12px 0px 0px 0px #ffffff, -24px 0px 0px 0px rgba(255, 255, 255, 0.2);
   }
   75% {
     background-color: rgba(255, 255, 255, 0.4);
@@ -17011,7 +17090,7 @@ top:calc(50% - 13px);
   }
   25% {
     background-color: rgba(255, 255, 255, 0.4);
-    box-shadow: -12px 0px 0px 0px #ffffff, 24px 0px 0px 0px rgba(255, 255, 255, 0.2);
+    box-shadow: -12px 0px 0px 0px #ffffff, -24px 0px 0px 0px rgba(255, 255, 255, 0.2);
   }
   75% {
     background-color: rgba(255, 255, 255, 0.4);
@@ -17025,7 +17104,7 @@ top:calc(50% - 13px);
   }
   25% {
     background-color: rgba(255, 255, 255, 0.4);
-    box-shadow: -12px 0px 0px 0px #ffffff, 24px 0px 0px 0px rgba(255, 255, 255, 0.2);
+    box-shadow: -12px 0px 0px 0px #ffffff, -24px 0px 0px 0px rgba(255, 255, 255, 0.2);
   }
   75% {
     background-color: rgba(255, 255, 255, 0.4);
@@ -17059,6 +17138,7 @@ top:calc(50% - 13px);
   position: relative;
   right: -12px;
 }
+/*#endregion Loading*/
 #chat-link.open {
   -webkit-box-shadow: 0 -6px 40px rgba(0, 0, 0, 0.4);
   -moz-box-shadow: 0 -6px 40px rgba(0, 0, 0, 0.4);
