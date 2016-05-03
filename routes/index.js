@@ -48,8 +48,20 @@ router.get('/paynotify', function (req, res, next) {
     });
 });
 
-router.get('/', function (req, res, next) {
+router.get('/index', function (req, res, next) {
     res.render('index');
+});
+
+router.get('/inbox', function (req, res, next) {
+    res.render('inbox');
+});
+
+router.get('/lock', function (req, res, next) {
+    res.render('lock');
+});
+
+router.get('/login', function (req, res, next) {
+    res.render('login');
 });
 
 router.get('/tabs', function (req, res, next) {
@@ -58,7 +70,7 @@ router.get('/tabs', function (req, res, next) {
 
 router.get('/dashboard', function (req, res, next) {
     res.render('dashboard');
-})
+});
 
 /**
  * 获取某类的数据字典

@@ -1,0 +1,107 @@
+<style>
+    @keyframes mymove{
+        from {
+            -webkit-filter: blur(0px);
+            -moz-filter: blur(0px);
+            -ms-filter: blur(0px);
+            filter: blur(0px);
+        }
+        to {
+            -webkit-filter: blur(2px);
+            -moz-filter: blur(2px);
+            -ms-filter: blur(2px);
+            filter: blur(2px);
+        }
+    }
+    @-webkit-keyframes mymove {
+        from {
+            -webkit-filter: blur(0px);
+            -moz-filter: blur(0px);
+            -ms-filter: blur(0px);
+            filter: blur(0px);
+        }
+        to {
+            -webkit-filter: blur(2px);
+            -moz-filter: blur(2px);
+            -ms-filter: blur(2px);
+            filter: blur(2px);
+        }
+    }
+    @keyframes rmymove{
+        to {
+            -webkit-filter: blur(0px);
+            -moz-filter: blur(0px);
+            -ms-filter: blur(0px);
+            filter: blur(0px);
+        }
+        from {
+            -webkit-filter: blur(2px);
+            -moz-filter: blur(2px);
+            -ms-filter: blur(2px);
+            filter: blur(2px);
+        }
+    }
+    @-webkit-keyframes rmymove {
+        to{
+            -webkit-filter: blur(0px);
+            -moz-filter: blur(0px);
+            -ms-filter: blur(0px);
+            filter: blur(0px);
+        }
+        from {
+            -webkit-filter: blur(2px);
+            -moz-filter: blur(2px);
+            -ms-filter: blur(2px);
+            filter: blur(2px);
+        }
+    }
+    .mao{
+        -webkit-animation-name: mymove;
+        animation-name: mymove;
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+    }
+    .rmao{
+        -webkit-animation-name: rmymove;
+        animation-name: rmymove;
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+    }
+</style>
+<div class="lock-test" style="z-index: 2001;position: fixed;top: 0;left: 0;right: 0;bottom: 0;display: none;">
+    <div class="lock-container animated fadeInDown">
+        <div class="lock-box text-align-center">
+            <div class="lock-username">DIVYIA PHILLIPS</div>
+            <img src="assets/img/avatars/divyia.jpg" alt="divyia avatar" />
+            <div class="lock-password">
+                <form role="form" class="form-inline" action="index.html">
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input class="form-control" placeholder="Password" type="password">
+                            <i class="glyphicon glyphicon-log-in themeprimary"></i>
+                        </span>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="signinbox">
+            <span>切换其他用户登录?</span>
+            <a href="javascript:login()">去登录</a>
+        </div>
+    </div>
+</div>
+<script>
+    function lock(){
+        $('.lock-test').show().prevAll('div').removeClass('rmao').addClass('mao');
+        $('.lock-container').removeClass('animated fadeOutUp').addClass('animated fadeInDown');
+    }
+    function unlock(){
+        $('.lock-test').delay(1000).hide(0).prevAll('div').removeClass('mao').addClass('rmao');
+        $('.lock-container').removeClass('animated fadeInDown').addClass('animated fadeOutUp');
+    }
+</script>

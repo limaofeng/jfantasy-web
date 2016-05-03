@@ -14,23 +14,19 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 var hbs = require('hbs');
+hbs.registerPartials(__dirname + '/views/layouts');
 hbs.registerPartials(__dirname + '/views/partials');
-hbs.partials = {};
-var fs = require('fs');
-fs.readdir(__dirname + '/views/layout', function (err, fileNames) {
-    fileNames.forEach(function (name) {
-        hbs.partials[name.replace(/\.hbs$/, '')] = hbs.compile(fs.readFileSync(__dirname + '/views/layout/' + name, 'utf8'));
-    });
-});
+
 hbs.registerHelper(require('./lib/hbs-helper.js'));
-hbs.registerHelper(require('handlebars-layouts')(hbs));
+hbs.registerHelper(require('handlebars-layouts')(hbs.handlebars));
 
 // uncomment after placing your favicon in /public
-// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'assets/img/favicon.png')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
+/*
 app.use(session({
     secret: '1234567890QWERTY',
     name: 'sessionid',   //这里的name值得是cookie的name，默认cookie的name是：connect.sid
@@ -38,12 +34,16 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
+*/
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', function (req, res, next) {
+    /*
     res.locals.session = req.session;
     req.session.user = {nickName: "系统管理员"};
     res.locals.wrapper = req.header('X-Requested-With') == 'XMLHttpRequest' ? 'empty' : 'base';
+    */
+    /*
     if (!req.session.treeMenus) {
         http.get('/system/websites/haolue/menus', function (error,_res,data) {
             var treeMenus = [];
@@ -67,6 +67,8 @@ app.use('/', function (req, res, next) {
     } else {
         next();
     }
+    */
+    next();
 });
 
 app.use('/', require('./routes/index'));// 首页

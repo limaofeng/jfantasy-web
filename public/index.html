@@ -1,8 +1,8 @@
 ﻿<!DOCTYPE html>
 <!--
-BeyondAdmin - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.6
+BeyondAdmin - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.5
 Version: 1.6.0
-Purchase: https://wrapbootstrap.com/theme/beyondadmin-adminapp-angularjs-mvc-WB06R48S4
+Purchase: http://wrapbootstrap.com
 -->
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -25,8 +25,8 @@ Purchase: https://wrapbootstrap.com/theme/beyondadmin-adminapp-angularjs-mvc-WB0
     <link href="assets/css/weather-icons.min.css" rel="stylesheet" />
 
     <!--Fonts-->
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css">
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+    <link href="http://fonts.useso.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css">
+    <link href='http://fonts.useso.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
     <!--Beyond styles-->
     <link id="beyond-link" href="assets/css/beyond.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/demo.min.css" rel="stylesheet" />
@@ -36,736 +36,760 @@ Purchase: https://wrapbootstrap.com/theme/beyondadmin-adminapp-angularjs-mvc-WB0
 
     <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
     <script src="assets/js/skins.min.js"></script>
+	
+	<script src="assets/js/react/react.js"></script>
+    <script src="assets/js/react/react-dom.js"></script>
+    <script src="assets/js/react/browser.min.js"></script>
 </head>
 <!-- /Head -->
 <!-- Body -->
 <body>
-    <!-- Loading Container -->
-    <div class="loading-container">
-        <div class="loader"></div>
-    </div>
-    <!--  /Loading Container -->
-    <!-- Navbar -->
-    <div class="navbar">
-        <div class="navbar-inner">
-            <div class="navbar-container">
-                <!-- Navbar Barnd -->
-                <div class="navbar-header pull-left">
-                    <a href="#" class="navbar-brand">
+    
+	<div id="content">
+	</div>
+	
+	<script type="text/babel">
+	var NavbarBrand = React.createClass({
+		render: function() {
+			return (
+			  <div className="navbar-header pull-left">
+                    <a href="#" className="navbar-brand">
                         <small>
                             <img src="assets/img/logo.png" alt="" />
                         </small>
                     </a>
                 </div>
-                <!-- /Navbar Barnd -->
-                <!-- Sidebar Collapse -->
-                <div class="sidebar-collapse" id="sidebar-collapse">
-                    <i class="collapse-icon fa fa-bars"></i>
+			);
+		 }
+	});
+	
+	var SideBar = React.createClass({
+		handleClick: function (e) {
+			var b = $("#sidebar").hasClass("menu-compact");
+			if (!$('#sidebar').is(':visible'))
+            $("#sidebar").toggleClass("hide");
+			$("#sidebar").toggleClass("menu-compact");
+			$(".sidebar-collapse").toggleClass("active");
+			b = $("#sidebar").hasClass("menu-compact");
+
+			if ($(".sidebar-menu").closest("div").hasClass("slimScrollDiv")) {
+				$(".sidebar-menu").slimScroll({ destroy: true });
+				$(".sidebar-menu").attr('style', '');
+			}
+			if (b) {
+				$(".open > .submenu").removeClass("open");
+			} else {
+				if ($('.page-sidebar').hasClass('sidebar-fixed')) {
+					var position = (readCookie("rtl-support") || location.pathname == "/index-rtl-fa.html" || location.pathname == "/index-rtl-ar.html") ? 'right' : 'left';
+					$('.sidebar-menu').slimscroll({
+						height: 'auto',
+						position: position,
+						size: '3px',
+						color: themeprimary
+					});
+				}
+			}	
+		},
+		render: function() {
+			return (
+			  <div className="sidebar-collapse" id="sidebar-collapse" onClick={this.handleClick}>
+                    <i className="collapse-icon fa fa-bars"></i>
                 </div>
-                <!-- /Sidebar Collapse -->
-                <!-- Account Area and Settings --->
-                <div class="navbar-header pull-right">
-                    <div class="navbar-account">
-                        <ul class="account-area">
+			);
+		 }
+	});
+	
+	var AccountItem = React.createClass({
+		render: function() {
+			return (
+			  <li>
+                  <a href="#">
+                   <div className="clearfix">
+					   <div className="notification-icon">
+						<i className="fa fa-phone bg-themeprimary white"></i>
+					   </div>
+					   <div className="notification-body">
+						<span className="title">{this.props.title}</span>
+						<span className="description">{this.props.desc}</span>
+					   </div>
+					   <div className="notification-extra">
+						 <i className="fa fa-clock-o themeprimary"></i>
+						 <span className="description">{this.props.extra}</span>
+						</div>
+                   </div>
+                  </a>
+              </li>
+			);
+		 }
+	});
+	
+	var MessageItem = React.createClass({
+		render: function() {
+			return (
+			  <li>
+				<a href="#">
+                    <img src="assets/img/avatars/divyia.jpg" className="message-avatar" alt="Divyia Austin" />
+                    <div className="message">
+                        <span className="message-sender">
+							{this.props.sender}
+                        </span>
+                        <span className="message-time">
+							{this.props.time}
+                        </span>
+                        <span className="message-subject">
+							{this.props.subject}
+                        </span>
+                        <span className="message-body">
+							{this.props.body}
+                        </span>
+                    </div>
+                </a>
+              </li>
+			);
+		 }
+	});
+	
+	var TaskItem = React.createClass({
+		render: function() {
+			return (
+			  <li>
+                <a href="#">
+                    <div className="clearfix">
+                        <span className="pull-left">{this.props.title}</span>
+                        <span className="pull-right">{this.props.percent}</span>
+                    </div>
+                    <div className="progress progress-xs">
+						<div style={{width:'65%'}} className="progress-bar"></div>
+                    </div>
+                </a>
+              </li>
+			);
+		 }
+	});
+	
+	var NavbarHeaderRight = React.createClass({
+		chatClick: function (e) {
+			$('.page-chatbar').toggleClass('open');
+			$("#chat-link").toggleClass('open');
+		},
+		createCookie: function (e) {
+			alert("hello");
+			if (100) {
+				var date = new Date();
+				date.setTime(date.getTime() + (100 * 24 * 60 * 60 * 1000));
+				var expires = "; expires=" + date.toGMTString();
+			}
+			else var expires = "";
+			document.cookie = e + expires + "; path=/";
+		},
+		readCookie: function (e) {
+			alert("hello");
+			var nameEq = e + "=";
+			var ca = document.cookie.split(';');
+			for (var i = 0; i < ca.length; i++) {
+				var c = ca[i];
+				while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+				if (c.indexOf(nameEq) == 0) return c.substring(nameEq.length, c.length);
+			}
+			return null;
+		},
+
+		setCookiesForFixedSettings :function () {
+			alert("hello");
+			createCookie("navbar-fixed-top"+ "=" + $('#checkbox_fixednavbar').is(':checked'));
+			createCookie("sidebar-fixed" + "=" + $('#checkbox_fixedsidebar').is(':checked'));
+			createCookie("breadcrumbs-fixed"+"="+ $('#checkbox_fixedbreadcrumbs').is(':checked'));
+			createCookie("page-header-fixed"+"="+ $('#checkbox_fixedheader').is(':checked'));
+
+			var position = (readCookie("rtl-support") || location.pathname == "/index-rtl-fa.html" || location.pathname == "/index-rtl-ar.html") ? 'right' : 'left';
+			if ($('#checkbox_fixedsidebar').is(':checked')) {
+				if (!$('.page-sidebar').hasClass('menu-compact')) {
+					//Slim Scrolling for Sidebar Menu in fix state
+					$('.sidebar-menu').slimscroll({
+						position: position,
+						size: '3px',
+						color: themeprimary,
+						height: $(window).height() - 90,
+					});
+				}
+			} else {
+				if ($(".sidebar-menu").closest("div").hasClass("slimScrollDiv")) {
+					$(".sidebar-menu").slimScroll({ destroy: true });
+					$(".sidebar-menu").attr('style', '');
+				}
+			}
+		},
+		initiateSettings: function (e) {
+			
+			if (readCookie("navbar-fixed-top") != null) {
+				if (readCookie("navbar-fixed-top") == "true") {
+					$('#checkbox_fixednavbar').prop('checked', true);
+					$('.navbar').addClass('navbar-fixed-top');
+				}
+			}
+
+			if (readCookie("sidebar-fixed") != null) {
+				if (readCookie("sidebar-fixed") == "true") {
+					$('#checkbox_fixedsidebar').prop('checked', true);
+					$('.page-sidebar').addClass('sidebar-fixed');
+
+					if (!$(".page-sidebar").hasClass("menu-compact")) {
+						var position = (readCookie("rtl-support") || location.pathname == "/index-rtl-fa.html" || location.pathname == "/index-rtl-ar.html") ? 'right' : 'left';
+						$('.sidebar-menu').slimscroll({
+							height: $(window).height() - 90,
+							position: position,
+							size: '3px',
+							color: themeprimary
+						});
+					}
+				}
+			}
+			if (readCookie("breadcrumbs-fixed") != null) {
+				if (readCookie("breadcrumbs-fixed") == "true") {
+					$('#checkbox_fixedbreadcrumbs').prop('checked', true);
+					$('.page-breadcrumbs').addClass('breadcrumbs-fixed');
+				}
+			}
+			if (readCookie("page-header-fixed") != null) {
+				if (readCookie("page-header-fixed") == "true") {
+					$('#checkbox_fixedheader').prop('checked', true);
+					$('.page-header').addClass('page-header-fixed');
+				}
+			}
+
+			$('#checkbox_fixednavbar').change(function () {
+				$('.navbar').toggleClass('navbar-fixed-top');
+				if (($('#checkbox_fixedsidebar').is(":checked"))) {
+					$('#checkbox_fixedsidebar').prop('checked', false);
+					$('.page-sidebar').toggleClass('sidebar-fixed');
+				}
+
+				if (($('#checkbox_fixedbreadcrumbs').is(":checked")) && !($(this).is(":checked"))) {
+					$('#checkbox_fixedbreadcrumbs').prop('checked', false);
+					$('.page-breadcrumbs').toggleClass('breadcrumbs-fixed');
+				}
+
+				if (($('#checkbox_fixedheader').is(":checked")) && !($(this).is(":checked"))) {
+					$('#checkbox_fixedheader').prop('checked', false);
+					$('.page-header').toggleClass('page-header-fixed');
+				}
+				setCookiesForFixedSettings();
+			});
+
+			$('#checkbox_fixedsidebar').change(function () {
+				$('.page-sidebar').toggleClass('sidebar-fixed');
+				if (!($('#checkbox_fixednavbar').is(":checked"))) {
+					$('#checkbox_fixednavbar').prop('checked', true);
+					$('.navbar').toggleClass('navbar-fixed-top');
+				}
+				if (($('#checkbox_fixedbreadcrumbs').is(":checked")) && !($(this).is(":checked"))) {
+					$('#checkbox_fixedbreadcrumbs').prop('checked', false);
+					$('.page-breadcrumbs').toggleClass('breadcrumbs-fixed');
+				}
+				if (($('#checkbox_fixedheader').is(":checked")) && !($(this).is(":checked"))) {
+					$('#checkbox_fixedheader').prop('checked', false);
+					$('.page-header').toggleClass('page-header-fixed');
+				}
+				setCookiesForFixedSettings();
+			});
+			$('#checkbox_fixedbreadcrumbs').change(function () {
+				$('.page-breadcrumbs').toggleClass('breadcrumbs-fixed');
+				if (!($('#checkbox_fixedsidebar').is(":checked"))) {
+					$('#checkbox_fixedsidebar').prop('checked', true);
+					$('.page-sidebar').toggleClass('sidebar-fixed');
+				}
+				if (!($('#checkbox_fixednavbar').is(":checked"))) {
+					$('#checkbox_fixednavbar').prop('checked', true);
+					$('.navbar').toggleClass('navbar-fixed-top');
+				}
+				if (($('#checkbox_fixedheader').is(":checked")) && !($(this).is(":checked"))) {
+					$('#checkbox_fixedheader').prop('checked', false);
+					$('.page-header').toggleClass('page-header-fixed');
+				}
+				setCookiesForFixedSettings();
+			});
+			$('#checkbox_fixedheader').change(function () {
+				$('.page-header').toggleClass('page-header-fixed');
+				if (!($('#checkbox_fixedbreadcrumbs').is(":checked"))) {
+					$('#checkbox_fixedbreadcrumbs').prop('checked', true);
+					$('.page-breadcrumbs').toggleClass('breadcrumbs-fixed');
+				}
+				if (!($('#checkbox_fixedsidebar').is(":checked"))) {
+					$('#checkbox_fixedsidebar').prop('checked', true);
+					$('.page-sidebar').toggleClass('sidebar-fixed');
+				}
+				if (!($('#checkbox_fixednavbar').is(":checked"))) {
+					$('#checkbox_fixednavbar').prop('checked', true);
+					$('.navbar').toggleClass('navbar-fixed-top');
+				}
+				setCookiesForFixedSettings();
+			});
+		},
+		settingsClick: function (e) {
+			$('.navbar-account').toggleClass('setting-open');
+		},
+		componentDidMount: function() {
+			this.initiateSettings();
+		},
+		render: function() {
+			return (
+			  <div className="navbar-header pull-right">
+                    <div className="navbar-account">
+                        <ul className="account-area">
                             <li>
-                                <a class=" dropdown-toggle" data-toggle="dropdown" title="Notifications" href="#">
-                                    <i class="icon fa fa-warning"></i>
+                                <a className=" dropdown-toggle" data-toggle="dropdown" title="Notifications" href="#">
+                                    <i className="icon fa fa-warning"></i>
                                 </a>
-                                <!--Notification Dropdown-->
-                                <ul class="pull-right dropdown-menu dropdown-arrow dropdown-notifications">
-                                    <li>
-                                        <a href="#">
-                                            <div class="clearfix">
-                                                <div class="notification-icon">
-                                                    <i class="fa fa-phone bg-themeprimary white"></i>
-                                                </div>
-                                                <div class="notification-body">
-                                                    <span class="title">Skype meeting with Patty</span>
-                                                    <span class="description">01:00 pm</span>
-                                                </div>
-                                                <div class="notification-extra">
-                                                    <i class="fa fa-clock-o themeprimary"></i>
-                                                    <span class="description">office</span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="clearfix">
-                                                <div class="notification-icon">
-                                                    <i class="fa fa-check bg-darkorange white"></i>
-                                                </div>
-                                                <div class="notification-body">
-                                                    <span class="title">Uncharted break</span>
-                                                    <span class="description">03:30 pm - 05:15 pm</span>
-                                                </div>
-                                                <div class="notification-extra">
-                                                    <i class="fa fa-clock-o darkorange"></i>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="clearfix">
-                                                <div class="notification-icon">
-                                                    <i class="fa fa-gift bg-warning white"></i>
-                                                </div>
-                                                <div class="notification-body">
-                                                    <span class="title">Kate birthday party</span>
-                                                    <span class="description">08:30 pm</span>
-                                                </div>
-                                                <div class="notification-extra">
-                                                    <i class="fa fa-calendar warning"></i>
-                                                    <i class="fa fa-clock-o warning"></i>
-                                                    <span class="description">at home</span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="clearfix">
-                                                <div class="notification-icon">
-                                                    <i class="fa fa-glass bg-success white"></i>
-                                                </div>
-                                                <div class="notification-body">
-                                                    <span class="title">Dinner with friends</span>
-                                                    <span class="description">10:30 pm</span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="dropdown-footer ">
+                                <ul className="pull-right dropdown-menu dropdown-arrow dropdown-notifications">
+                                    <AccountItem title="Skype meeting with Patty" desc="01:00 pm" extra="office" />
+									<AccountItem title="Uncharted break" desc="03:30 pm - 05:15 pm" extra="" />
+									<AccountItem title="Kate birthday party" desc="08:30 pm" extra="at home" />
+									<AccountItem title="Dinner with friends" desc="10:30 pm" extra="" />
+                                    <li className="dropdown-footer ">
                                         <span>
                                             Today, March 28
                                         </span>
-                                        <span class="pull-right">
+                                        <span className="pull-right">
                                             10°c
-                                            <i class="wi wi-cloudy"></i>
+                                            <i className="wi wi-cloudy"></i>
                                         </span>
                                     </li>
                                 </ul>
-                                <!--/Notification Dropdown-->
+                                
                             </li>
                             <li>
-                                <a class="dropdown-toggle" data-toggle="dropdown" title="Mails" href="#">
-                                    <i class="icon fa fa-envelope"></i>
-                                    <span class="badge">3</span>
+                                <a className="dropdown-toggle" data-toggle="dropdown" title="Mails" href="#">
+                                    <i className="icon fa fa-envelope"></i>
+                                    <span className="badge">3</span>
                                 </a>
-                                <!--Messages Dropdown-->
-                                <ul class="pull-right dropdown-menu dropdown-arrow dropdown-messages">
-                                    <li>
-                                        <a href="#">
-                                            <img src="assets/img/avatars/divyia.jpg" class="message-avatar" alt="Divyia Austin">
-                                            <div class="message">
-                                                <span class="message-sender">
-                                                    Divyia Austin
-                                                </span>
-                                                <span class="message-time">
-                                                    2 minutes ago
-                                                </span>
-                                                <span class="message-subject">
-                                                    Here's the recipe for apple pie
-                                                </span>
-                                                <span class="message-body">
-                                                    to identify the sending application when the senders image is shown for the main icon
-                                                </span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <img src="assets/img/avatars/bing.png" class="message-avatar" alt="Microsoft Bing">
-                                            <div class="message">
-                                                <span class="message-sender">
-                                                    Bing.com
-                                                </span>
-                                                <span class="message-time">
-                                                    Yesterday
-                                                </span>
-                                                <span class="message-subject">
-                                                    Bing Newsletter: The January Issue‏
-                                                </span>
-                                                <span class="message-body">
-                                                    Discover new music just in time for the Grammy® Awards.
-                                                </span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <img src="assets/img/avatars/adam-jansen.jpg" class="message-avatar" alt="Divyia Austin">
-                                            <div class="message">
-                                                <span class="message-sender">
-                                                    Nicolas
-                                                </span>
-                                                <span class="message-time">
-                                                    Friday, September 22
-                                                </span>
-                                                <span class="message-subject">
-                                                    New 4K Cameras
-                                                </span>
-                                                <span class="message-body">
-                                                    The 4K revolution has come over the horizon and is reaching the general populous
-                                                </span>
-                                            </div>
-                                        </a>
-                                    </li>
+                                <ul className="pull-right dropdown-menu dropdown-arrow dropdown-messages">
+                                    <MessageItem sender="Divyia Austin" time="2 minutes ago" subject="Here's the recipe for apple pie" body="to identify the sending application when the senders image is shown for the main icon" />
+									<MessageItem sender="Bing.com" time="Yesterday" subject="Bing Newsletter: The January Issue‏" body="Discover new music just in time for the Grammy® Awards." />
+									<MessageItem sender="Nicolas" time="Friday, September 22" subject="New 4K Cameras" body="The 4K revolution has come over the horizon and is reaching the general populous" />
                                 </ul>
-                                <!--/Messages Dropdown-->
+                                
                             </li>
                             <li>
-                                <a class="dropdown-toggle" data-toggle="dropdown" title="Tasks" href="#">
-                                    <i class="icon fa fa-tasks"></i>
-                                    <span class="badge">4</span>
+                                <a className="dropdown-toggle" data-toggle="dropdown" title="Tasks" href="#">
+                                    <i className="icon fa fa-tasks"></i>
+                                    <span className="badge">4</span>
                                 </a>
-                                <!--Tasks Dropdown-->
-                                <ul class="pull-right dropdown-menu dropdown-tasks dropdown-arrow ">
-                                    <li class="dropdown-header bordered-darkorange">
-                                        <i class="fa fa-tasks"></i>
+                                <ul className="pull-right dropdown-menu dropdown-tasks dropdown-arrow ">
+                                    <li className="dropdown-header bordered-darkorange">
+                                        <i className="fa fa-tasks"></i>
                                         4 Tasks In Progress
                                     </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="clearfix">
-                                                <span class="pull-left">Account Creation</span>
-                                                <span class="pull-right">65%</span>
-                                            </div>
-
-                                            <div class="progress progress-xs">
-                                                <div style="width:65%" class="progress-bar"></div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="clearfix">
-                                                <span class="pull-left">Profile Data</span>
-                                                <span class="pull-right">35%</span>
-                                            </div>
-
-                                            <div class="progress progress-xs">
-                                                <div style="width:35%" class="progress-bar progress-bar-success"></div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="clearfix">
-                                                <span class="pull-left">Updating Resume</span>
-                                                <span class="pull-right">75%</span>
-                                            </div>
-
-                                            <div class="progress progress-xs">
-                                                <div style="width:75%" class="progress-bar progress-bar-darkorange"></div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="clearfix">
-                                                <span class="pull-left">Adding Contacts</span>
-                                                <span class="pull-right">10%</span>
-                                            </div>
-
-                                            <div class="progress progress-xs">
-                                                <div style="width:10%" class="progress-bar progress-bar-warning"></div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="dropdown-footer">
+                                    <TaskItem title="Account Creation" percent="65%" />
+									<TaskItem title="Profile Data" percent="35%" />
+									<TaskItem title="Updating Resume" percent="75%" />
+									<TaskItem title="Adding Contacts" percent="10%" />
+                                    <li className="dropdown-footer">
                                         <a href="#">
                                             See All Tasks
                                         </a>
-                                        <button class="btn btn-xs btn-default shiny darkorange icon-only pull-right"><i class="fa fa-check"></i></button>
+                                        <button className="btn btn-xs btn-default shiny darkorange icon-only pull-right"><i className="fa fa-check"></i></button>
                                     </li>
                                 </ul>
-                                <!--/Tasks Dropdown-->
                             </li>
                             <li>
-                                <a class="wave in" id="chat-link" title="Chat" href="#">
-                                    <i class="icon glyphicon glyphicon-comment"></i>
+                                <a className="wave in" id="chat-link" title="Chat" href="#" onClick={this.chatClick}>
+                                    <i className="icon glyphicon glyphicon-comment"></i>
                                 </a>
                             </li>
                             <li>
-                                <a class="login-area dropdown-toggle" data-toggle="dropdown">
-                                    <div class="avatar" title="View your public profile">
-                                        <img src="assets/img/avatars/adam-jansen.jpg">
+                                <a className="login-area dropdown-toggle" data-toggle="dropdown">
+                                    <div className="avatar" title="View your public profile">
+                                        <img src="assets/img/avatars/adam-jansen.jpg" />
                                     </div>
                                     <section>
-                                        <h2><span class="profile"><span>David Stevenson</span></span></h2>
+                                        <h2><span className="profile"><span>David Stevenson</span></span></h2>
                                     </section>
                                 </a>
-                                <!--Login Area Dropdown-->
-                                <ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">
-                                    <li class="username"><a>David Stevenson</a></li>
-                                    <li class="email"><a>David.Stevenson@live.com</a></li>
-                                    <!--Avatar Area-->
+                                
+                                <ul className="pull-right dropdown-menu dropdown-arrow dropdown-login-area">
+                                    <li className="username"><a>David Stevenson</a></li>
+                                    <li className="email"><a>David.Stevenson@live.com</a></li>
+                                    
                                     <li>
-                                        <div class="avatar-area">
-                                            <img src="assets/img/avatars/adam-jansen.jpg" class="avatar">
-                                            <span class="caption">Change Photo</span>
+                                        <div className="avatar-area">
+                                            <img src="assets/img/avatars/adam-jansen.jpg" className="avatar" />
+                                            <span className="caption">Change Photo</span>
                                         </div>
                                     </li>
-                                    <!--Avatar Area-->
-                                    <li class="edit">
-                                        <a href="profile.html" class="pull-left">Profile</a>
-                                        <a href="#" class="pull-right">Setting</a>
+                                    
+                                    <li className="edit">
+                                        <a href="profile.html" className="pull-left">Profile</a>
+                                        <a href="#" className="pull-right">Setting</a>
                                     </li>
-                                    <!--Theme Selector Area-->
-                                    <li class="theme-area">
-                                        <ul class="colorpicker" id="skin-changer">
-                                            <li><a class="colorpick-btn" href="#" style="background-color:#5DB2FF;" rel="assets/css/skins/blue.min.css"></a></li>
-                                            <li><a class="colorpick-btn" href="#" style="background-color:#2dc3e8;" rel="assets/css/skins/azure.min.css"></a></li>
-                                            <li><a class="colorpick-btn" href="#" style="background-color:#03B3B2;" rel="assets/css/skins/teal.min.css"></a></li>
-                                            <li><a class="colorpick-btn" href="#" style="background-color:#53a93f;" rel="assets/css/skins/green.min.css"></a></li>
-                                            <li><a class="colorpick-btn" href="#" style="background-color:#FF8F32;" rel="assets/css/skins/orange.min.css"></a></li>
-                                            <li><a class="colorpick-btn" href="#" style="background-color:#cc324b;" rel="assets/css/skins/pink.min.css"></a></li>
-                                            <li><a class="colorpick-btn" href="#" style="background-color:#AC193D;" rel="assets/css/skins/darkred.min.css"></a></li>
-                                            <li><a class="colorpick-btn" href="#" style="background-color:#8C0095;" rel="assets/css/skins/purple.min.css"></a></li>
-                                            <li><a class="colorpick-btn" href="#" style="background-color:#0072C6;" rel="assets/css/skins/darkblue.min.css"></a></li>
-                                            <li><a class="colorpick-btn" href="#" style="background-color:#585858;" rel="assets/css/skins/gray.min.css"></a></li>
-                                            <li><a class="colorpick-btn" href="#" style="background-color:#474544;" rel="assets/css/skins/black.min.css"></a></li>
-                                            <li><a class="colorpick-btn" href="#" style="background-color:#001940;" rel="assets/css/skins/deepblue.min.css"></a></li>
+                                    
+                                    <li className="theme-area">
+                                        <ul className="colorpicker" id="skin-changer">
+                                            <li><a className="colorpick-btn" href="#" style={{backgroundColor:'#5DB2FF'}} rel="assets/css/skins/blue.min.css"></a></li>
+                                            <li><a className="colorpick-btn" href="#" style={{backgroundColor:'#2dc3e8'}} rel="assets/css/skins/azure.min.css"></a></li>
+                                            <li><a className="colorpick-btn" href="#" style={{backgroundColor:'#03B3B2'}} rel="assets/css/skins/teal.min.css"></a></li>
+                                            <li><a className="colorpick-btn" href="#" style={{backgroundColor:'#53a93f'}} rel="assets/css/skins/green.min.css"></a></li>
+                                            <li><a className="colorpick-btn" href="#" style={{backgroundColor:'#FF8F32'}} rel="assets/css/skins/orange.min.css"></a></li>
+                                            <li><a className="colorpick-btn" href="#" style={{backgroundColor:'#cc324b'}} rel="assets/css/skins/pink.min.css"></a></li>
+                                            <li><a className="colorpick-btn" href="#" style={{backgroundColor:'#AC193D'}} rel="assets/css/skins/darkred.min.css"></a></li>
+                                            <li><a className="colorpick-btn" href="#" style={{backgroundColor:'#8C0095'}} rel="assets/css/skins/purple.min.css"></a></li>
+                                            <li><a className="colorpick-btn" href="#" style={{backgroundColor:'#0072C6'}} rel="assets/css/skins/darkblue.min.css"></a></li>
+                                            <li><a className="colorpick-btn" href="#" style={{backgroundColor:'#585858'}} rel="assets/css/skins/gray.min.css"></a></li>
+                                            <li><a className="colorpick-btn" href="#" style={{backgroundColor:'#474544'}} rel="assets/css/skins/black.min.css"></a></li>
+                                            <li><a className="colorpick-btn" href="#" style={{backgroundColor:'#001940'}} rel="assets/css/skins/deepblue.min.css"></a></li>
                                         </ul>
                                     </li>
-                                    <!--/Theme Selector Area-->
-                                    <li class="dropdown-footer">
+                                    
+                                    <li className="dropdown-footer">
                                         <a href="login.html">
                                             Sign out
                                         </a>
                                     </li>
                                 </ul>
-                                <!--/Login Area Dropdown-->
+                                
                             </li>
-                            <!-- /Account Area -->
-                            <!--Note: notice that setting div must start right after account area list.
-                            no space must be between these elements-->
-                            <!-- Settings -->
-                        </ul><div class="setting">
-                            <a id="btn-setting" title="Setting" href="#">
-                                <i class="icon glyphicon glyphicon-cog"></i>
+                            
+                        </ul>
+						<div className="setting">
+                            <a id="btn-setting" title="Setting" href="#" onClick={this.settingsClick}>
+                                <i className="icon glyphicon glyphicon-cog"></i>
                             </a>
-                        </div><div class="setting-container">
+                        </div>
+						<div className="setting-container">
                             <label>
-                                <input type="checkbox" id="checkbox_fixednavbar">
-                                <span class="text">Fixed Navbar</span>
+                                <input type="checkbox" id="checkbox_fixednavbar" />
+                                <span className="text">Fixed Navbar</span>
                             </label>
                             <label>
-                                <input type="checkbox" id="checkbox_fixedsidebar">
-                                <span class="text">Fixed SideBar</span>
+                                <input type="checkbox" id="checkbox_fixedsidebar" />
+                                <span className="text">Fixed SideBar</span>
                             </label>
                             <label>
-                                <input type="checkbox" id="checkbox_fixedbreadcrumbs">
-                                <span class="text">Fixed BreadCrumbs</span>
+                                <input type="checkbox" id="checkbox_fixedbreadcrumbs" />
+                                <span className="text">Fixed BreadCrumbs</span>
                             </label>
                             <label>
-                                <input type="checkbox" id="checkbox_fixedheader">
-                                <span class="text">Fixed Header</span>
+                                <input type="checkbox" id="checkbox_fixedheader" />
+                                <span className="text">Fixed Header</span>
                             </label>
                         </div>
-                        <!-- Settings -->
+                        
                     </div>
                 </div>
-                <!-- /Account Area and Settings -->
-            </div>
-        </div>
-    </div>
-    <!-- /Navbar -->
-    <!-- Main Container -->
-    <div class="main-container container-fluid">
-        <!-- Page Container -->
-        <div class="page-container">
-
-            <!-- Page Sidebar -->
-            <div class="page-sidebar" id="sidebar">
-                <!-- Page Sidebar Header-->
-                <div class="sidebar-header-wrapper">
-                    <input type="text" class="searchinput" />
-                    <i class="searchicon fa fa-search"></i>
-                    <div class="searchhelper">Search Reports, Charts, Emails or Notifications</div>
+			);
+		 }
+	});
+	
+	var Navbar = React.createClass({
+		render: function() {
+			return (
+				<div className="navbar">
+					<div className="navbar-inner">
+						<div className="navbar-container">
+							<NavbarBrand />
+							<SideBar />
+							<NavbarHeaderRight />
+						</div>
+					</div>
+				</div>
+			);
+		 }
+	});
+	
+	var MenuItemIcon = React.createClass({
+		render: function() {
+			return (
+				<a href={this.props.href}>
+					<i className="menu-icon fa fa-th"></i>
+                    <span className="menu-text">{this.props.text}</span>
+                </a>
+			);
+		 }
+	});
+	
+	var MenuItem = React.createClass({
+		render: function() {
+			return (
+				<a href={this.props.href}>
+                    <span className="menu-text">{this.props.text}</span>
+                </a>
+			);
+		 }
+	});
+	
+	var ParentMenuIcon = React.createClass({
+		render: function() {
+			return (
+				<a href="#" className="menu-dropdown">
+                    <i className="menu-icon fa fa-desktop"></i>
+                    <span className="menu-text">{this.props.text}</span>
+                    <i className="menu-expand"></i>
+                </a>
+			);
+		 }
+	});
+	
+	var ParentMenu = React.createClass({
+		render: function() {
+			return (
+				<a href="#" className="menu-dropdown">
+                    <span className="menu-text">{this.props.text}</span>
+                    <i className="menu-expand"></i>
+                </a>
+			);
+		 }
+	});
+	
+	var PageSidebar = React.createClass({
+		bodyClickHandler: function (e) {
+			var b = $("#sidebar").hasClass("menu-compact");
+			var menuLink = $(e.target).closest("a");
+			if (!menuLink || menuLink.length == 0)
+				return;
+			if (!menuLink.hasClass("menu-dropdown")) {
+				if (b && menuLink.get(0).parentNode.parentNode == this) {
+					var menuText = menuLink.find(".menu-text").get(0);
+					if (e.target != menuText && !$.contains(menuText, e.target)) {
+						return false;
+					}
+				}
+				return;
+			}
+			var submenu = menuLink.next().get(0);
+			if (!$(submenu).is(":visible")) {
+				var c = $(submenu.parentNode).closest("ul");
+				if (b && c.hasClass("sidebar-menu"))
+					return;
+				c.find("> .open > .submenu")
+					.each(function () {
+						if (this != submenu && !$(this.parentNode).hasClass("active"))
+							$(this).slideUp(200).parent().removeClass("open");
+					});
+			}
+			if (b && $(submenu.parentNode.parentNode).hasClass("sidebar-menu"))
+				return false;
+			$(submenu).slideToggle(200).parent().toggleClass("open");
+			return false;
+		},
+		render: function() {
+			return (
+				<div className="page-sidebar" id="sidebar">
+                
+                <div className="sidebar-header-wrapper">
+					<input type="text" className="searchinput" />
+                    <i className="searchicon fa fa-search"></i>
+                    <div className="searchhelper">Search Reports, Charts, Emails or Notifications</div>
                 </div>
-                <!-- /Page Sidebar Header -->
-                <!-- Sidebar Menu -->
-                <ul class="nav sidebar-menu">
-                    <!--Dashboard-->
-                    <li class="active">
-                        <a href="index.html">
-                            <i class="menu-icon glyphicon glyphicon-home"></i>
-                            <span class="menu-text"> Dashboard </span>
-                        </a>
+                
+                <ul className="nav sidebar-menu" onClick={this.bodyClickHandler}>
+                    
+                    <li className="active">
+                        <MenuItemIcon href="index.html" text="Dashboard" />
                     </li>
-                    <!--Databoxes-->
+                    
                     <li>
-                        <a href="databoxes.html">
-                            <i class="menu-icon glyphicon glyphicon-tasks"></i>
-                            <span class="menu-text"> Data Boxes </span>
-                        </a>
+                        <MenuItemIcon href="databoxes.html" text="Data Boxes" />
                     </li>
-                    <!--Widgets-->
+                    
                     <li>
-                        <a href="widgets.html">
-                            <i class="menu-icon fa fa-th"></i>
-                            <span class="menu-text"> Widgets </span>
-                        </a>
+                        <MenuItemIcon href="widgets.html" text="Widgets" />
                     </li>
-                    <!--UI Elements-->
+                    
                     <li>
-                        <a href="#" class="menu-dropdown">
-                            <i class="menu-icon fa fa-desktop"></i>
-                            <span class="menu-text"> Elements </span>
-                            <i class="menu-expand"></i>
-                        </a>
+						<ParentMenuIcon text="Elements" />
 
-                        <ul class="submenu">
+                        <ul className="submenu">
                             <li>
-                                <a href="elements.html">
-                                    <span class="menu-text">Basic Elements</span>
-                                </a>
+								<MenuItem href="elements.html" text="Basic Elements" />
                             </li>
                             <li>
-                                <a href="#" class="menu-dropdown">
-                                    <span class="menu-text">
-                                        Icons
-                                    </span>
-                                    <i class="menu-expand"></i>
-                                </a>
+								<ParentMenu text="Icons" />
 
-                                <ul class="submenu">
+                                <ul className="submenu">
                                     <li>
-                                        <a href="font-awesome.html">
-                                            <i class="menu-icon fa fa-rocket"></i>
-                                            <span class="menu-text">Font Awesome</span>
-                                        </a>
+										<MenuItemIcon href="font-awesome.html" text="Font Awesome" />
                                     </li>
                                     <li>
-                                        <a href="glyph-icons.html">
-                                            <i class="menu-icon glyphicon glyphicon-stats"></i>
-                                            <span class="menu-text">Glyph Icons</span>
-                                        </a>
+										<MenuItemIcon href="glyph-icons.html" text="Glyph Icons" />
                                     </li>
                                     <li>
-                                        <a href="typicon.html">
-                                            <i class="menu-icon typcn typcn-location-outline"></i>
-                                            <span class="menu-text"> Typicons</span>
-                                        </a>
+										<MenuItemIcon href="typicon.html" text="Typicons" />
                                     </li>
                                     <li>
-                                        <a href="weather-icons.html">
-                                            <i class="menu-icon wi wi-hot"></i>
-                                            <span class="menu-text">Weather Icons</span>
-                                        </a>
+										<MenuItemIcon href="weather-icons.html" text="Weather Icons" />
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="tabs.html">
-                                    <span class="menu-text">Tabs & Accordions</span>
-                                </a>
+								<MenuItem href="tabs.html" text="Tabs & Accordions" />
                             </li>
                             <li>
-                                <a href="alerts.html">
-                                    <span class="menu-text">Alerts & Tooltips</span>
-                                </a>
+								<MenuItem href="alerts.html" text="Alerts & Tooltips" />
                             </li>
                             <li>
-                                <a href="modals.html">
-                                    <span class="menu-text">Modals & Wells</span>
-                                </a>
+								<MenuItem href="modals.html" text="Modals & Wells" />
                             </li>
                             <li>
-                                <a href="buttons.html">
-                                    <span class="menu-text">Buttons</span>
-                                </a>
+								<MenuItem href="buttons.html" text="Buttons" />
                             </li>
                             <li>
-                                <a href="nestable-list.html">
-                                    <span class="menu-text"> Nestable List</span>
-                                </a>
+								<MenuItem href="nestable-list.html" text="Nestable List" />
                             </li>
                             <li>
-                                <a href="treeview.html">
-                                    <span class="menu-text">Treeview</span>
-                                </a>
+								<MenuItem href="treeview.html" text="Treeview" />
                             </li>
                         </ul>
                     </li>
-                    <!--Tables-->
                     <li>
-                        <a href="#" class="menu-dropdown">
-                            <i class="menu-icon fa fa-table"></i>
-                            <span class="menu-text"> Tables </span>
+						<ParentMenuIcon text="Tables" />
 
-                            <i class="menu-expand"></i>
-                        </a>
-
-                        <ul class="submenu">
+                        <ul className="submenu">
                             <li>
-                                <a href="tables-simple.html">
-                                    <span class="menu-text">Simple & Responsive</span>
-                                </a>
+								<MenuItem href="tables-simple.html" text="Simple & Responsive" />
                             </li>
                             <li>
-                                <a href="tables-data.html">
-                                    <span class="menu-text">Data Tables</span>
-                                </a>
+								<MenuItem href="tables-data.html" text="Data Tables" />
                             </li>
                         </ul>
                     </li>
-                    <!--Forms-->
                     <li>
-                        <a href="#" class="menu-dropdown">
-                            <i class="menu-icon fa fa-pencil-square-o"></i>
-                            <span class="menu-text"> Forms </span>
+						<ParentMenuIcon text="Forms" />
 
-                            <i class="menu-expand"></i>
-                        </a>
-
-                        <ul class="submenu">
+                        <ul className="submenu">
                             <li>
-                                <a href="form-layouts.html">
-                                    <span class="menu-text">Form Layouts</span>
-                                </a>
+								<MenuItem href="form-layouts.html" text="Form Layouts" />
                             </li>
 
                             <li>
-                                <a href="form-inputs.html">
-                                    <span class="menu-text">Form Inputs</span>
-                                </a>
+								<MenuItem href="form-inputs.html" text="Form Inputs" />
                             </li>
 
                             <li>
-                                <a href="form-pickers.html">
-                                    <span class="menu-text">Data Pickers</span>
-                                </a>
+								<MenuItem href="form-pickers.html" text="Data Pickers" />
                             </li>
                             <li>
-                                <a href="form-wizard.html">
-                                    <span class="menu-text">Wizard</span>
-                                </a>
+								<MenuItem href="form-wizard.html" text="Wizard" />
                             </li>
                             <li>
-                                <a href="form-validation.html">
-                                    <span class="menu-text">Validation</span>
-                                </a>
+								<MenuItem href="form-validation.html" text="Validation" />
                             </li>
                             <li>
-                                <a href="form-editors.html">
-                                    <span class="menu-text">Editors</span>
-                                </a>
+								<MenuItem href="form-editors.html" text="Editors" />
                             </li>
                             <li>
-                                <a href="form-inputmask.html">
-                                    <span class="menu-text">Input Mask</span>
-                                </a>
+								<MenuItem href="form-inputmask.html" text="Input Mask" />
                             </li>
                         </ul>
                     </li>
-                    <!--Charts-->
                     <li>
-                        <a href="#" class="menu-dropdown">
-                            <i class="menu-icon fa fa-bar-chart-o"></i>
-                            <span class="menu-text"> Charts </span>
+						<ParentMenuIcon text="Charts" />
 
-                            <i class="menu-expand"></i>
-                        </a>
-
-                        <ul class="submenu">
+                        <ul className="submenu">
                             <li>
-                                <a href="flot.html">
-                                    <span class="menu-text">Flot Charts</span>
-                                </a>
+								<MenuItem href="flot.html" text="Flot Charts" />
                             </li>
 
                             <li>
-                                <a href="morris.html">
-                                    <span class="menu-text"> Morris Charts</span>
-                                </a>
+								<MenuItem href="morris.html" text="Morris Charts" />
                             </li>
                             <li>
-                                <a href="sparkline.html">
-                                    <span class="menu-text">Sparkline Charts</span>
-                                </a>
+								<MenuItem href="sparkline.html" text="Sparkline Charts" />
                             </li>
                             <li>
-                                <a href="easypiecharts.html">
-                                    <span class="menu-text">Easy Pie Charts</span>
-                                </a>
+								<MenuItem href="easypiecharts.html" text="Easy Pie Charts" />
                             </li>
                             <li>
-                                <a href="chartjs.html">
-                                    <span class="menu-text"> ChartJS</span>
-                                </a>
+								<MenuItem href="chartjs.html" text="ChartJS" />
                             </li>
                         </ul>
                     </li>
-                    <!--Profile-->
+
                     <li>
-                        <a href="profile.html">
-                            <i class="menu-icon fa fa-picture-o"></i>
-                            <span class="menu-text">Profile</span>
-                        </a>
+						<MenuItemIcon href="profile.html" text="Profile" />
                     </li>
-                    <!--Mail-->
+	
                     <li>
-                        <a href="#" class="menu-dropdown">
-                            <i class="menu-icon fa fa-envelope-o"></i>
-                            <span class="menu-text"> Mail </span>
+						<ParentMenuIcon text="Mail" />
 
-                            <i class="menu-expand"></i>
-                        </a>
-
-                        <ul class="submenu">
+                        <ul className="submenu">
                             <li>
-                                <a href="inbox.html">
-                                    <span class="menu-text">Inbox</span>
-                                </a>
+								<MenuItem href="inbox.html" text="Inbox" />
                             </li>
 
                             <li>
-                                <a href="message-view.html">
-                                    <span class="menu-text">View Message</span>
-                                </a>
+								<MenuItem href="message-view.html" text="View Message" />
                             </li>
                             <li>
-                                <a href="message-compose.html">
-                                    <span class="menu-text">Compose Message</span>
-                                </a>
+								<MenuItem href="message-compose.html" text="Compose Message" />
                             </li>
                         </ul>
                     </li>
-                    <!--Calendar-->
                     <li>
-                        <a href="calendar.html">
-                            <i class="menu-icon fa fa-calendar"></i>
-                            <span class="menu-text">
-                                Calendar
-                            </span>
-                        </a>
+						<MenuItemIcon href="calendar.html" text="Calendar" />
                     </li>
-                    <!--Pages-->
+
                     <li>
-                        <a href="#" class="menu-dropdown">
-                            <i class="menu-icon glyphicon glyphicon-paperclip"></i>
-                            <span class="menu-text"> Pages </span>
-
-                            <i class="menu-expand"></i>
-                        </a>
-                        <ul class="submenu">
+						<ParentMenuIcon text="Pages" />
+                        <ul className="submenu">
                             <li>
-                                <a href="timeline.html">
-                                    <span class="menu-text">Timeline</span>
-                                </a>
+								<MenuItem href="timeline.html" text="Timeline" />
                             </li>
                             <li>
-                                <a href="pricing.html">
-                                    <span class="menu-text">Pricing Tables</span>
-                                </a>
+								<MenuItem href="pricing.html" text="Pricing Tables" />
                             </li>
 
                             <li>
-                                <a href="invoice.html">
-                                    <span class="menu-text">Invoice</span>
-                                </a>
+								<MenuItem href="invoice.html" text="Invoice" />
                             </li>
 
                             <li>
-                                <a href="login.html">
-                                    <span class="menu-text">Login</span>
-                                </a>
+								<MenuItem href="login.html" text="Login" />
                             </li>
                             <li>
-                                <a href="register.html">
-                                    <span class="menu-text">Register</span>
-                                </a>
+								<MenuItem href="register.html" text="Register" />
                             </li>
                             <li>
-                                <a href="lock.html">
-                                    <span class="menu-text">Lock Screen</span>
-                                </a>
+								<MenuItem href="lock.html" text="Lock Screen" />
                             </li>
                             <li>
-                                <a href="typography.html">
-                                    <span class="menu-text"> Typography </span>
-                                </a>
+								<MenuItem href="typography.html" text="Typography" />
                             </li>
                         </ul>
                     </li>
-                    <!--More Pages-->
                     <li>
-                        <a href="#" class="menu-dropdown">
-                            <i class="menu-icon glyphicon glyphicon-link"></i>
+						<ParentMenuIcon text="More Pages" />
 
-                            <span class="menu-text">
-                                More Pages
-                            </span>
-
-                            <i class="menu-expand"></i>
-                        </a>
-
-                        <ul class="submenu">
+                        <ul className="submenu">
                             <li>
-                                <a href="error-404.html">
-                                    <span class="menu-text">Error 404</span>
-                                </a>
+								<MenuItem href="error-404.html" text="Error 404" />
                             </li>
 
                             <li>
-                                <a href="error-500.html">
-                                    <span class="menu-text"> Error 500</span>
-                                </a>
+								<MenuItem href="error-500.html" text="Error 500" />
                             </li>
                             <li>
-                                <a href="blank.html">
-                                    <span class="menu-text">Blank Page</span>
-                                </a>
+								<MenuItem href="blank.html" text="Blank Page" />
                             </li>
                             <li>
-                                <a href="grid.html">
-                                    <span class="menu-text"> Grid</span>
-                                </a>
+								<MenuItem href="grid.html" text="Grid" />
                             </li>
                             <li>
-                                <a href="#" class="menu-dropdown">
-                                    <span class="menu-text">
-                                        Multi Level Menu
-                                    </span>
-                                    <i class="menu-expand"></i>
-                                </a>
-
-                                <ul class="submenu">
+								<ParentMenu text="Multi Level Menu" />
+                                
+                                <ul className="submenu">
                                     <li>
-                                        <a href="#">
-                                            <i class="menu-icon fa fa-camera"></i>
-                                            <span class="menu-text">Level 3</span>
-                                        </a>
+										<MenuItemIcon href="#" text="Level 3" />
                                     </li>
 
                                     <li>
-                                        <a href="#" class="menu-dropdown">
-                                            <i class="menu-icon fa fa-asterisk"></i>
+										<ParentMenuIcon text="Level 4" />
 
-                                            <span class="menu-text">
-                                                Level 4
-                                            </span>
-                                            <i class="menu-expand"></i>
-                                        </a>
-
-                                        <ul class="submenu">
+                                        <ul className="submenu">
                                             <li>
-                                                <a href="#">
-                                                    <i class="menu-icon fa fa-bolt"></i>
-                                                    <span class="menu-text">Some Item</span>
-                                                </a>
+												<MenuItemIcon href="#" text="Some Item" />
                                             </li>
 
                                             <li>
-                                                <a href="#">
-                                                    <i class="menu-icon fa fa-bug"></i>
-                                                    <span class="menu-text">Another Item</span>
-                                                </a>
+												<MenuItemIcon href="#" text="Another Item" />
                                             </li>
                                         </ul>
                                     </li>
@@ -775,1172 +799,1021 @@ Purchase: https://wrapbootstrap.com/theme/beyondadmin-adminapp-angularjs-mvc-WB0
 
                         </ul>
                     </li>
-                    <!--Right to Left-->
-                    <li>
-                        <a href="#" class="menu-dropdown">
-                            <i class="menu-icon fa fa-align-right"></i>
-                            <span class="menu-text"> Right to Left </span>
 
-                            <i class="menu-expand"></i>
-                        </a>
-                        <ul class="submenu">
+                    <li>
+						<ParentMenuIcon text="Right to Left" />
+                        <ul className="submenu">
                             <li>
                                 <a>
-                                    <span class="menu-text">RTL</span>
-                                    <label class="pull-right margin-top-10">
-                                        <input id="rtl-changer" class="checkbox-slider slider-icon colored-primary" type="checkbox">
-                                        <span class="text"></span>
+                                    <span className="menu-text">RTL</span>
+                                    <label className="pull-right margin-top-10">
+                                        <input id="rtl-changer" className="checkbox-slider slider-icon colored-primary" type="checkbox" />
+                                        <span className="text"></span>
                                     </label>
                                 </a>
                             </li>
                             <li>
-                                <a href="index-rtl-ar.html">
-                                    <span class="menu-text">Arabic Layout</span>
-                                </a>
+								<MenuItem href="index-rtl-ar.html" text="Arabic Layout" />
                             </li>
 
                             <li>
-                                <a href="index-rtl-fa.html">
-                                    <span class="menu-text">Persian Layout</span>
-                                </a>
+								<MenuItem href="index-rtl-fa.html" text="Persian Layout" />
                             </li>
 
                         </ul>
                     </li>
                     <li>
-                        <a href="versions.html">
-                            <i class="menu-icon glyphicon glyphicon-fire themesecondary"></i>
-                            <span class="menu-text">
-                                BeyondAdmin Versions
-                            </span>
-                        </a>
+						<MenuItemIcon href="versions.html" text="BeyondAdmin Versions" />
                     </li>
                 </ul>
-                <!-- /Sidebar Menu -->
             </div>
-            <!-- /Page Sidebar -->
-            <!-- Chat Bar -->
-            <div id="chatbar" class="page-chatbar">
-                <div class="chatbar-contacts">
-                    <div class="contacts-search">
-                        <input type="text" class="searchinput" placeholder="Search Contacts" />
-                        <i class="searchicon fa fa-search"></i>
-                        <div class="searchhelper">Search Your Contacts and Chat History</div>
+			);
+		 }
+	});
+	
+	var Contact = React.createClass({
+		handleClick: function(e) {
+			$('.page-chatbar .chatbar-contacts').hide();
+			$('.page-chatbar .chatbar-messages').show();
+		},
+		render: function() {
+			return (
+				<li className="contact" onClick={this.handleClick}>
+                    <div className="contact-avatar">
+                        <img src="assets/img/avatars/John-Smith.jpg" />
                     </div>
-                    <ul class="contacts-list">
-                        <li class="contact">
-                            <div class="contact-avatar">
-                                <img src="assets/img/avatars/divyia.jpg" />
-                            </div>
-                            <div class="contact-info">
-                                <div class="contact-name">Divyia Philips</div>
-                                <div class="contact-status">
-                                    <div class="online"></div>
-                                    <div class="status">online</div>
-                                </div>
-                                <div class="last-chat-time">
-                                    last week
-                                </div>
-                            </div>
-                        </li>
-                        <li class="contact">
-                            <div class="contact-avatar">
-                                <img src="assets/img/avatars/Nicolai-Larson.jpg" />
-                            </div>
-                            <div class="contact-info">
-                                <div class="contact-name">Adam Johnson</div>
-                                <div class="contact-status">
-                                    <div class="offline"></div>
-                                    <div class="status">left 4 mins ago</div>
-                                </div>
-                                <div class="last-chat-time">
-                                    today
-                                </div>
-                            </div>
-                        </li>
-                        <li class="contact">
-                            <div class="contact-avatar">
-                                <img src="assets/img/avatars/John-Smith.jpg" />
-                            </div>
-                            <div class="contact-info">
-                                <div class="contact-name">John Smith</div>
-                                <div class="contact-status">
-                                    <div class="online"></div>
-                                    <div class="status">online</div>
-                                </div>
-                                <div class="last-chat-time">
-                                    1:57 am
-                                </div>
-                            </div>
-                        </li>
-                        <li class="contact">
-                            <div class="contact-avatar">
-                                <img src="assets/img/avatars/Osvaldus-Valutis.jpg" />
-                            </div>
-                            <div class="contact-info">
-                                <div class="contact-name">Osvaldus Valutis</div>
-                                <div class="contact-status">
-                                    <div class="online"></div>
-                                    <div class="status">online</div>
-                                </div>
-                                <div class="last-chat-time">
-                                    today
-                                </div>
-                            </div>
-                        </li>
-                        <li class="contact">
-                            <div class="contact-avatar">
-                                <img src="assets/img/avatars/Javi-Jimenez.jpg" />
-                            </div>
-                            <div class="contact-info">
-                                <div class="contact-name">Javi Jimenez</div>
-                                <div class="contact-status">
-                                    <div class="online"></div>
-                                    <div class="status">online</div>
-                                </div>
-                                <div class="last-chat-time">
-                                    today
-                                </div>
-                            </div>
-                        </li>
-                        <li class="contact">
-                            <div class="contact-avatar">
-                                <img src="assets/img/avatars/Stephanie-Walter.jpg" />
-                            </div>
-                            <div class="contact-info">
-                                <div class="contact-name">Stephanie Walter</div>
-                                <div class="contact-status">
-                                    <div class="online"></div>
-                                    <div class="status">online</div>
-                                </div>
-                                <div class="last-chat-time">
-                                    yesterday
-                                </div>
-                            </div>
-                        </li>
-                        <li class="contact">
-                            <div class="contact-avatar">
-                                <img src="assets/img/avatars/Sergey-Azovskiy.jpg" />
-                            </div>
-                            <div class="contact-info">
-                                <div class="contact-name">Sergey Azovskiy</div>
-                                <div class="contact-status">
-                                    <div class="offline"></div>
-                                    <div class="status">offline since oct 24</div>
-                                </div>
-                                <div class="last-chat-time">
-                                    22 oct
-                                </div>
-                            </div>
-                        </li>
-                        <li class="contact">
-                            <div class="contact-avatar">
-                                <img src="assets/img/avatars/Lee-Munroe.jpg" />
-                            </div>
-                            <div class="contact-info">
-                                <div class="contact-name">Lee Munroe</div>
-                                <div class="contact-status">
-                                    <div class="online"></div>
-                                    <div class="status">online</div>
-                                </div>
-                                <div class="last-chat-time">
-                                    today
-                                </div>
-                            </div>
-                        </li>
-                        <li class="contact">
-                            <div class="contact-avatar">
-                                <img src="assets/img/avatars/divyia.jpg" />
-                            </div>
-                            <div class="contact-info">
-                                <div class="contact-name">Divyia Philips</div>
-                                <div class="contact-status">
-                                    <div class="online"></div>
-                                    <div class="status">online</div>
-                                </div>
-                                <div class="last-chat-time">
-                                    last week
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+                    <div className="contact-info">
+                        <div className="contact-name">{this.props.name}</div>
+                        <div className="contact-status">
+							<div className="online"></div>
+                            <div className="status">{this.props.status}</div>
+                        </div>
+                        <div className="last-chat-time">
+							{this.props.last}
+                        </div>
+                    </div>
+                </li>
+			);
+		 }
+	});
+	
+	var ContactList = React.createClass({
+		componentDidMount: function() {
+			var position = (readCookie("rtl-support") || location.pathname == "/index-rtl-fa.html" || location.pathname == "/index-rtl-ar.html") ? 'right' : 'left';
+			var additionalHeight = 0;
+			if ($(window).width() < 531)
+				additionalHeight = 45;
+			$('.chatbar-contacts .contacts-list').slimscroll({
+				position: position,
+				size: '4px',
+				color: themeprimary,
+				height: $(window).height() - (86 + additionalHeight),
+			});
+		},
+		render: function() {
+			return (
+				<ul className="contacts-list">
+					<Contact name="Divyia Philips" status="online" last="last week" />
+					<Contact name="Adam Johnson" status="left 4 mins ago" last="today" />
+					<Contact name="John Smith" status="online" last="1:57 am" />
+					<Contact name="Osvaldus Valutis" status="online" last="today" />
+					<Contact name="Javi Jimenez" status="online" last="today" />
+					<Contact name="Stephanie Walter" status="online" last="yesterday" />
+					<Contact name="Sergey Azovskiy" status="offline since oct 24" last="22 oct" />
+					<Contact name="Lee Munroe" status="online" last="today" />
+					<Contact name="Divyia Philips" status="online" last="last week" />
+                </ul>
+			);
+		 }
+	});
+	
+	var ContactSearch = React.createClass({
+		render: function() {
+			return (
+				<div className="contacts-search">
+                    <input type="text" className="searchinput" placeholder="Search Contacts" />
+                    <i className="searchicon fa fa-search"></i>
+                    <div className="searchhelper">Search Your Contacts and Chat History</div>
                 </div>
-                <div class="chatbar-messages" style="display: none;">
-                    <div class="messages-contact">
-                        <div class="contact-avatar">
-                            <img src="assets/img/avatars/divyia.jpg" />
-                        </div>
-                        <div class="contact-info">
-                            <div class="contact-name">Divyia Philips</div>
-                            <div class="contact-status">
-                                <div class="online"></div>
-                                <div class="status">online</div>
-                            </div>
-                            <div class="last-chat-time">
-                                a moment ago
-                            </div>
-                            <div class="back">
-                                <i class="fa fa-arrow-circle-left"></i>
-                            </div>
-                        </div>
+			);
+		 }
+	});
+	
+	var ChatContact = React.createClass({
+		render: function() {
+			return (
+				<div className="chatbar-contacts">
+					<ContactSearch />
+					<ContactList />
+				</div>
+			);
+		 }
+	});
+	
+	var ChatMessage = React.createClass({
+		render: function() {
+			return (
+				<li className="message">
+                    <div className="message-info">
+                        <div className="bullet"></div>
+                        <div className="contact-name">{this.props.sender}</div>
+                        <div className="message-time">{this.props.time}</div>
                     </div>
-                    <ul class="messages-list">
-                        <li class="message">
-                            <div class="message-info">
-                                <div class="bullet"></div>
-                                <div class="contact-name">Me</div>
-                                <div class="message-time">10:14 AM, Today</div>
-                            </div>
-                            <div class="message-body">
-                                Hi, Hope all is good. Are we meeting today?
-                            </div>
-                        </li>
-                        <li class="message reply">
-                            <div class="message-info">
-                                <div class="bullet"></div>
-                                <div class="contact-name">Divyia</div>
-                                <div class="message-time">10:15 AM, Today</div>
-                            </div>
-                            <div class="message-body">
-                                Hi, Hope all is good. Are we meeting today?
-                            </div>
-                        </li>
-                        <li class="message">
-                            <div class="message-info">
-                                <div class="bullet"></div>
-                                <div class="contact-name">Me</div>
-                                <div class="message-time">10:14 AM, Today</div>
-                            </div>
-                            <div class="message-body">
-                                Hi, Hope all is good. Are we meeting today?
-                            </div>
-                        </li>
-                        <li class="message reply">
-                            <div class="message-info">
-                                <div class="bullet"></div>
-                                <div class="contact-name">Divyia</div>
-                                <div class="message-time">10:15 AM, Today</div>
-                            </div>
-                            <div class="message-body">
-                                Hi, Hope all is good. Are we meeting today?
-                            </div>
-                        </li>
-                        <li class="message">
-                            <div class="message-info">
-                                <div class="bullet"></div>
-                                <div class="contact-name">Me</div>
-                                <div class="message-time">10:14 AM, Today</div>
-                            </div>
-                            <div class="message-body">
-                                Hi, Hope all is good. Are we meeting today?
-                            </div>
-                        </li>
-                        <li class="message reply">
-                            <div class="message-info">
-                                <div class="bullet"></div>
-                                <div class="contact-name">Divyia</div>
-                                <div class="message-time">10:15 AM, Today</div>
-                            </div>
-                            <div class="message-body">
-                                Hi, Hope all is good. Are we meeting today?
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="send-message">
-                        <span class="input-icon icon-right">
-                            <textarea rows="4" class="form-control" placeholder="Type your message"></textarea>
-                            <i class="fa fa-camera themeprimary"></i>
-                        </span>
+                    <div className="message-body">
+						{this.props.text}
+                    </div>
+                </li>
+			);
+		 }
+	});
+	
+	var ChatReply = React.createClass({
+		render: function() {
+			return (
+				<li className="message reply">
+                    <div className="message-info">
+                        <div className="bullet"></div>
+                        <div className="contact-name">{this.props.sender}</div>
+                        <div className="message-time">{this.props.time}</div>
+                    </div>
+                    <div className="message-body">
+						{this.props.text}
+                    </div>
+                </li>
+			);
+		 }
+	});
+	
+	var ChatList = React.createClass({
+		componentDidMount: function() {
+			var position = (readCookie("rtl-support") || location.pathname == "/index-rtl-fa.html" || location.pathname == "/index-rtl-ar.html") ? 'right' : 'left';
+			var additionalHeight = 0;
+			if ($(window).width() < 531)
+				additionalHeight = 45;
+			$('.chatbar-messages .messages-list').slimscroll({
+				position: position,
+				size: '4px',
+				color: themeprimary,
+				height: $(window).height() - (250 + additionalHeight),
+			});
+		},
+		render: function() {
+			return (
+				<ul className="messages-list">
+					<ChatMessage sender="Me" time="10:14 AM, Today" text="Hi, Hope all is good. Are we meeting today?" />
+					<ChatReply sender="Divyia" time="10:15 AM, Today" text="Hi, Hope all is good. Are we meeting today?" />
+                    <ChatMessage sender="Me" time="10:14 AM, Today" text="Hi, Hope all is good. Are we meeting today?" />
+					<ChatReply sender="Divyia" time="10:15 AM, Today" text="Hi, Hope all is good. Are we meeting today?" />
+					<ChatMessage sender="Me" time="10:14 AM, Today" text="Hi, Hope all is good. Are we meeting today?" />
+					<ChatReply sender="Divyia" time="10:15 AM, Today" text="Hi, Hope all is good. Are we meeting today?" />
+                 </ul>
+			);
+		 }
+	});
+	
+	var ChatSend = React.createClass({
+		render: function() {
+			return (
+				<div className="send-message">
+                    <span className="input-icon icon-right">
+                        <textarea rows="4" className="form-control" placeholder="Type your message"></textarea>
+                        <i className="fa fa-camera themeprimary"></i>
+                    </span>
+                </div>
+			);
+		 }
+	});
+	
+	var ChatBarContact = React.createClass({
+		handleClick: function(e) {
+			$('.page-chatbar .chatbar-contacts').show();
+			$('.page-chatbar .chatbar-messages').hide();
+		},
+		render: function() {
+			return (
+				<div className="messages-contact">
+                    <div className="contact-avatar">
+                        <img src="assets/img/avatars/divyia.jpg" />
+                    </div>
+                    <div className="contact-info">
+                        <div className="contact-name">{this.props.name}</div>
+                        <div className="contact-status">
+                            <div className="online"></div>
+                            <div className="status">{this.props.status}</div>
+                        </div>
+                        <div className="last-chat-time">
+							{this.props.time}
+                        </div>
+                        <div className="back" onClick={this.handleClick}>
+                            <i className="fa fa-arrow-circle-left"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- /Chat Bar -->
-            <!-- Page Content -->
-            <div class="page-content">
-                <!-- Page Breadcrumb -->
-                <div class="page-breadcrumbs">
-                    <ul class="breadcrumb">
-                        <li>
-                            <i class="fa fa-home"></i>
-                            <a href="#">Home</a>
-                        </li>
-                        <li class="active">Dashboard</li>
-                    </ul>
+			);
+		 }
+	});
+	
+	var ChatBarMessage = React.createClass({
+		render: function() {
+			return (
+				<div className="chatbar-messages" style={{display: 'none'}}>
+					<ChatBarContact name="Divyia Philips" status="online" time="a moment ago" />
+					<ChatList />
+					<ChatSend />
+				</div>
+			);
+		 }
+	});
+	
+	var ChatBar = React.createClass({
+		render: function() {
+			return (
+				<div id="chatbar" className="page-chatbar">
+					<ChatContact />
+					<ChatBarMessage />
+				</div>
+			);
+		 }
+	});
+	
+	var FirstDataBox = React.createClass({
+		render: function() {
+			return (
+				<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div className="databox bg-white radius-bordered">
+                        <div className="databox-left bg-themesecondary">
+                            <div className="databox-piechart">
+                                <div data-toggle="easypiechart" className="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="50" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.1)"><span className="white font-90">{this.props.percent}%</span></div>
+                            </div>
+                        </div>
+                        <div className="databox-right">
+                            <span className="databox-number themesecondary">{this.props.number}</span>
+                            <div className="databox-text darkgray">{this.props.text}</div>
+                            <div className="databox-stat themesecondary radius-bordered">
+                                <i className="stat-icon icon-lg fa fa-tasks"></i>
+                            </div>
+						</div>
+                    </div>
                 </div>
-                <!-- /Page Breadcrumb -->
-                <!-- Page Header -->
-                <div class="page-header position-relative">
-                    <div class="header-title">
-                        <h1>
-                            Dashboard
-                        </h1>
+			);
+		 }
+	});
+	
+	var SecondDataBox = React.createClass({
+		render: function() {
+			return (
+				<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div className="databox bg-white radius-bordered">
+                        <div className="databox-left bg-themethirdcolor">
+                            <div className="databox-piechart">
+                                <div data-toggle="easypiechart" className="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="15" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.2)"><span className="white font-90">{this.props.percent}%</span></div>
+                            </div>
+                        </div>
+                        <div className="databox-right">
+                            <span className="databox-number themethirdcolor">{this.props.number}</span>
+                            <div className="databox-text darkgray">{this.props.text}</div>
+                            <div className="databox-stat themethirdcolor radius-bordered">
+                                <i className="stat-icon  icon-lg fa fa-envelope-o"></i>
+                            </div>
+                        </div>
                     </div>
-                    <!--Header Buttons-->
-                    <div class="header-buttons">
-                        <a class="sidebar-toggler" href="#">
-                            <i class="fa fa-arrows-h"></i>
-                        </a>
-                        <a class="refresh" id="refresh-toggler" href="">
-                            <i class="glyphicon glyphicon-refresh"></i>
-                        </a>
-                        <a class="fullscreen" id="fullscreen-toggler" href="#">
-                            <i class="glyphicon glyphicon-fullscreen"></i>
-                        </a>
-                    </div>
-                    <!--Header Buttons End-->
                 </div>
-                <!-- /Page Header -->
-                <!-- Page Body -->
-                <div class="page-body">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="row">
-                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <div class="databox bg-white radius-bordered">
-                                        <div class="databox-left bg-themesecondary">
-                                            <div class="databox-piechart">
-                                                <div data-toggle="easypiechart" class="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="50" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.1)"><span class="white font-90">50%</span></div>
-                                            </div>
-                                        </div>
-                                        <div class="databox-right">
-                                            <span class="databox-number themesecondary">28</span>
-                                            <div class="databox-text darkgray">NEW TASKS</div>
-                                            <div class="databox-stat themesecondary radius-bordered">
-                                                <i class="stat-icon icon-lg fa fa-tasks"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <div class="databox bg-white radius-bordered">
-                                        <div class="databox-left bg-themethirdcolor">
-                                            <div class="databox-piechart">
-                                                <div data-toggle="easypiechart" class="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="15" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.2)"><span class="white font-90">15%</span></div>
-                                            </div>
-                                        </div>
-                                        <div class="databox-right">
-                                            <span class="databox-number themethirdcolor">5</span>
-                                            <div class="databox-text darkgray">NEW MESSAGE</div>
-                                            <div class="databox-stat themethirdcolor radius-bordered">
-                                                <i class="stat-icon  icon-lg fa fa-envelope-o"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <div class="databox bg-white radius-bordered">
-                                        <div class="databox-left bg-themeprimary">
-                                            <div class="databox-piechart">
-                                                <div id="users-pie" data-toggle="easypiechart" class="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="76" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.1)"><span class="white font-90">76%</span></div>
-                                            </div>
-                                        </div>
-                                        <div class="databox-right">
-                                            <span class="databox-number themeprimary">92</span>
-                                            <div class="databox-text darkgray">NEW USERS</div>
-                                            <div class="databox-state bg-themeprimary">
-                                                <i class="fa fa-check"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <div class="databox bg-white radius-bordered">
-                                        <div class="databox-left no-padding">
-                                            <img src="assets/img/avatars/John-Smith.jpg" style="width:65px; height:65px;">
-                                        </div>
-                                        <div class="databox-right padding-top-20">
-                                            <div class="databox-stat palegreen">
-                                                <i class="stat-icon icon-xlg fa fa-phone"></i>
-                                            </div>
-                                            <div class="databox-text darkgray">JOHN SMITH</div>
-                                            <div class="databox-text darkgray">TOP RESELLER</div>
-                                        </div>
-                                    </div>
-                                </div>
+			);
+		 }
+	});
+	
+	var ThirdDataBox = React.createClass({
+		render: function() {
+			return (
+				<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div className="databox bg-white radius-bordered">
+                        <div className="databox-left bg-themeprimary">
+                            <div className="databox-piechart">
+                                <div id="users-pie" data-toggle="easypiechart" className="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="76" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.1)"><span className="white font-90">{this.props.percent}%</span></div>
+                            </div>
+                        </div>
+                        <div className="databox-right">
+                            <span className="databox-number themeprimary">{this.props.number}</span>
+                            <div className="databox-text darkgray">{this.props.text}</div>
+                            <div className="databox-state bg-themeprimary">
+                                <i className="fa fa-check"></i>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <div class="dashboard-box">
-                                        <div class="box-header">
-                                            <div class="deadline">
-                                                Remaining Days: 109
-                                            </div>
-                                        </div>
-                                        <div class="box-progress">
-                                            <div class="progress-handle">day 20</div>
-                                            <div class="progress progress-xs progress-no-radius bg-whitesmoke">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="box-tabbs">
-                                            <div class="tabbable">
-                                                <ul class="nav nav-tabs tabs-flat  nav-justified" id="myTab11">
-                                                    <li class="active">
-                                                        <a data-toggle="tab" href="#realtime">
-                                                            Real-Time
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a data-toggle="tab" href="#visits">
-                                                            Visits
-                                                        </a>
-                                                    </li>
-
-                                                    <li>
-                                                        <a data-toggle="tab" id="contacttab" href="#bandwidth">
-                                                            Bandwidth
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a data-toggle="tab" href="#sales">
-                                                            Sales
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                                <div class="tab-content tabs-flat no-padding">
-                                                    <div id="realtime" class="tab-pane active padding-5 animated fadeInUp">
-                                                        <div class="row">
-                                                            <div class="col-lg-12">
-                                                                <div id="dashboard-chart-realtime" class="chart chart-lg no-margin"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div id="visits" class="tab-pane  animated fadeInUp">
-                                                        <div class="row">
-                                                            <div class="col-lg-12 chart-container">
-                                                                <div id="dashboard-chart-visits" class="chart chart-lg no-margin" style="width:100%"></div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div id="bandwidth" class="tab-pane padding-10 animated fadeInUp">
-                                                        <div class="databox-sparkline bg-themeprimary">
-                                                            <span id="dashboard-bandwidth-chart" data-sparkline="compositeline" data-height="250px" data-width="100%" data-linecolor="#fff" data-secondlinecolor="#eee"
-                                                                  data-fillcolor="rgba(255,255,255,.1)" data-secondfillcolor="rgba(255,255,255,.25)"
-                                                                  data-spotradius="0"
-                                                                  data-spotcolor="#fafafa" data-minspotcolor="#fafafa" data-maxspotcolor="#ffce55"
-                                                                  data-highlightspotcolor="#fff" data-highlightlinecolor="#fff"
-                                                                  data-linewidth="2" data-secondlinewidth="2"
-                                                                  data-composite="500, 400, 100, 450, 300, 200, 100, 200">
-                                                                300,300,400,300,200,300,300,200
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div id="sales" class="tab-pane animated fadeInUp no-padding-bottom" style="padding:20px 20px 0 20px;">
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                                                <div class="databox databox-xlg databox-vertical databox-inverted databox-shadowed">
-                                                                    <div class="databox-top">
-                                                                        <div class="databox-sparkline">
-                                                                            <span data-sparkline="line" data-height="125px" data-width="100%" data-fillcolor="false" data-linecolor="themesecondary"
-                                                                                  data-spotcolor="#fafafa" data-minspotcolor="#fafafa" data-maxspotcolor="#ffce55"
-                                                                                  data-highlightspotcolor="#ffce55" data-highlightlinecolor="#ffce55"
-                                                                                  data-linewidth="1.5" data-spotradius="2">
-                                                                                1,2,4,3,5,6,8,7,11,14,11,12
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="databox-bottom no-padding text-align-center">
-                                                                        <span class="databox-number lightcarbon no-margin">224</span>
-                                                                        <span class="databox-text lightcarbon no-margin">Sale Unit / Hour</span>
-
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                                                <div class="databox databox-xlg databox-vertical databox-inverted databox-shadowed">
-                                                                    <div class="databox-top">
-                                                                        <div class="databox-sparkline">
-                                                                            <span data-sparkline="line" data-height="125px" data-width="100%" data-fillcolor="false" data-linecolor="themefourthcolor"
-                                                                                  data-spotcolor="#fafafa" data-minspotcolor="#fafafa" data-maxspotcolor="#8cc474"
-                                                                                  data-highlightspotcolor="#8cc474" data-highlightlinecolor="#8cc474"
-                                                                                  data-linewidth="1.5" data-spotradius="2">
-                                                                                100,208,450,298,450,776,234,680,1100,1400,1000,1200
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="databox-bottom no-padding text-align-center">
-                                                                        <span class="databox-number lightcarbon no-margin">7063$</span>
-                                                                        <span class="databox-text lightcarbon no-margin">Income / Hour</span>
-
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                                                <div class="databox databox-xlg databox-vertical databox-inverted databox-shadowed">
-                                                                    <div class="databox-top">
-                                                                        <div class="databox-piechart">
-                                                                            <div data-toggle="easypiechart" class="easyPieChart block-center"
-                                                                                 data-barcolor="themeprimary" data-linecap="butt" data-percent="80" data-animate="500"
-                                                                                 data-linewidth="8" data-size="125" data-trackcolor="#eee">
-                                                                                <span class="font-200"><i class="fa fa-gift themeprimary"></i></span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="databox-bottom no-padding text-align-center">
-                                                                        <span class="databox-number lightcarbon no-margin">9</span>
-                                                                        <span class="databox-text lightcarbon no-margin">NEW ORDERS</span>
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                                                <div class="databox databox-xlg databox-vertical databox-inverted  databox-shadowed">
-                                                                    <div class="databox-top">
-                                                                        <div class="databox-piechart">
-                                                                            <div data-toggle="easypiechart" class="easyPieChart block-center"
-                                                                                 data-barcolor="themethirdcolor" data-linecap="butt" data-percent="40" data-animate="500"
-                                                                                 data-linewidth="8" data-size="125" data-trackcolor="#eee">
-                                                                                <span class="white font-200"><i class="fa fa-tags themethirdcolor"></i></span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="databox-bottom no-padding text-align-center">
-                                                                        <span class="databox-number lightcarbon no-margin">11</span>
-                                                                        <span class="databox-text lightcarbon no-margin">NEW TICKETS</span>
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="box-visits">
-                                            <div class="row">
-                                                <div class="col-lg-4 col-sm-4 col-xs-12">
-                                                    <div class="notification">
-                                                        <div class="clearfix">
-                                                            <div class="notification-icon">
-                                                                <i class="fa fa-gift palegreen bordered-1 bordered-palegreen"></i>
-                                                            </div>
-                                                            <div class="notification-body">
-                                                                <span class="title">Kate birthday party</span>
-                                                                <span class="description">08:30 pm</span>
-                                                            </div>
-                                                            <div class="notification-extra">
-                                                                <i class="fa fa-calendar palegreen"></i>
-                                                                <i class="fa fa-clock-o palegreen"></i>
-                                                                <span class="description">at home</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-sm-4 col-xs-12">
-                                                    <div class="notification">
-                                                        <div class="clearfix">
-                                                            <div class="notification-icon">
-                                                                <i class="fa fa-check azure bordered-1 bordered-azure"></i>
-                                                            </div>
-                                                            <div class="notification-body">
-                                                                <span class="title">Hanging out with kids</span>
-                                                                <span class="description">03:30 pm - 05:15 pm</span>
-                                                            </div>
-                                                            <div class="notification-extra">
-                                                                <i class="fa fa-clock-o azure"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-sm-4 col-xs-12">
-                                                    <div class="notification">
-                                                        <div class="clearfix">
-                                                            <div class="notification-icon">
-                                                                <i class="fa fa-phone bordered-1 bordered-orange orange"></i>
-                                                            </div>
-                                                            <div class="notification-body">
-                                                                <span class="title">Meeting with Patty</span>
-                                                                <span class="description">01:00 pm</span>
-                                                            </div>
-                                                            <div class="notification-extra">
-                                                                <i class="fa fa-clock-o orange"></i>
-                                                                <span class="description">office</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                </div>
+			);
+		}
+	});
+	
+	var FourthDataBox = React.createClass({
+		render: function() {
+			return (
+				<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div className="databox bg-white radius-bordered">
+                        <div className="databox-left no-padding">
+                            <img src="assets/img/avatars/John-Smith.jpg" style={{width:'65px', height:'65px'}} />
+                        </div>
+                        <div className="databox-right padding-top-20">
+                            <div className="databox-stat palegreen">
+                                <i className="stat-icon icon-xlg fa fa-phone"></i>
+                            </div>
+                            <div className="databox-text darkgray">{this.props.text1}</div>
+                            <div className="databox-text darkgray">{this.props.text2}</div>
+                        </div>
+                    </div>
+                </div>
+			);
+		}
+	});
+	
+	var FirstRow = React.createClass({
+		render: function() {
+			return (
+				<div className="row">
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div className="row">
+							<FirstDataBox percent="50" number="28" text="NEW TASKS" />
+							<SecondDataBox percent="15" number="15" text="NEW MESSAGE" />
+							<ThirdDataBox percent="76" number="92" text="NEW USERS" />
+							<FourthDataBox text1="JOHN SMITH" text2="TOP RESELLER" />
+						</div>
+					</div>
+				</div>
+			);
+		}
+	});
+	
+	var DashboardHeader = React.createClass({
+		render: function() {
+			return (
+				<div className="box-header">
+                    <div className="deadline">
+                        Remaining Days: 109
+                    </div>
+                </div>
+			);
+		}
+	});
+	
+	var DashboardProgress = React.createClass({
+		render: function() {
+			return (
+				<div className="box-progress">
+                    <div className="progress-handle">day 20</div>
+                    <div className="progress progress-xs progress-no-radius bg-whitesmoke">
+                        <div className="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{width: '20%'}}>
+                        </div>
+                    </div>
+                </div>
+			);
+		}
+	});
+	
+	var SaleDiagram = React.createClass({
+		render: function() {
+			return (
+				<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div className="databox databox-xlg databox-vertical databox-inverted databox-shadowed">
+                        <div className="databox-top">
+                            <div className="databox-sparkline">
+                                <span data-sparkline="line" data-height="125px" data-width="100%" data-fillcolor="false" data-linecolor="themesecondary"
+                                      data-spotcolor="#fafafa" data-minspotcolor="#fafafa" data-maxspotcolor="#ffce55"
+                                      data-highlightspotcolor="#ffce55" data-highlightlinecolor="#ffce55"
+                                      data-linewidth="1.5" data-spotradius="2">
+									{this.props.numbers}
+                                </span>
+                            </div>
+                        </div>
+                        <div className="databox-bottom no-padding text-align-center">
+                            <span className="databox-number lightcarbon no-margin">{this.props.amount}</span>
+                            <span className="databox-text lightcarbon no-margin">{this.props.unit}</span>
+                        </div>
+                    </div>
+                </div>
+			);
+		}
+	});
+	
+	var SaleCircle = React.createClass({
+		render: function() {
+			return (
+				<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div className="databox databox-xlg databox-vertical databox-inverted databox-shadowed">
+						<div className="databox-top">
+							<div className="databox-piechart">
+								<div data-toggle="easypiechart" className="easyPieChart block-center"
+                                     data-barcolor="themeprimary" data-linecap="butt" data-percent="{this.props.percent}" data-animate="500"
+                                     data-linewidth="8" data-size="125" data-trackcolor="#eee">
+                                    <span className="font-200"><i className="fa fa-gift themeprimary"></i></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                            <div class="orders-container">
-                                <div class="orders-header">
-                                    <h6>Latest Orders</h6>
-                                </div>
-                                <ul class="orders-list">
-                                    <li class="order-item">
-                                        <div class="row">
-                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 item-left">
-                                                <div class="item-booker">Ned Stards</div>
-                                                <div class="item-time">
-                                                    <i class="fa fa-calendar"></i>
-                                                    <span>10 minutes ago</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 item-right">
-                                                <div class="item-price">
-                                                    <span class="currency">$</span>
-                                                    <span class="price">400</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <a class="item-more" href="">
-                                            <i></i>
-                                        </a>
-                                    </li>
-                                    <li class="order-item top">
-                                        <div class="row">
-                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 item-left">
-                                                <div class="item-booker">Steve Lewis</div>
-                                                <div class="item-time">
-                                                    <i class="fa fa-calendar"></i>
-                                                    <span>2 hours ago</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 item-right">
-                                                <div class="item-price">
-                                                    <span class="currency">$</span>
-                                                    <span class="price">620</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <a class="item-more" href="">
-                                            <i></i>
-                                        </a>
-                                    </li>
-                                    <li class="order-item">
-                                        <div class="row">
-                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 item-left">
-                                                <div class="item-booker">John Ford</div>
-                                                <div class="item-time">
-                                                    <i class="fa fa-calendar"></i>
-                                                    <span>Today 8th July</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 item-right">
-                                                <div class="item-price">
-                                                    <span class="currency">$</span>
-                                                    <span class="price">220</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <a class="item-more" href="">
-                                            <i></i>
-                                        </a>
-                                    </li>
-                                    <li class="order-item">
-                                        <div class="row">
-                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 item-left">
-                                                <div class="item-booker">Kim Basinger</div>
-                                                <div class="item-time">
-                                                    <i class="fa fa-calendar"></i>
-                                                    <span>Yesterday 7th July</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 item-right">
-                                                <div class="item-price">
-                                                    <span class="currency">$</span>
-                                                    <span class="price">400</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <a class="item-more" href="">
-                                            <i></i>
-                                        </a>
-                                    </li>
-                                    <li class="order-item">
-                                        <div class="row">
-                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 item-left">
-                                                <div class="item-booker">Steve Lewis</div>
-                                                <div class="item-time">
-                                                    <i class="fa fa-calendar"></i>
-                                                    <span>5th July</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 item-right">
-                                                <div class="item-price">
-                                                    <span class="currency">$</span>
-                                                    <span class="price">340</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <a class="item-more" href="">
-                                            <i></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <div class="orders-footer">
-                                    <a class="show-all" href=""><i class="fa fa-angle-down"></i> Show All</a>
-                                    <div class="help">
-                                        <a href=""><i class="fa fa-question"></i></a>
-                                    </div>
-                                </div>
+                        <div className="databox-bottom no-padding text-align-center">
+                            <span className="databox-number lightcarbon no-margin">{this.props.amount}</span>
+                            <span className="databox-text lightcarbon no-margin">{this.props.text}</span>
+                        </div>
+                    </div>
+                </div>
+			);
+		}
+	});
+	
+	var DashboardVisit = React.createClass({
+		render: function() {
+			return (
+				<div className="col-lg-4 col-sm-4 col-xs-12">
+                    <div className="notification">
+                        <div className="clearfix">
+                            <div className="notification-icon">
+                                <i className="fa fa-phone bordered-1 bordered-orange orange"></i>
+                            </div>
+							<div className="notification-body">
+                                <span className="title">{this.props.text}</span>
+                                <span className="description">{this.props.time}</span>
+                            </div>
+                            <div className="notification-extra">
+                                <i className="fa fa-clock-o orange"></i>
+                                <span className="description">{this.props.extra}</span>
                             </div>
                         </div>
                     </div>
-
-                    <div class="row">
-                        <div class="col-lg-4 col-sm-12 col-xs-12">
-                            <div class="widget">
-                                <div class="widget-header bordered-bottom bordered-themeprimary">
-                                    <i class="widget-icon fa fa-tasks themeprimary"></i>
-                                    <span class="widget-caption themeprimary">Task Board</span>
-                                </div><!--Widget Header-->
-                                <div class="widget-body no-padding">
-                                    <div class="task-container">
-                                        <div class="task-search">
-                                            <span class="input-icon">
-                                                <input type="text" class="form-control" placeholder="Search Tasks">
-                                                <i class="fa fa-search gray"></i>
-                                            </span>
-                                        </div>
-                                        <ul class="tasks-list">
-                                            <li class="task-item">
-                                                <div class="task-check">
-                                                    <label>
-                                                        <input type="checkbox">
-                                                        <span class="text"></span>
-                                                    </label>
-                                                </div>
-                                                <div class="task-state">
-                                                    <span class="label label-yellow">
-                                                        In Progress
-                                                    </span>
-                                                </div>
-                                                <div class="task-time">1 hour ago</div>
-                                                <div class="task-body">Ask to the sysadmins to install Python 3 on the server and run it</div>
-                                                <div class="task-creator"><a href="">Cameron Hetfield</a></div>
-                                                <div class="task-assignedto">assigned to you</div>
+                </div>
+			);
+		}
+	});
+	
+	var Dashboard = React.createClass({
+		render: function() {
+			return (
+				<div className="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                    <div className="row">
+						<div className="col-xs-12">
+							<div className="dashboard-box">
+								<DashboardHeader />
+								<DashboardProgress />
+								<div className="box-tabbs">
+                                    <div className="tabbable">
+                                        <ul className="nav nav-tabs tabs-flat  nav-justified" id="myTab11">
+                                            <li className="active">
+                                                <a data-toggle="tab" href="#realtime">
+                                                    Real-Time
+                                                </a>
                                             </li>
-                                            <li class="task-item">
-                                                <div class="task-check">
-                                                    <label>
-                                                        <input type="checkbox">
-                                                        <span class="text"></span>
-                                                    </label>
-                                                </div>
-                                                <div class="task-state">
-                                                    <span class="label label-orange">
-                                                        Active
-                                                    </span>
-                                                </div>
-                                                <div class="task-time">2 hours ago</div>
-                                                <div class="task-body">Write documentation for the new API with test and deploy specifications</div>
-                                                <div class="task-creator"><a href="">Behrang Nitsche</a></div>
-                                                <div class="task-assignedto">assigned to you</div>
+                                            <li>
+                                                <a data-toggle="tab" href="#visits">
+                                                    Visits
+                                                </a>
                                             </li>
-                                            <li class="task-item">
-                                                <div class="task-check">
-                                                    <label>
-                                                        <input type="checkbox">
-                                                        <span class="text"></span>
-                                                    </label>
-                                                </div>
-                                                <div class="task-state">
-                                                    <span class="label label-palegreen">
-                                                        Approved
-                                                    </span>
-                                                </div>
-                                                <div class="task-time">yesterday</div>
-                                                <div class="task-body">Code refactoring and rewriting silly codes and test it</div>
-                                                <div class="task-creator"><a href="">David Fincher</a></div>
-                                                <div class="task-assignedto">assigned to Kim</div>
+                                            <li>
+                                                <a data-toggle="tab" id="contacttab" href="#bandwidth">
+                                                    Bandwidth
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a data-toggle="tab" href="#sales">
+                                                    Sales
+                                                </a>
                                             </li>
                                         </ul>
-                                    </div>
-                                </div><!--Widget Body-->
-                            </div>
-
-                        </div>
-                        <div class="col-lg-8 col-sm-12 col-xs-12">
-                            <div class="row">
-                                <div class="col=lg-4 col-md-4 col-sm-12 col-xs-12">
-                                    <div class="databox databox-lg databox-inverted radius-bordered databox-shadowed databox-graded databox-vertical">
-                                        <div class="databox-top bg-palegreen no-padding">
-                                            <div class="databox-stat white bg-palegreen font-120">
-                                                <i class="stat-icon fa fa-caret-down icon-xlg"></i>
-                                            </div>
-                                            <div class="horizontal-space space-lg"></div>
-                                            <div class="databox-sparkline no-margin">
-                                                <span data-sparkline="compositebar" data-height="82px" data-width="100%"
-                                                      data-barcolor="#b0dc81"
-                                                      data-barwidth="10px" data-barspacing="5px"
-                                                      data-fillcolor="false" data-linecolor="#fff" data-spotradius="3" data-linewidth="2"
-                                                      data-spotcolor="#fafafa" data-minspotcolor="#fafafa" data-maxspotcolor="#fff"
-                                                      data-highlightspotcolor="#fff" data-highlightlinecolor="#fff"
-                                                      data-composite="7, 6, 5, 7, 9, 10, 8, 7, 6, 6, 4, 7, 8">
-                                                    8,4,1,2,4,6,2,4,4,8,10,7,10
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="databox-bottom no-padding">
-                                            <div class="databox-row">
-                                                <div class="databox-cell cell-6 text-align-left">
-                                                    <span class="databox-text">Sales Total</span>
-                                                    <span class="databox-number">$23,657</span>
-                                                </div>
-                                                <div class="databox-cell cell-6 text-align-right">
-                                                    <span class="databox-text">September</span>
-                                                    <span class="databox-number font-70">$1,257</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col=lg-4 col-md-4 col-sm-12 col-xs-12">
-                                    <div class="databox databox-lg databox-inverted radius-bordered databox-shadowed databox-graded databox-vertical">
-                                        <div class="databox-top bg-orange no-padding">
-                                            <div class="databox-stat white bg-orange font-120">
-                                                <i class="stat-icon fa fa-caret-up icon-xlg"></i>
-                                            </div>
-                                            <div class="horizontal-space space-lg"></div>
-                                            <div class="databox-sparkline no-margin">
-                                                <span data-sparkline="compositebar" data-height="82px" data-width="100%"
-                                                      data-barcolor="#fb7d64"
-                                                      data-barwidth="10px" data-barspacing="5px"
-                                                      data-fillcolor="false" data-linecolor="#fff" data-spotradius="3" data-linewidth="2"
-                                                      data-spotcolor="#fafafa" data-minspotcolor="#fafafa" data-maxspotcolor="#fff"
-                                                      data-highlightspotcolor="#fff" data-highlightlinecolor="#fff"
-                                                      data-composite="7, 6, 5, 7, 9, 10, 8, 6,2,4,1,2,7">
-                                                    10,7,10,8,4,6, 6, 4, 7, 8 ,4,4,8
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="databox-bottom no-padding">
-                                            <div class="databox-row">
-                                                <div class="databox-cell cell-6 text-align-left">
-                                                    <span class="databox-text">Users Total</span>
-                                                    <span class="databox-number">76,109</span>
-                                                </div>
-                                                <div class="databox-cell cell-6 text-align-right">
-                                                    <span class="databox-text">New</span>
-                                                    <span class="databox-number font-70">7,540</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="col=lg-4 col-md-4 col-sm-12 col-xs-12">
-                                    <div class="databox databox-lg databox-inverted radius-bordered databox-shadowed databox-graded databox-vertical">
-                                        <div class="databox-top bg-azure no-padding">
-                                            <div class="databox-stat white bg-azure font-120">
-                                                <i class="stat-icon fa fa-caret-up icon-xlg"></i>
-                                            </div>
-                                            <div class="horizontal-space space-lg"></div>
-                                            <div class="databox-sparkline no-margin">
-                                                <span data-sparkline="compositebar" data-height="82px" data-width="100%"
-                                                      data-barcolor="#3bcbef"
-                                                      data-barwidth="10px" data-barspacing="5px"
-                                                      data-fillcolor="false" data-linecolor="#fff" data-spotradius="3" data-linewidth="2"
-                                                      data-spotcolor="#fafafa" data-minspotcolor="#fafafa" data-maxspotcolor="#fff"
-                                                      data-highlightspotcolor="#fff" data-highlightlinecolor="#fff"
-                                                      data-composite="8,4,1,2,4,6,2,4,4,8,10,7,7">
-                                                    7, 6, 5, 7, 9, 10, 8, 7, 6, 6, 4, 7, 8
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="databox-bottom no-padding">
-                                            <div class="databox-row">
-                                                <div class="databox-cell cell-6 text-align-left">
-                                                    <span class="databox-text">Visits Total</span>
-                                                    <span class="databox-number">990,541</span>
-                                                </div>
-                                                <div class="databox-cell cell-6 text-align-right">
-                                                    <span class="databox-text">September</span>
-                                                    <span class="databox-number font-70">292,123</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="widget">
-                                        <div class="widget-header bordered-bottom bordered-themesecondary">
-                                            <i class="widget-icon fa fa-tags themesecondary"></i>
-                                            <span class="widget-caption themesecondary">Ticket Board</span>
-                                        </div><!--Widget Header-->
-                                        <div class="widget-body  no-padding">
-                                            <div class="tickets-container">
-                                                <ul class="tickets-list">
-                                                    <li class="ticket-item">
-                                                        <div class="row">
-                                                            <div class="ticket-user col-lg-6 col-sm-12">
-                                                                <img src="assets/img/avatars/adam-jansen.jpg" class="user-avatar">
-                                                                <span class="user-name">Adam Johnson</span>
-                                                                <span class="user-at">at</span>
-                                                                <span class="user-company">Microsoft</span>
-                                                            </div>
-                                                            <div class="ticket-time  col-lg-4 col-sm-6 col-xs-12">
-                                                                <div class="divider hidden-md hidden-sm hidden-xs"></div>
-                                                                <i class="fa fa-clock-o"></i>
-                                                                <span class="time">1 Hours Ago</span>
-                                                            </div>
-                                                            <div class="ticket-type  col-lg-2 col-sm-6 col-xs-12">
-                                                                <span class="divider hidden-xs"></span>
-                                                                <span class="type">Issue</span>
-                                                            </div>
-                                                            <div class="ticket-state bg-palegreen">
-                                                                <i class="fa fa-check"></i>
-                                                            </div>
+                                        <div className="tab-content tabs-flat no-padding">
+                                            <div id="realtime" className="tab-pane active padding-5 animated fadeInUp">
+                                                <div className="row">
+                                                    <div className="col-lg-12">
+                                                        <div id="dashboard-chart-realtime" className="chart chart-lg no-margin"></div>
                                                         </div>
-                                                    </li>
-                                                    <li class="ticket-item">
-                                                        <div class="row">
-                                                            <div class="ticket-user col-lg-6 col-sm-12">
-                                                                <img src="assets/img/avatars/divyia.jpg" class="user-avatar">
-                                                                <span class="user-name">Divyia Phillips</span>
-                                                                <span class="user-at">at</span>
-                                                                <span class="user-company">Dribbble</span>
-                                                            </div>
-                                                            <div class="ticket-time  col-lg-4 col-sm-6 col-xs-12">
-                                                                <div class="divider hidden-md hidden-sm hidden-xs"></div>
-                                                                <i class="fa fa-clock-o"></i>
-                                                                <span class="time">3 Hours Ago</span>
-                                                            </div>
-                                                            <div class="ticket-type  col-lg-2 col-sm-6 col-xs-12">
-                                                                <span class="divider hidden-xs"></span>
-                                                                <span class="type">Payment</span>
-                                                            </div>
-                                                            <div class="ticket-state bg-palegreen">
-                                                                <i class="fa fa-check"></i>
-                                                            </div>
+                                                    </div>
+                                                </div>
+                                                <div id="visits" className="tab-pane  animated fadeInUp">
+													<div className="row">
+                                                        <div className="col-lg-12 chart-container">
+                                                            <div id="dashboard-chart-visits" className="chart chart-lg no-margin" style={{width:'100%'}}></div>
                                                         </div>
-                                                    </li>
-                                                    <li class="ticket-item">
-                                                        <div class="row">
-                                                            <div class="ticket-user col-lg-6 col-sm-12">
-                                                                <img src="assets/img/avatars/Matt-Cheuvront.jpg" class="user-avatar">
-                                                                <span class="user-name">Nicolai Larson</span>
-                                                                <span class="user-at">at</span>
-                                                                <span class="user-company">Google</span>
-                                                            </div>
-                                                            <div class="ticket-time  col-lg-4 col-sm-6 col-xs-12">
-                                                                <div class="divider hidden-md hidden-sm hidden-xs"></div>
-                                                                <i class="fa fa-clock-o"></i>
-                                                                <span class="time">18 Hours Ago</span>
-                                                            </div>
-                                                            <div class="ticket-type  col-lg-2 col-sm-6 col-xs-12">
-                                                                <span class="divider hidden-xs"></span>
-                                                                <span class="type">Issue</span>
-                                                            </div>
-                                                            <div class="ticket-state bg-darkorange">
-                                                                <i class="fa fa-times"></i>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="ticket-item">
-                                                        <div class="row">
-                                                            <div class="ticket-user col-lg-6 col-sm-12">
-                                                                <img src="assets/img/avatars/Sergey-Azovskiy.jpg" class="user-avatar">
-                                                                <span class="user-name">Bill Jackson</span>
-                                                                <span class="user-at">at</span>
-                                                                <span class="user-company">Mabna</span>
-                                                            </div>
-                                                            <div class="ticket-time  col-lg-4 col-sm-6 col-xs-12">
-                                                                <div class="divider hidden-md hidden-sm hidden-xs"></div>
-                                                                <i class="fa fa-clock-o"></i>
-                                                                <span class="time">2 days Ago</span>
-                                                            </div>
-                                                            <div class="ticket-type  col-lg-2 col-sm-6 col-xs-12">
-                                                                <span class="divider hidden-xs"></span>
-                                                                <span class="type">Payment</span>
-                                                            </div>
-                                                            <div class="ticket-state bg-palegreen">
-                                                                <i class="fa fa-check"></i>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="ticket-item">
-                                                        <div class="row">
-                                                            <div class="ticket-user col-lg-6 col-sm-12">
-                                                                <img src="assets/img/avatars/John-Smith.jpg" class="user-avatar">
-                                                                <span class="user-name">Eric Clapton</span>
-                                                                <span class="user-at">at</span>
-                                                                <span class="user-company">Musicker</span>
-                                                            </div>
-                                                            <div class="ticket-time  col-lg-4 col-sm-6 col-xs-12">
-                                                                <div class="divider hidden-md hidden-sm hidden-xs"></div>
-                                                                <i class="fa fa-clock-o"></i>
-                                                                <span class="time">2 days Ago</span>
-                                                            </div>
-                                                            <div class="ticket-type  col-lg-2 col-sm-6 col-xs-12">
-                                                                <span class="divider hidden-xs"></span>
-                                                                <span class="type">Info</span>
-                                                            </div>
-                                                            <div class="ticket-state bg-yellow">
-                                                                <i class="fa fa-info"></i>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                            <div class="databox databox-xxlg databox-vertical databox-inverted">
-                                <div class="databox-top bg-whitesmoke no-padding">
-                                    <div class="databox-row row-2 bg-orange no-padding">
-                                        <div class="databox-cell cell-1 text-align-center no-padding padding-top-5">
-                                            <span class="databox-number white"><i class="fa fa-bar-chart-o no-margin"></i></span>
-                                        </div>
-                                        <div class="databox-cell cell-8 no-padding padding-top-5 text-align-left">
-                                            <span class="databox-number white">PAGE VIEWS</span>
-                                        </div>
-                                        <div class="databox-cell cell-3 text-align-right padding-10">
-                                            <span class="databox-text white">13 DECEMBER</span>
-                                        </div>
-                                    </div>
-                                    <div class="databox-row row-4">
-                                        <div class="databox-cell cell-6 no-padding padding-10 padding-left-20 text-align-left">
-                                            <span class="databox-number orange no-margin">534,908</span>
-                                            <span class="databox-text sky no-margin">OVERAL VIEWS</span>
-                                        </div>
-                                        <div class="databox-cell cell-2 no-padding padding-10 text-align-left">
-                                            <span class="databox-number orange no-margin">4,129</span>
-                                            <span class="databox-text darkgray no-margin">THIS WEEK</span>
-                                        </div>
-                                        <div class="databox-cell cell-2 no-padding padding-10 text-align-left">
-                                            <span class="databox-number orange no-margin">329</span>
-                                            <span class="databox-text darkgray no-margin">YESTERDAY</span>
-                                        </div>
-                                        <div class="databox-cell cell-2 no-padding padding-10 text-align-left">
-                                            <span class="databox-number orange no-margin">104</span>
-                                            <span class="databox-text darkgray no-margin">TODAY</span>
-                                        </div>
-                                    </div>
-                                    <div class="databox-row row-6 no-padding">
-                                        <div class="databox-sparkline">
-                                            <span data-sparkline="line" data-height="126px" data-width="100%" data-fillcolor="#37c2e2" data-linecolor="#37c2e2"
-                                                  data-spotcolor="#fafafa" data-minspotcolor="#fafafa" data-maxspotcolor="#ffce55"
-                                                  data-highlightspotcolor="#f5f5f5 " data-highlightlinecolor="#f5f5f5"
-                                                  data-linewidth="2" data-spotradius="0">
-                                                5,7,6,5,9,4,3,7,2
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="databox-bottom bg-sky no-padding">
-                                    <div class="databox-cell cell-2 text-align-center no-padding padding-top-5">
-                                        <span class="databox-header white">Mon</span>
-                                    </div>
-                                    <div class="databox-cell cell-2 text-align-center no-padding padding-top-5">
-                                        <span class="databox-header white">Tues</span>
-                                    </div>
-                                    <div class="databox-cell cell-2 text-align-center no-padding padding-top-5">
-                                        <span class="databox-header white">Wed</span>
-                                    </div>
-                                    <div class="databox-cell cell-2 text-align-center no-padding padding-top-5">
-                                        <span class="databox-header white">Thu</span>
-                                    </div>
-                                    <div class="databox-cell cell-2 text-align-center no-padding padding-top-5">
-                                        <span class="databox-header white">Fri</span>
-                                    </div>
-                                    <div class="databox-cell cell-2 text-align-center no-padding padding-top-5">
-                                        <span class="databox-header white">Sat</span>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                            <div class="databox databox-xxlg databox-vertical databox-shadowed bg-white radius-bordered padding-5">
-                                <div class="databox-top">
-                                    <div class="databox-row row-12">
-                                        <div class="databox-cell cell-3 text-center">
-                                            <div class="databox-number number-xxlg sonic-silver">164</div>
-                                            <div class="databox-text storm-cloud">online</div>
-                                        </div>
-                                        <div class="databox-cell cell-9 text-align-center">
-                                            <div class="databox-row row-6 text-left">
-                                                <span class="badge badge-palegreen badge-empty margin-left-5"></span>
-                                                <span class="databox-inlinetext uppercase darkgray margin-left-5">NEW</span>
-                                                <span class="badge badge-yellow badge-empty margin-left-5"></span>
-                                                <span class="databox-inlinetext uppercase darkgray margin-left-5">RETURNING</span>
-                                            </div>
-                                            <div class="databox-row row-6">
-                                                <div class="progress bg-yellow progress-no-radius">
-                                                    <div class="progress-bar progress-bar-palegreen" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 78%">
+                                                    </div>
+                                                </div>
+                                                <div id="bandwidth" className="tab-pane padding-10 animated fadeInUp">
+                                                    <div className="databox-sparkline bg-themeprimary">
+                                                        <span id="dashboard-bandwidth-chart" data-sparkline="compositeline" data-height="250px" data-width="100%" data-linecolor="#fff" data-secondlinecolor="#eee"
+                                                              data-fillcolor="rgba(255,255,255,.1)" data-secondfillcolor="rgba(255,255,255,.25)"
+                                                              data-spotradius="0"
+                                                              data-spotcolor="#fafafa" data-minspotcolor="#fafafa" data-maxspotcolor="#ffce55"
+                                                              data-highlightspotcolor="#fff" data-highlightlinecolor="#fff"
+                                                              data-linewidth="2" data-secondlinewidth="2"
+                                                              data-composite="500, 400, 100, 450, 300, 200, 100, 200">
+                                                            300,300,400,300,200,300,300,200
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div id="sales" className="tab-pane animated fadeInUp no-padding-bottom" style={{padding:'20px 20px 0 20px'}}>
+                                                    <div className="row">
+														<SaleDiagram numbers="1,2,4,3,5,6,8,7,11,14,11,12" amount="224" unit="Sale Unit / Hour" />
+														<SaleDiagram numbers="100,208,450,298,450,776,234,680,1100,1400,1000,1200" amount="7063$" unit="Income / Hour" />
+														<SaleCircle percent="80" amount="9" text="NEW ORDERS" />
+														<SaleCircle percent="40" amount="11" text="NEW TICKETS" />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="databox-bottom">
-                                    <div class="databox-row row-12">
-                                        <div class="databox-cell cell-7 text-center  padding-5">
-                                            <div id="dashboard-pie-chart-sources" class="chart"></div>
+                                    <div className="box-visits">
+                                        <div className="row">
+											<DashboardVisit text="Kate birthday party" time="08:30 pm" extra="at home" />
+											<DashboardVisit text="Hanging out with kids" time="03:30 pm - 05:15 pm" extra="" />
+											<DashboardVisit text="Meeting with Patty" time="01:00 pm" extra="office" />
                                         </div>
-                                        <div class="databox-cell cell-5 text-center no-padding-left padding-bottom-30">
-                                            <div class="databox-row row-2 bordered-bottom bordered-ivory padding-10">
-                                                <span class="databox-text sonic-silver pull-left no-margin">Type</span>
-                                                <span class="databox-text sonic-silver pull-right no-margin uppercase">PCT</span>
-                                            </div>
-                                            <div class="databox-row row-2 bordered-bottom bordered-ivory padding-10">
-                                                <span class="badge badge-blue badge-empty pull-left margin-5"></span>
-                                                <span class="databox-text darkgray pull-left no-margin hidden-xs">FEED</span>
-                                                <span class="databox-text darkgray pull-right no-margin uppercase">46%</span>
-                                            </div>
-                                            <div class="databox-row row-2 bordered-bottom bordered-ivory padding-10">
-                                                <span class="badge badge-orange badge-empty pull-left margin-5"></span>
-                                                <span class="databox-text darkgray pull-left no-margin hidden-xs">PREFERRAL</span>
-                                                <span class="databox-text darkgray pull-right no-margin uppercase">21%</span>
-                                            </div>
-                                            <div class="databox-row row-2 bordered-bottom bordered-ivory padding-10">
-                                                <span class="badge badge-pink badge-empty pull-left margin-5"></span>
-                                                <span class="databox-text darkgray pull-left no-margin hidden-xs">DIRECT</span>
-                                                <span class="databox-text darkgray pull-right no-margin uppercase">12%</span>
-                                            </div>
-                                            <div class="databox-row row-2 bordered-bottom bordered-ivory padding-10">
-                                                <span class="badge badge-palegreen badge-empty pull-left margin-5"></span>
-                                                <span class="databox-text darkgray pull-left no-margin hidden-xs">EMAIL</span>
-                                                <span class="databox-text darkgray pull-right no-margin uppercase">11%</span>
-                                            </div>
-                                            <div class="databox-row row-2 padding-10">
-                                                <span class="badge badge-yellow badge-empty pull-left margin-5"></span>
-                                                <span class="databox-text darkgray pull-left no-margin hidden-xs">ORGANIC</span>
-                                                <span class="databox-text darkgray pull-right no-margin uppercase">10%</span>
+                                    </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			);
+		}
+	});
+	
+	var OrderItem = React.createClass({
+		render: function() {
+			return (
+				<li className="order-item">
+                    <div className="row">
+                        <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 item-left">
+                            <div className="item-booker">{this.props.name}</div>
+                            <div className="item-time">
+                                <i className="fa fa-calendar"></i>
+                                <span>{this.props.time}</span>
+                            </div>
+                        </div>
+                        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 item-right">
+                            <div className="item-price">
+                                <span className="currency">{this.props.currency}</span>
+                                <span className="price">{this.props.amount}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a className="item-more" href="">
+                        <i></i>
+                    </a>
+                </li>
+			);
+		}
+	});
+	
+	var Orders = React.createClass({
+		render: function() {
+			return (
+				<div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <div className="orders-container">
+                        <div className="orders-header">
+                            <h6>Latest Orders</h6>
+                        </div>
+                        <ul className="orders-list">
+                            <OrderItem name="Ned Stards" time="10 minutes ago" currency="$" amount="400" />
+							<OrderItem name="Steve Lewis" time="2 hours ago" currency="$" amount="620" />
+							<OrderItem name="John Ford" time="Today 8th July" currency="$" amount="220" />
+							<OrderItem name="Kim Basinger" time="Yesterday 7th July" currency="$" amount="400" />
+							<OrderItem name="Steve Lewis" time="5th July" currency="$" amount="340" />
+                        </ul>
+                        <div className="orders-footer">
+                            <a className="show-all" href=""><i className="fa fa-angle-down"></i> Show All</a>
+                            <div className="help">
+                                <a href=""><i className="fa fa-question"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			);
+		}
+	});
+	
+	var SecondRow = React.createClass({
+		render: function() {
+			return (
+				<div className="row">
+					<Dashboard />
+					<Orders />
+				</div>
+			);
+		}
+	});
+	
+	var TaskBoardItem = React.createClass({
+		render: function() {
+			return (
+				<li className="task-item">
+                    <div className="task-check">
+                        <label>
+                            <input type="checkbox" />
+                            <span className="text"></span>
+                        </label>
+                    </div>
+                    <div className="task-state">
+                        <span className="label label-yellow">
+							{this.props.status}
+                        </span>
+                    </div>
+                    <div className="task-time">{this.props.time}</div>
+                    <div className="task-body">{this.props.text}</div>
+                    <div className="task-creator"><a href="">{this.props.creator}</a></div>
+                    <div className="task-assignedto">{this.props.assignee}</div>
+                </li>
+			);
+		}
+	});
+	
+	var TaskBoard = React.createClass({
+		render: function() {
+			return (
+				<div className="col-lg-4 col-sm-12 col-xs-12">
+                    <div className="widget">
+                        <div className="widget-header bordered-bottom bordered-themeprimary">
+                            <i className="widget-icon fa fa-tasks themeprimary"></i>
+                            <span className="widget-caption themeprimary">Task Board</span>
+						</div>
+						<div className="widget-body no-padding">
+							<div className="task-container">
+								<div className="task-search">
+									<span className="input-icon">
+										<input type="text" className="form-control" placeholder="Search Tasks" />
+										<i className="fa fa-search gray"></i>
+									</span>
+								</div>
+								<ul className="tasks-list">
+									<TaskBoardItem status="In Progress" time="1 hour ago" text="Ask to the sysadmins to install Python 3 on the server and run it" creator="Cameron Hetfield" assignee="assigned to you" />
+									<TaskBoardItem status="Active" time="2 hours ago" text="Write documentation for the new API with test and deploy specifications" creator="Behrang Nitsche" assignee="assigned to you" />
+									<TaskBoardItem status="Approved" time="yesterday" text="Code refactoring and rewriting silly codes and test it" creator="David Fincher" assignee="assigned to Kim" />
+								</ul>
+							</div>
+						</div>
+                    </div>
+                </div>
+			);
+		}
+	});
+	
+	var TasksDiagram = React.createClass({
+		render: function() {
+			return (
+				<div className="col=lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <div className="databox databox-lg databox-inverted radius-bordered databox-shadowed databox-graded databox-vertical">
+                        <div className="databox-top bg-palegreen no-padding">
+                            <div className="databox-stat white bg-palegreen font-120">
+                                <i className="stat-icon fa fa-caret-down icon-xlg"></i>
+                            </div>
+                            <div className="horizontal-space space-lg"></div>
+                            <div className="databox-sparkline no-margin">
+                                <span data-sparkline="compositebar" data-height="82px" data-width="100%"
+                                      data-barcolor="#b0dc81"
+                                      data-barwidth="10px" data-barspacing="5px"
+                                      data-fillcolor="false" data-linecolor="#fff" data-spotradius="3" data-linewidth="2"
+                                      data-spotcolor="#fafafa" data-minspotcolor="#fafafa" data-maxspotcolor="#fff"
+                                      data-highlightspotcolor="#fff" data-highlightlinecolor="#fff"
+                                      data-composite={this.props.composite}>
+								    {this.props.numbers}
+                                </span>
+                            </div>
+                        </div>
+                        <div className="databox-bottom no-padding">
+                            <div className="databox-row">
+                                <div className="databox-cell cell-6 text-align-left">
+                                    <span className="databox-text">{this.props.text1}</span>
+                                    <span className="databox-number">{this.props.number1}</span>
+                                </div>
+                                <div className="databox-cell cell-6 text-align-right">
+                                    <span className="databox-text">{this.props.text2}</span>
+                                    <span className="databox-number font-70">{this.props.number2}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			);
+		}
+	});
+	
+	var TicketItem = React.createClass({
+		render: function() {
+			return (
+				<li className="ticket-item">
+                    <div className="row">
+                        <div className="ticket-user col-lg-6 col-sm-12">
+                            <img src="assets/img/avatars/adam-jansen.jpg" className="user-avatar" />
+                            <span className="user-name">{this.props.username}</span>
+                            <span className="user-at">at</span>
+                            <span className="user-company">{this.props.company}</span>
+                        </div>
+                        <div className="ticket-time  col-lg-4 col-sm-6 col-xs-12">
+							<div className="divider hidden-md hidden-sm hidden-xs"></div>
+                            <i className="fa fa-clock-o"></i>
+                            <span className="time">{this.props.time}</span>
+                        </div>
+                        <div className="ticket-type  col-lg-2 col-sm-6 col-xs-12">
+                            <span className="divider hidden-xs"></span>
+                            <span className="type">{this.props.type}</span>
+                        </div>
+                        <div className="ticket-state bg-palegreen">
+                            <i className="fa fa-check"></i>
+                        </div>
+                    </div>
+                </li>
+			);
+		}
+	});
+	
+	var TicketBoard = React.createClass({
+		render: function() {
+			return (
+				<div className="row">
+                    <div className="col-lg-12">
+                        <div className="widget">
+                            <div className="widget-header bordered-bottom bordered-themesecondary">
+                                <i className="widget-icon fa fa-tags themesecondary"></i>
+                                <span className="widget-caption themesecondary">Ticket Board</span>
+                            </div>
+                            <div className="widget-body  no-padding">
+                                <div className="tickets-container">
+                                    <ul className="tickets-list">
+										<TicketItem username="Adam Johnson" company="Microsoft" time="1 Hours Ago" type="Issue" />
+										<TicketItem username="Divyia Phillips" company="Dribbble" time="3 Hours Ago" type="Payment" />
+										<TicketItem username="Nicolai Larson" company="Google" time="18 Hours Ago" type="Issue" />
+										<TicketItem username="Bill Jackson" company="Mabna" time="2 days Ago" type="Payment" />
+										<TicketItem username="Eric Clapton" company="Musicker" time="2 days Ago" type="Info" />
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			);
+		}
+	});
+	
+	var ThirdRow = React.createClass({
+		render: function() {
+			return (
+				<div className="row">
+					<TaskBoard />
+					<div className="col-lg-8 col-sm-12 col-xs-12">
+						<div className="row">
+							<TasksDiagram composite="7,6,5,7,9,10,8,7,6,6,4,7,8" numbers="8,4,1,2,4,6,2,4,4,8,10,7,10" text1="Sales Total" number1="$23,657" text2="September" number2="$1,257" />
+							<TasksDiagram composite="7,6,5,7,9,10,8,6,2,4,1,2,7" numbers="10,7,10,8,4,6,6,4,7,8,4,4,8" text1="Users Total" number1="76,109" text2="New" number2="7,540" />
+							<TasksDiagram composite="8,4,1,2,4,6,2,4,4,8,10,7,7" numbers="7,6,5,7,9,10,8,7,6,6,4,7,8" text1="Visits Total" number1="990,541" text2="September" number2="292,123" />
+						</div>
+						<TicketBoard />
+					</div>
+				</div>
+			);
+		}
+	});
+	
+	var ViewItem = React.createClass({
+		render: function() {
+			return (
+				<div className="databox-cell cell-2 no-padding padding-10 text-align-left">
+                    <span className="databox-number orange no-margin">{this.props.number}</span>
+                    <span className="databox-text darkgray no-margin">{this.props.text}</span>
+                </div>
+			);
+		}
+	});
+	
+	var WeekDay = React.createClass({
+		render: function() {
+			return (
+				<div className="databox-cell cell-2 text-align-center no-padding padding-top-5">
+                    <span className="databox-header white">{this.props.text}</span>
+                </div>
+			);
+		}
+	});
+	
+	var PageViews = React.createClass({
+		render: function() {
+			return (
+				<div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                    <div className="databox databox-xxlg databox-vertical databox-inverted">
+                        <div className="databox-top bg-whitesmoke no-padding">
+                            <div className="databox-row row-2 bg-orange no-padding">
+                                <div className="databox-cell cell-1 text-align-center no-padding padding-top-5">
+                                    <span className="databox-number white"><i className="fa fa-bar-chart-o no-margin"></i></span>
+                                </div>
+                                <div className="databox-cell cell-8 no-padding padding-top-5 text-align-left">
+                                    <span className="databox-number white">PAGE VIEWS</span>
+                                </div>
+                                <div className="databox-cell cell-3 text-align-right padding-10">
+                                    <span className="databox-text white">13 DECEMBER</span>
+                                </div>
+                            </div>
+                            <div className="databox-row row-4">
+                                <div className="databox-cell cell-6 no-padding padding-10 padding-left-20 text-align-left">
+                                    <span className="databox-number orange no-margin">534,908</span>
+                                    <span className="databox-text sky no-margin">OVERAL VIEWS</span>
+                                </div>
+                                <ViewItem number="4,129" text="THIS WEEK" />
+								<ViewItem number="329" text="YESTERDAY" />
+								<ViewItem number="104" text="TODAY" />
+                            </div>
+                            <div className="databox-row row-6 no-padding">
+                                <div className="databox-sparkline">
+                                    <span data-sparkline="line" data-height="126px" data-width="100%" data-fillcolor="#37c2e2" data-linecolor="#37c2e2"
+                                          data-spotcolor="#fafafa" data-minspotcolor="#fafafa" data-maxspotcolor="#ffce55"
+                                          data-highlightspotcolor="#f5f5f5 " data-highlightlinecolor="#f5f5f5"
+                                          data-linewidth="2" data-spotradius="0">
+                                        5,7,6,5,9,4,3,7,2
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="databox-bottom bg-sky no-padding">
+							<WeekDay text="Mon" />
+							<WeekDay text="Tues" />
+							<WeekDay text="Wed" />
+							<WeekDay text="Thu" />
+							<WeekDay text="Fri" />
+							<WeekDay text="Sat" />
+                        </div>
+                    </div>
+                </div>
+			);
+		}
+	});
+	
+	var StatItem = React.createClass({
+		render: function() {
+			return (
+				<div className="databox-row row-2 bordered-bottom bordered-ivory padding-10">
+                    <span className="badge badge-palegreen badge-empty pull-left margin-5"></span>
+                    <span className="databox-text darkgray pull-left no-margin hidden-xs">{this.props.text}</span>
+                    <span className="databox-text darkgray pull-right no-margin uppercase">{this.props.percent}</span>
+                </div>
+			);
+		}
+	});
+	
+	var Stats = React.createClass({
+		render: function() {
+			return (
+				<div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                    <div className="databox databox-xxlg databox-vertical databox-shadowed bg-white radius-bordered padding-5">
+                        <div className="databox-top">
+                            <div className="databox-row row-12">
+                                <div className="databox-cell cell-3 text-center">
+                                    <div className="databox-number number-xxlg sonic-silver">164</div>
+                                    <div className="databox-text storm-cloud">online</div>
+                                </div>
+                                <div className="databox-cell cell-9 text-align-center">
+                                    <div className="databox-row row-6 text-left">
+                                        <span className="badge badge-palegreen badge-empty margin-left-5"></span>
+                                        <span className="databox-inlinetext uppercase darkgray margin-left-5">NEW</span>
+                                        <span className="badge badge-yellow badge-empty margin-left-5"></span>
+                                        <span className="databox-inlinetext uppercase darkgray margin-left-5">RETURNING</span>
+                                    </div>
+                                    <div className="databox-row row-6">
+                                        <div className="progress bg-yellow progress-no-radius">
+                                            <div className="progress-bar progress-bar-palegreen" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style={{width: '78%'}}>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
+                        <div className="databox-bottom">
+                            <div className="databox-row row-12">
+                                <div className="databox-cell cell-7 text-center  padding-5">
+                                    <div id="dashboard-pie-chart-sources" className="chart"></div>
+                                </div>
+                                <div className="databox-cell cell-5 text-center no-padding-left padding-bottom-30">
+                                    <div className="databox-row row-2 bordered-bottom bordered-ivory padding-10">
+                                        <span className="databox-text sonic-silver pull-left no-margin">Type</span>
+                                        <span className="databox-text sonic-silver pull-right no-margin uppercase">PCT</span>
+                                    </div>
+                                    <StatItem text="FEED" percent="46%" />
+									<StatItem text="PREFERRAL" percent="21%" />
+									<StatItem text="DIRECT" percent="12%" />
+									<StatItem text="EMAIL" percent="11%" />
+									<StatItem text="ORGANIC" percent="10%" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- /Page Body -->
-            </div>
-            <!-- /Page Content -->
+			);
+		}
+	});
+	
+	var FourthRow = React.createClass({
+		render: function() {
+			return (
+				<div className="row">
+					<PageViews />
+					<Stats />
+				</div>
+			);
+		}
+	});
+	
+	var PageContent = React.createClass({
+		fullScreenClick: function(e) {
+			var element = document.documentElement;
+			if (!$('body').hasClass("full-screen")) {
+				$('body').addClass("full-screen");
+				$('#fullscreen-toggler').addClass("active");
+					if (element.requestFullscreen) {
+						element.requestFullscreen();
+					} else if (element.mozRequestFullScreen) {
+						element.mozRequestFullScreen();
+					} else if (element.webkitRequestFullscreen) {
+						element.webkitRequestFullscreen();
+					} else if (element.msRequestFullscreen) {
+						element.msRequestFullscreen();
+					}
+			} else {
+				$('body').removeClass("full-screen");
+				$('#fullscreen-toggler').removeClass("active");
+				if (document.exitFullscreen) {
+					document.exitFullscreen();
+				} else if (document.mozCancelFullScreen) {
+					document.mozCancelFullScreen();
+				} else if (document.webkitExitFullscreen) {
+					document.webkitExitFullscreen();
+				}
+			}
+		},
+		sideBarClick: function(e) {
+			$("#sidebar").toggleClass("hide");
+			$(".sidebar-toggler").toggleClass("active");
+			return false;
+		},
+		render: function() {
+			return (
+				<div className="page-content">
 
-        </div>
-        <!-- /Page Container -->
-        <!-- Main Container -->
+					<div className="page-breadcrumbs">
+						<ul className="breadcrumb">
+							<li>
+								<i className="fa fa-home"></i>
+								<a href="#">Home</a>
+							</li>
+							<li className="active">Dashboard</li>
+						</ul>
+					</div>
 
-    </div>
+					<div className="page-header position-relative">
+						<div className="header-title">
+							<h1>
+								Dashboard
+							</h1>
+						</div>
+
+						<div className="header-buttons">
+							<a className="sidebar-toggler" href="#" onClick={this.sideBarClick}>
+								<i className="fa fa-arrows-h"></i>
+							</a>
+							<a className="refresh" id="refresh-toggler" href="">
+								<i className="glyphicon glyphicon-refresh"></i>
+							</a>
+							<a className="fullscreen" id="fullscreen-toggler" href="#" onClick={this.fullScreenClick}>
+								<i className="glyphicon glyphicon-fullscreen"></i>
+							</a>
+						</div>
+
+					</div>
+
+					<div className="page-body">
+						<FirstRow />
+						<SecondRow />
+						<ThirdRow />
+						<FourthRow />
+					</div>
+				</div>
+			);
+		}
+	});
+	
+	var WholePage = React.createClass({
+		render: function() {
+			return (
+				<div>
+					<div className="loading-container">
+						<div className="loader"></div>
+					</div>
+					<Navbar />
+					<div className="main-container container-fluid">
+						<div className="page-container">
+							<PageSidebar />
+							<ChatBar />
+							<PageContent />
+						</div>
+					</div>
+				</div>
+			);
+		}
+	});
+	
+	
+	ReactDOM.render(
+		<WholePage />,
+		document.getElementById('content')
+		);
+	</script>
+
 
     <!--Basic Scripts-->
     <script src="assets/js/jquery.min.js"></script>
