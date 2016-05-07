@@ -37,10 +37,16 @@ Purchase: https://wrapbootstrap.com/theme/beyondadmin-adminapp-angularjs-mvc-WB0
 
     <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
     <script src="assets/js/skins.min.js"></script>
+    <style>
+        .login-test{
+            z-index: 2001;position: fixed;top: 0;left: 0;right: 0;bottom: 0;
+        }
+    </style>
 </head>
 <!-- /Head -->
 <!-- Body -->
 <body>
+<div id="content">
 <!-- Loading Container -->
 <div class="loading-container">
     <div class="loader"></div>
@@ -1137,6 +1143,7 @@ Purchase: https://wrapbootstrap.com/theme/beyondadmin-adminapp-angularjs-mvc-WB0
 {{>lock}}
 {{>login}}
 {{>register}}
+    </div>
 </body>
 <!--  /Body -->
 </html>

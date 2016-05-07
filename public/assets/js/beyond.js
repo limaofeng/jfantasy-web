@@ -15,12 +15,6 @@ function getThemeColorFromCss(style) {
     return color;
 }
 
-//Handle RTL SUpport for Changer CheckBox
-$("#skin-changer li a").click(function () {
-    createCookie("current-skin", $(this).attr('rel'), 10);
-    window.location.reload();
-});
-
 //Checks Not to Do rtl-support for Arabic and Persian Demo Pages
 
 var rtlchanger = document.getElementById('rtl-changer');
@@ -194,7 +188,7 @@ function InitiateSideMenu() {
     //End Sidebar Collapse
 
 
-    //Sidebar Menu Handle
+    /*Sidebar Menu Handle
     $(".sidebar-menu").on('click', function (e) {
         var menuLink = $(e.target).closest("a");
         if (!menuLink || menuLink.length == 0)
@@ -223,7 +217,7 @@ function InitiateSideMenu() {
             return false;
         $(submenu).slideToggle(200).parent().toggleClass("open");
         return false;
-    });
+    });*/
     //End Sidebar Menu Handle
 }
 
